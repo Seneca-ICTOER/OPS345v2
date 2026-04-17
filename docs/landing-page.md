@@ -6,12 +6,12 @@ slug: /
 description: Landing Home Page for OPS345
 ---
 
-# Welcome to OPS345 - Administration of Open Source Systems (v2 - WIP)
+# Welcome to OPS345 - Administration of Open Source Systems (WIP)
 
 ## Quick Links
 
-| [Weekly Schedule](./weekly-schedule.md) | [Course Outline](https://apps.senecapolytechnic.ca/ssos/findOutline.do?isLoggedIn=&subjectOrAndTitle=%5BOSL740%5D+Administration+of+Open+Source+Systems&schoolCode=0s867160) | [Lab Logbook](/files/OPS345-Logbook-Online.docx)| [Assignment 1](/Assignments/assignment1.md) | [Assignment 2](/Assignments/assignment2.md) |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
+| [Weekly Schedule](./weekly-schedule.md) | [Course Outline](https://apps.senecapolytechnic.ca/ssos/findOutline.do?isLoggedIn=&subjectOrAndTitle=%5BOSL740%5D+Administration+of+Open+Source+Systems&schoolCode=0s867160) | [Lab Logbook](/files/OPS345-Logbook-Online.docx) | [Assignment 1](/Assignments/assignment1.md) | [Assignment 2](/Assignments/assignment2.md) |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------- | ------------------------------------------- |
 
 ## What This Course is About
 
@@ -43,10 +43,10 @@ If you are unsure, just ask your teacher!
 
 ## Evaluation
 
-| **Evaluation**  | **Marks** |
-| --------------- | --------- |
-| Labs            | 16%       |
-| Assignment (2)  | 30%       |
-| Quizzes         | 4%       |
-| Midterm Test    | 25%       |
-| Final Test      | 25%       |
+| **Evaluation** | **Marks** |
+| -------------- | --------- |
+| Labs           | 16%       |
+| Assignment (2) | 30%       |
+| Quizzes        | 4%        |
+| Midterm Test   | 25%       |
+| Final Test     | 25%       |
