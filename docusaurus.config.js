@@ -6,19 +6,19 @@ import rehypeKatex from 'rehype-katex';
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
-  title: 'OPS345 - Open System Application Server',
-  tagline: 'OPS345',
+  title: 'OPS345v2 - Open System Application Server (WIP)',
+  tagline: 'OPS345v2',
   url: 'https://seneca-ictoer.github.io/',
-  baseUrl: '/OPS345/',
+  baseUrl: '/OPS345v2/',
   trailingSlash: false,
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'seneca-ictoer',
-  projectName: 'OPS345',
+  projectName: 'OPS345v2',
   themeConfig: {
     navbar: {
-      title: 'OPS345 - Open System Application Server',
+      title: 'OPS345v2 - Open System Application Server (WIP)',
       logo: {
         alt: 'Seneca Polytechnic',
         src: 'img/logo.svg',
@@ -38,7 +38,7 @@ module.exports = {
       style: 'dark',
       links: [
         {
-          title: 'OPS345 - Open System Application Server',
+          title: 'OPS345v2 - Open System Application Server (WIP)',
           items: [
             {
               html: `<a href='#' id='pwa-button' class='footer__link-item' hidden>Install as an App</a>`,
