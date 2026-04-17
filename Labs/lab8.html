@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-Labs/lab8" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.7.0">
+<title data-rh="true">Lab 8 - Elastic Beanstalk | OPS345v2 - Open System Application Server (WIP)</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://seneca-ictoer.github.io/OPS345v2/Labs/lab8"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Lab 8 - Elastic Beanstalk | OPS345v2 - Open System Application Server (WIP)"><meta data-rh="true" name="description" content="Hosting Wordpress using AWS Elastic Beanstalk"><meta data-rh="true" property="og:description" content="Hosting Wordpress using AWS Elastic Beanstalk"><link data-rh="true" rel="icon" href="/OPS345v2/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://seneca-ictoer.github.io/OPS345v2/Labs/lab8"><link data-rh="true" rel="alternate" href="https://seneca-ictoer.github.io/OPS345v2/Labs/lab8" hreflang="en"><link data-rh="true" rel="alternate" href="https://seneca-ictoer.github.io/OPS345v2/Labs/lab8" hreflang="x-default"><link rel="icon" href="/OPS345v2/img/pwa/icon-512x512.png">
+<link rel="manifest" href="/OPS345v2/manifest.json">
+<meta name="theme-color" content="#DA291C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#DA291C">
+<link rel="apple-touch-icon" href="/OPS345v2/img/pwa/icon-192x192.png">
+<link rel="mask-icon" href="/OPS345v2/img/pwa/icon-512x512.png" color="#DA291C">
+<meta name="msapplication-TileImage" content="/OPS345v2/img/pwa/icon-512x512.png">
+<meta name="msapplication-TileColor" content="#DA291C">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css" integrity="sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM" crossorigin="anonymous"><link rel="stylesheet" href="/OPS345v2/assets/css/styles.cba3e07b.css">
+<script src="/OPS345v2/assets/js/runtime~main.40118344.js" defer="defer"></script>
+<script src="/OPS345v2/assets/js/main.443cc098.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();t(null!==e?e:"light")}(),function(){try{const n=new URLSearchParams(window.location.search).entries();for(var[t,e]of n)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><a class="navbar__brand" href="/OPS345v2/"><div class="navbar__logo"><img src="/OPS345v2/img/logo.svg" alt="Seneca Polytechnic" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/OPS345v2/img/logo-dark.svg" alt="Seneca Polytechnic" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">OPS345v2 - Open System Application Server (WIP)</b></a></div><div class="navbar__items navbar__items--right"><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="Switch between dark and light mode (currently light mode)" aria-label="Switch between dark and light mode (currently light mode)" aria-live="polite" aria-pressed="false"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input id="search_input_react" type="search" placeholder="Loading..." aria-label="Search" class="navbar__search-input search-bar" disabled=""></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/OPS345v2/">Welcome to OPS345</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/OPS345v2/weekly-schedule">Weekly Schedule</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/OPS345v2/Labs/lab1">Labs</a></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/OPS345v2/Labs/lab1">Lab 1 - Introduction to Amazon Web Services (AWS)</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/OPS345v2/Labs/lab2">Lab 2 - Amazon Web Services (AWS) Networking</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/OPS345v2/Labs/lab3">Lab 3 - Apache</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/OPS345v2/Labs/lab4">Lab 4 - DNS &amp; SSL</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/OPS345v2/Labs/lab5">Lab 5 - Amazon RDS Relational Database Service</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/OPS345v2/Labs/lab6">Lab 6 - Amazon Elastic Container Service (ECS)</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/OPS345v2/Labs/lab7">Lab 7 - Simple Storage Service (S3)</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/OPS345v2/Labs/lab8">Lab 8 - Elastic Beanstalk</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/OPS345v2/Assignments/assignment1">Assignments</a></div></li></ul></nav><button type="button" title="Collapse sidebar" aria-label="Collapse sidebar" class="button button--secondary button--outline collapseSidebarButton_PEFL"><svg width="20" height="20" aria-hidden="true" class="collapseSidebarButtonIcon_kv0_"><g fill="#7a7a7a"><path d="M9.992 10.023c0 .2-.062.399-.172.547l-4.996 7.492a.982.982 0 01-.828.454H1c-.55 0-1-.453-1-1 0-.2.059-.403.168-.551l4.629-6.942L.168 3.078A.939.939 0 010 2.528c0-.548.45-.997 1-.997h2.996c.352 0 .649.18.828.45L9.82 9.472c.11.148.172.347.172.55zm0 0"></path><path d="M19.98 10.023c0 .2-.058.399-.168.547l-4.996 7.492a.987.987 0 01-.828.454h-3c-.547 0-.996-.453-.996-1 0-.2.059-.403.168-.551l4.625-6.942-4.625-6.945a.939.939 0 01-.168-.55 1 1 0 01.996-.997h3c.348 0 .649.18.828.45l4.996 7.492c.11.148.168.347.168.55zm0 0"></path></g></svg></button></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/OPS345v2/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Labs</span><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">Lab 8 - Elastic Beanstalk</span><meta itemprop="position" content="2"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Lab 8 - Elastic Beanstalk</h1></header>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="overview">Overview<a href="#overview" class="hash-link" aria-label="Direct link to Overview" title="Direct link to Overview">​</a></h2>
+<p>This week&#x27;s lab will cover the following:</p>
+<ul>
+<li>Creating a new RDS</li>
+<li>Configuring Elastic Beanstalk</li>
+<li>Installing and configuring Wordpress</li>
+</ul>
+<p>When you have installed Wordpress previously, you simply uploaded the source code and the first time you load the webpage, provided the database connector information. However, Elastic Beanstalk applications are meant to be disposable.</p>
+<p>Normally, when you add that database connector info, it is saved in a file called <em>wp-config.php</em> on the webserver VM. This is fine for a traditional setup. However, <strong><em>in Elastic Beanstalk, changes made to static HTML or PHP are not saved if the Beanstalk application restarts</em></strong>, which it will do often. Whenever the application restarts, it will reload from the source zip file and the original, empty connector file. If you did this the traditional way, you&#x27;d have to constantly re-enter your DB connector info every time you started up your Learner Lab environment.</p>
+<p>We <em>could</em> add the DB connector info to <em>wp-config.php</em> manually before we upload the source code, but there&#x27;s a much better way.</p>
+<p>We use <strong>environment variables</strong> to allow us to put all the info in the Elastic Beanstalk application wizard directly. That way, every time the application restarts and reloads from the source code zip, it&#x27;ll then read our saved connector information from AWS itself. Read below for details and steps.</p>
+<p><strong>Note:</strong> All other information, like the Wordpress website name, users, theme settings, blog posts, etc., are saved in the actual database you created in RDS. This database does not get reset when the Elastic Beanstalk application restarts, so your actual blog data will remain intact.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="investigation-1-creating-a-rds-instance">Investigation 1: Creating a RDS instance<a href="#investigation-1-creating-a-rds-instance" class="hash-link" aria-label="Direct link to Investigation 1: Creating a RDS instance" title="Direct link to Investigation 1: Creating a RDS instance">​</a></h2>
+<p>Start your session in the Learner Lab by clicking on the <strong>Start Lab</strong> button. Once the red dot has turned green, click on it to enter the Learner Lab and access the AWS Console interface. You are going to create a new RDS instance.</p>
+<p>From the <strong>Console Home</strong> navigate to <strong>Database</strong> &gt; <strong>Aurora and RDS</strong>. See the following screenshot for reference.</p>
+<p><img decoding="async" loading="lazy" alt="Relational Database" src="/OPS345v2/assets/images/rds-31f55c3fdf375923d1007c4277486726.png" width="753" height="560" class="img_ev3q"></p>
+<p>Click <strong>Create database</strong> (part way down the screen). Use the following options.</p>
+<ol>
+<li>Standard create</li>
+<li>Engine type: <strong>MariaDB</strong></li>
+<li>Engine Version: <strong>MariaDB 11.4.4</strong></li>
+<li>Templates: <strong>Sandbox</strong></li>
+<li>DB instance identifier: <strong>wordpress-elasticbeanstalk</strong></li>
+<li>Master username: <strong>admin</strong></li>
+<li>Credentials management: <strong>Self Managed</strong></li>
+<li>Auto generate a password: <strong>Checked</strong></li>
+<li>DB instance class: <strong>db.t3.micro</strong></li>
+<li>Allocated storage: <strong>5 GiB</strong></li>
+<li>Enable storage autoscaling: <strong>Unchecked</strong></li>
+<li>Virtual private cloud (VPC): <strong>Wordpress VPC</strong></li>
+<li>DB subnet group: <strong>Select the subnet group from Lab 5, it should be the auto selected one</strong></li>
+<li>Public access: <strong>No</strong></li>
+<li>VPC security group: <strong>Choose existing</strong></li>
+<li>Existing VPC security groups:<!-- -->
+<ol>
+<li><strong>Remove default VPC</strong></li>
+<li><strong>Add <em>Wordpress Database SG</em></strong> (look to see that it&#x27;s there below the dropdown after you select it)</li>
+</ol>
+</li>
+<li>Availability Zone: <strong>us-east-1a</strong></li>
+<li>Monitoring &gt; Enable Enhanced monitoring: <strong>Accept the default, should be turned off</strong></li>
+<li>Below the Monitoring section, Additional configuration &gt; Initial database name: <strong>wordpress</strong> (Write the database name down! You will need this later.)</li>
+<li>Enable automated backups: <strong>Unchecked</strong></li>
+<li>Enable encryption: <strong>Unchecked</strong></li>
+</ol>
+<p>Click <strong>Create database</strong>.</p>
+<p>Close the popup window.</p>
+<p>This will take a few minutes to create. Once the database has finished creating, click on the <em>View connection details</em> button by the green success message at the top of the page. This gives you your database password.</p>
+<p>Store the following connection information about your RDS instance in your lab logbook or a saved document. You&#x27;ll need it later:</p>
+<ol>
+<li><strong>Endpoint</strong></li>
+<li><strong>Initial database name</strong></li>
+<li><strong>Master username</strong></li>
+<li><strong>Master password</strong></li>
+</ol>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="connecting-to-your-database-from-www">Connecting to your database from www<a href="#connecting-to-your-database-from-www" class="hash-link" aria-label="Direct link to Connecting to your database from www" title="Direct link to Connecting to your database from www">​</a></h3>
+<p>Login to your <strong>www</strong> instance, and issue the following command to connect to your database. Be sure to substitute the credentials you wrote down earlier.</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">mysql -u admin -h **endpoint** -p</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Enter your Master password when prompted. You should see the following screen indicating a successful connection.</p>
+<p><img decoding="async" loading="lazy" alt="MariaDB connected" src="/OPS345v2/assets/images/mariadb-connect-02efcfdd231cdea0930ce5c57fac206a.png" width="710" height="156" class="img_ev3q"></p>
+<p>Issue the following command to display the databases.</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">show databases;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Disconnect from the database.</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">quit;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="investigation-2-elastic-beanstalk">Investigation 2: Elastic Beanstalk<a href="#investigation-2-elastic-beanstalk" class="hash-link" aria-label="Direct link to Investigation 2: Elastic Beanstalk" title="Direct link to Investigation 2: Elastic Beanstalk">​</a></h2>
+<p>Navigate to <strong>Compute</strong> &gt; <strong>Elastic Beanstalk</strong>. See the following screenshot for reference.</p>
+<p><img decoding="async" loading="lazy" alt="Elastic Beanstalk" src="/OPS345v2/assets/images/elasticbeanstalk-1f0614ed93edf0db5ef4ff774e7939db.png" width="714" height="566" class="img_ev3q"></p>
+<p>Click <strong>Create application</strong>, and use the following settings:</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="environment-tier">Environment Tier<a href="#environment-tier" class="hash-link" aria-label="Direct link to Environment Tier" title="Direct link to Environment Tier">​</a></h3>
+<p>Select: <strong>Web server environment</strong></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="application-information">Application information<a href="#application-information" class="hash-link" aria-label="Direct link to Application information" title="Direct link to Application information">​</a></h3>
+<ol>
+<li>Application name: <strong>wordpress</strong></li>
+</ol>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="environment-information">Environment information<a href="#environment-information" class="hash-link" aria-label="Direct link to Environment information" title="Direct link to Environment information">​</a></h3>
+<ol>
+<li>Environment name: <strong>Wordpress-env</strong></li>
+</ol>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="platform">Platform<a href="#platform" class="hash-link" aria-label="Direct link to Platform" title="Direct link to Platform">​</a></h2>
+<ol>
+<li>Ensure <strong>Managed platform</strong> checked</li>
+<li>Platform: <strong>PHP</strong></li>
+<li>Platform branch: <strong>PHP 8.4</strong> (or current latest)</li>
+<li>Application code: <strong>Upload your code</strong></li>
+<li>Version label: <strong>wordpress-6.7.2</strong> (Use the version from your zip filename)</li>
+<li>Public S3 URL: <strong><a href="https://username-wordpress.s3.us-east-1.amazonaws.com/wordpress-6.8.1-modded.zip" target="_blank" rel="noopener noreferrer">https://username-wordpress.s3.us-east-1.amazonaws.com/wordpress-6.8.1-modded.zip</a></strong> (Where <strong>username</strong> is <strong>your Seneca username</strong>)</li>
+</ol>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="presets">Presets<a href="#presets" class="hash-link" aria-label="Direct link to Presets" title="Direct link to Presets">​</a></h2>
+<ol>
+<li>Presets: <strong>Single instance (free tier eligible)</strong></li>
+</ol>
+<p>Click next</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="configure-service-access">Configure Service Access<a href="#configure-service-access" class="hash-link" aria-label="Direct link to Configure Service Access" title="Direct link to Configure Service Access">​</a></h3>
+<p>Select: Use an existing service role</p>
+<ol>
+<li>Service role: <strong>LabRole</strong></li>
+<li>EC2 instance profile: <strong>LabInstanceProfile</strong></li>
+<li>EC2 key pair: <strong>vockey</strong></li>
+</ol>
+<p>Click next</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="set-up-networking-database-and-tags">Set up networking, database and tags<a href="#set-up-networking-database-and-tags" class="hash-link" aria-label="Direct link to Set up networking, database and tags" title="Direct link to Set up networking, database and tags">​</a></h3>
+<ol>
+<li>VPC: <strong>Wordpress VPC</strong></li>
+</ol>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="instance-settings">Instance Settings<a href="#instance-settings" class="hash-link" aria-label="Direct link to Instance Settings" title="Direct link to Instance Settings">​</a></h4>
+<ol>
+<li>Public IP address Activated: <strong>Checked</strong></li>
+<li><strong>Instance</strong> subnets: <strong>Public Subnet 1, Public Subnet 2</strong> (both checked)</li>
+</ol>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="database-settings">Database settings<a href="#database-settings" class="hash-link" aria-label="Direct link to Database settings" title="Direct link to Database settings">​</a></h4>
+<ol>
+<li><strong>Database</strong> subnets: <strong>Private Subnet 1, Private Subnet 2</strong> (both checked)</li>
+</ol>
+<p>Click <strong>Enable database</strong></p>
+<ol>
+<li>Username: admin</li>
+<li>Password: <em>The password you copied and wrote down earlier</em></li>
+</ol>
+<p>Click next</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="configure-instance-traffic-and-scaling">Configure instance traffic and scaling<a href="#configure-instance-traffic-and-scaling" class="hash-link" aria-label="Direct link to Configure instance traffic and scaling" title="Direct link to Configure instance traffic and scaling">​</a></h3>
+<ol>
+<li>EC2 Security Groups: <strong>Wordpress Website SG</strong> &amp; <strong>Wordpress Database SG</strong> (both checked)</li>
+<li>Leave the rest default</li>
+</ol>
+<p>Click next</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="configure-updates-monitoring-and-logging">Configure updates, monitoring and logging<a href="#configure-updates-monitoring-and-logging" class="hash-link" aria-label="Direct link to Configure updates, monitoring and logging" title="Direct link to Configure updates, monitoring and logging">​</a></h3>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="monitoring">Monitoring<a href="#monitoring" class="hash-link" aria-label="Direct link to Monitoring" title="Direct link to Monitoring">​</a></h4>
+<ol>
+<li>System: <strong>Basic</strong></li>
+</ol>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="managed-platform-updates">Managed platform updates<a href="#managed-platform-updates" class="hash-link" aria-label="Direct link to Managed platform updates" title="Direct link to Managed platform updates">​</a></h4>
+<ol>
+<li>Managed updates: <strong>Unchecked</strong></li>
+</ol>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="email-notifications">Email notifications<a href="#email-notifications" class="hash-link" aria-label="Direct link to Email notifications" title="Direct link to Email notifications">​</a></h4>
+<ol>
+<li>Email notification: <strong>Add your Seneca email</strong></li>
+</ol>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="platform-software">Platform Software<a href="#platform-software" class="hash-link" aria-label="Direct link to Platform Software" title="Direct link to Platform Software">​</a></h4>
+<p>Before beginning this section, you will need two things:</p>
+<ol>
+<li>Your database connector information (you saved this, right?)</li>
+<li>Randomly generated auth keys and salts from here: <a href="https://api.wordpress.org/secret-key/1.1/salt/" target="_blank" rel="noopener noreferrer">https://api.wordpress.org/secret-key/1.1/salt/</a> (it&#x27;s a good idea to save these in a text file, too)</li>
+</ol>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="container-options">Container Options<a href="#container-options" class="hash-link" aria-label="Direct link to Container Options" title="Direct link to Container Options">​</a></h4>
+<ol>
+<li>Proxy server: <strong>Apache</strong></li>
+<li>Document root: <strong>/wordpress</strong></li>
+<li>Click <strong>Add environment property</strong> and add the following <strong>Environment properties</strong>
+<ol>
+<li>DB_HOST: <strong>your RDS database URL</strong></li>
+<li>DB_NAME: <strong>wordpress</strong></li>
+<li>DB_USER: <strong>admin</strong></li>
+<li>DB_PASSWORD: <strong>your auto-generated database password</strong></li>
+<li>AUTH_KEY: <strong>(use gathered info from salt page)</strong></li>
+<li>SECURE_AUTH_KEY: <strong>(use gathered info from salt page)</strong></li>
+<li>LOGGED_IN_KEY: <strong>(use gathered info from salt page)</strong></li>
+<li>NONCE_KEY: <strong>(use gathered info from salt page)</strong></li>
+<li>AUTH_SALT: <strong>(use gathered info from salt page)</strong></li>
+<li>SECURE_AUTH_SALT: <strong>(use gathered info from salt page)</strong></li>
+<li>LOGGED_IN_SALT: <strong>(use gathered info from salt page)</strong></li>
+<li>NONCE_SALT: <strong>(use gathered info from salt page)</strong></li>
+</ol>
+</li>
+</ol>
+<p>Hint: None of these values should have single quotes in them. (i.e. &#x27;)</p>
+<p><img decoding="async" loading="lazy" alt="Image: Adding database connector information, auth keys and salts to your Elastic Beanstalk application as static Environment Variables." src="/OPS345v2/assets/images/a2_beanstalk-environment-variables-example-e2740d37c7ab387737870eba993d463a.png" width="2240" height="1574" class="img_ev3q">
+<em>Figure 2: Adding database connector information, auth keys and salts to your Elastic Beanstalk application as static <strong>Environment Variables</strong>.</em></p>
+<p>Click next.</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="review-options">Review options<a href="#review-options" class="hash-link" aria-label="Direct link to Review options" title="Direct link to Review options">​</a></h4>
+<p>Review all settings and ensure they match the instructions above. Once you hit <strong>Create</strong>, the application will take several minutes to create.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="create-the-application">Create the application.<a href="#create-the-application" class="hash-link" aria-label="Direct link to Create the application." title="Direct link to Create the application.">​</a></h3>
+<p>click <strong>Submit</strong> when ready.</p>
+<p>While you wait for the creation to complete, check your e-mail to confirm your notification subscription.</p>
+<p>If your application fails to build, double check your <strong>wp-config.php</strong> configuration file for syntax errors. Additionally, make sure when you rezipped the file you only select the <strong>wordpress</strong> folder, not the main folder.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="investigation-3-accessing-wordpress">Investigation 3: Accessing Wordpress<a href="#investigation-3-accessing-wordpress" class="hash-link" aria-label="Direct link to Investigation 3: Accessing Wordpress" title="Direct link to Investigation 3: Accessing Wordpress">​</a></h2>
+<p>Open the URL presented in the Wordpress EBS instance and begin the site setup.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="site-information">Site Information<a href="#site-information" class="hash-link" aria-label="Direct link to Site Information" title="Direct link to Site Information">​</a></h3>
+<p>Set the following site information:</p>
+<ol>
+<li>Site Title: <strong>Your name&#x27;s blog</strong></li>
+<li>Username: <strong><em>yourSenecaUsername</em></strong></li>
+<li>Password: <strong>Choose a strong password</strong> (do not reuse the DB password!)</li>
+<li>Your Email: <strong><em>yourSenecaEmailAddress</em></strong></li>
+<li>Search engine visibility: <strong>Unchecked</strong></li>
+</ol>
+<blockquote>
+<p>If you get a message indicating a failure to connect, make sure you zipped the <strong>wordpress</strong> folder and it&#x27;s contents only. You can rezip the file and click <strong>Upload and deploy</strong> if necessary.</p>
+</blockquote>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="blog-post">Blog Post:<a href="#blog-post" class="hash-link" aria-label="Direct link to Blog Post:" title="Direct link to Blog Post:">​</a></h3>
+<p>Add a blog post detailing the following:</p>
+<ul>
+<li>What did you think of this lab?</li>
+<li>What was the most difficult part for you?</li>
+<li>What was the easiest part for you?</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="lab-8-sign-off-show-instructor">Lab 8 Sign-Off (Show Instructor)<a href="#lab-8-sign-off-show-instructor" class="hash-link" aria-label="Direct link to Lab 8 Sign-Off (Show Instructor)" title="Direct link to Lab 8 Sign-Off (Show Instructor)">​</a></h2>
+<p>Take screenshots showing the following:</p>
+<ul>
+<li>Your blog post.</li>
+</ul>
+<p>Shutting down your database:</p>
+<ul>
+<li>Naviage to <strong>Aurora and RDS</strong> &gt; <strong>Databses</strong>.</li>
+<li>Select the radio button beside <strong>wordpress-db</strong></li>
+<li>Click on <strong>Actions</strong> &gt; <strong>Stop temporarily</strong></li>
+</ul>
+<p>This will shutdown your database for 7 days and pause billing. You may need to repeat this.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="exploration-questions">Exploration Questions<a href="#exploration-questions" class="hash-link" aria-label="Direct link to Exploration Questions" title="Direct link to Exploration Questions">​</a></h2>
+<ol>
+<li>What is Elastic Beanstalk?</li>
+<li>How is this lab similar to the wordpress install in <strong>Lab 5</strong>? How is it different?</li>
+</ol></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/catherine-leung/OERTemplate/tree/main/docs/Labs/lab8.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/OPS345v2/Labs/lab7"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Lab 7 - Simple Storage Service (S3)</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/OPS345v2/Assignments/assignment1"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Assignment 1</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#overview" class="table-of-contents__link toc-highlight">Overview</a></li><li><a href="#investigation-1-creating-a-rds-instance" class="table-of-contents__link toc-highlight">Investigation 1: Creating a RDS instance</a><ul><li><a href="#connecting-to-your-database-from-www" class="table-of-contents__link toc-highlight">Connecting to your database from www</a></li></ul></li><li><a href="#investigation-2-elastic-beanstalk" class="table-of-contents__link toc-highlight">Investigation 2: Elastic Beanstalk</a><ul><li><a href="#environment-tier" class="table-of-contents__link toc-highlight">Environment Tier</a></li><li><a href="#application-information" class="table-of-contents__link toc-highlight">Application information</a></li><li><a href="#environment-information" class="table-of-contents__link toc-highlight">Environment information</a></li></ul></li><li><a href="#platform" class="table-of-contents__link toc-highlight">Platform</a></li><li><a href="#presets" class="table-of-contents__link toc-highlight">Presets</a><ul><li><a href="#configure-service-access" class="table-of-contents__link toc-highlight">Configure Service Access</a></li><li><a href="#set-up-networking-database-and-tags" class="table-of-contents__link toc-highlight">Set up networking, database and tags</a><ul><li><a href="#instance-settings" class="table-of-contents__link toc-highlight">Instance Settings</a></li><li><a href="#database-settings" class="table-of-contents__link toc-highlight">Database settings</a></li></ul></li><li><a href="#configure-instance-traffic-and-scaling" class="table-of-contents__link toc-highlight">Configure instance traffic and scaling</a></li><li><a href="#configure-updates-monitoring-and-logging" class="table-of-contents__link toc-highlight">Configure updates, monitoring and logging</a><ul><li><a href="#monitoring" class="table-of-contents__link toc-highlight">Monitoring</a></li><li><a href="#managed-platform-updates" class="table-of-contents__link toc-highlight">Managed platform updates</a></li><li><a href="#email-notifications" class="table-of-contents__link toc-highlight">Email notifications</a></li><li><a href="#platform-software" class="table-of-contents__link toc-highlight">Platform Software</a></li><li><a href="#container-options" class="table-of-contents__link toc-highlight">Container Options</a></li><li><a href="#review-options" class="table-of-contents__link toc-highlight">Review options</a></li></ul></li><li><a href="#create-the-application" class="table-of-contents__link toc-highlight">Create the application.</a></li></ul></li><li><a href="#investigation-3-accessing-wordpress" class="table-of-contents__link toc-highlight">Investigation 3: Accessing Wordpress</a><ul><li><a href="#site-information" class="table-of-contents__link toc-highlight">Site Information</a></li><li><a href="#blog-post" class="table-of-contents__link toc-highlight">Blog Post:</a></li></ul></li><li><a href="#lab-8-sign-off-show-instructor" class="table-of-contents__link toc-highlight">Lab 8 Sign-Off (Show Instructor)</a></li><li><a href="#exploration-questions" class="table-of-contents__link toc-highlight">Exploration Questions</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">OPS345v2 - Open System Application Server (WIP)</div><ul class="footer__items clean-list"><li class="footer__item"><a href="#" id="pwa-button" class="footer__link-item" hidden>Install as an App</a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Candice Carman.</div></div></div></footer></div>
+</body>
+</html>
