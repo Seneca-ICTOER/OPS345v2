@@ -252,7 +252,7 @@ Add a blog post detailing the following:
 
 Take screenshots showing the following:
 
-- Your blog post.
+- Your blog post (including the URL in the browser)
 
 Shutting down your database:
 - Naviage to **Aurora and RDS** > **Databses**.
