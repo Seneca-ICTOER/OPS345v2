@@ -5,7 +5,7 @@ sidebar_position: 5
 description: Intro to AWS and AWS Networking.
 ---
 
-# Lab 1 - Introduction Amazon Web Services (AWS)
+# Lab 5 - Introduction Amazon Web Services (AWS) and AWS Networking
 
 ## Overview
 
