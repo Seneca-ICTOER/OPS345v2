@@ -5,7 +5,7 @@ sidebar_position: 5
 description: Intro to AWS and AWS Networking.
 ---
 
-# Lab 5 - Introduction Amazon Web Services (AWS) and AWS Networking
+# Lab 5 - Introduction to Amazon Web Services (AWS) and AWS Networking
 
 ## Overview
 
@@ -104,17 +104,17 @@ Click on the **Instance ID** for your **first** instance. click **Connect**.
 Note there are a few ways to connect to your instance from here:
 
 - EC2 Instance Connect: Allows you to connect to your instance from within your web browser.
-- SSH client: Allows you to connect to your instance using the SSH key pair (which you generated when you created the instance).
+- SSH client: Allows you to connect to your instance using the SSH key pair (which you generated when you created the instance) in a Linux terminal window .
 
-**Please use the SSH client for the remainder of this course. The EC2 Instance Connect browser method is prone to locking up and causing other issues. You have been warned!**
+**Please use the SSH client method for the remainder of this course. The EC2 Instance Connect browser method can be used for quick checks but it is prone to locking up and causing other issues. You have been warned!**
 
 ### Connecting via An SSH Client
 
 - Open a terminal on your Ubuntu host system
 - In the Linux EC2 Instance details page, click the Connect button.
-- In the new Connect to instance page, click on the SSH client tab.
+- Click on the SSH client tab.
 - Copy the example command near the bottom of the page. (Use your example command)
-- Change directories to your "AWS" directory that you created that should have your .pem file.
+- In your Ubuntu terminal, change directories to your "AWS" directory that you created that should have your .pem file inside it.
 - Change the file permissions of your .pem file with this command:
 ```bash
 sudo chmod 400 ops345.pem
@@ -268,21 +268,17 @@ You are going to create **Route tables** in your **VPC** to allow traffic from w
 
 ![VPC Route Tables](/img/vpc-route-tables.png)
 
-2. You should see the route table associated with the default VPC we won't be using.
-   Add the name: **Default VPC Route Table** (So we know it belongs to the old default VPC we won't be using).
+2. Next, click **Create route table** (top right corner).
 
-3. Next, click **Create route table** (top right corner).
-
-![Create Route Table](/img/create-route-table.png)
 Create a second route table:
 
-4. Name: **Wordpress Website Route Table**
-5. VPC: **Wordpress VPC**
+3. Name: **Wordpress Website Route Table**
+4. VPC: **Wordpress VPC**
 
 ![WordPress Route Table](/img/wordpress-route-table.png)
 
-6. Click **Create route table** (bottom right corner).
-7. Click **Edit routes** and add the following routes. The first route should already exist but double check to be sure.
+5. Click **Create route table** (bottom right corner).
+6. Click **Edit routes** and add the following routes. The first route should already exist but double check to be sure.
 
 - Route Entry 1:
   - Destination: **10.0.0.0/16**
@@ -291,7 +287,7 @@ Create a second route table:
   - Destination: **0.0.0.0/0**
   - Target: **Internet Gateway – Wordpress Gateway**
 
-8. View the following screenshot to confirm your settings are correct. If they are, click **Save changes**.
+7. View the following screenshot to confirm your settings are correct. If they are, click **Save changes**.
 
 ![Edit Routes](/img/edit-routes.png)
 
@@ -343,10 +339,7 @@ Verify your inbound rules with the following screenshot.
 1. Click on **Subnets** under **Virtual private cloud** (left side).
 2. Check the box beside **Public Subnet 1**
 3. Click **Actions** > **Edit route table association**
-4. Select **Wordpress Website Route Table** in the **Route table ID** dropdown menu. See the following screenshot.
-
-   ![Route table association](/img/route-table-association.png)
-
+4. Select **Wordpress Website Route Table** in the **Route table ID** dropdown menu.
 5. Click save.
 
 Repeat the steps for **Public Subnet 2**
@@ -389,7 +382,7 @@ The following Exploration Questions are for furthering your knowledge only, and 
 
 1. How do you start/stop the AWS learner lab?
 1. How do you enter the AWS learner lab once you have started it?
-1. What happens to your learner lab if your credits hit $50 of $50 used?
+1. What happens to your learner lab if your credits hit $50 used?
 1. Where do you go to edit networking configuration options such as **security groups**?
 1. Where do you go to launch an instance?
 1. What is an instance?
