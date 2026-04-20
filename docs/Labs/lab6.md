@@ -72,7 +72,7 @@ It's time to test to see if everything's working properly. Browse to your instan
 
 ![AWS Instance ID](/img/aws-instance-id.png)
 
-Click open address beside your Public IPv4 address. You should see the default Apache test page (screenshot below). If you do not, edit your url and change **https://** to **http://**. You will learn how to configure **https** in lab 4. Accessing your server through **http** will be fine until then.
+Click open address beside your Public IPv4 address. You should see the default Apache test page (screenshot below). If you do not, edit your url and change **https://** to **http://**. You will learn how to configure **https** in later in this lab. Accessing your server through **http** will be fine until then.
 
 ![Apache Test Page](/img/apache-default.png)
 
@@ -89,7 +89,7 @@ Now you've reserved your Elastic IP. It is yours for as long as you want (which 
 Next, click on the **Instance** box and select the instance with **(www)** in the name (screenshot below), and click **Associate** in the bottom right corner.
 ![Associating an Elastic IP](/img/associate-elastic-ip.png)
 
-Now you can access your www instance from anywhere by using the same IP address. You should write this IP down somewhere for future use. You will be mapping a domain name to it in lab 4.
+Now you can access your www instance from anywhere by using the same IP address. You should write this IP down somewhere for future use. You will be mapping a domain name to it in the next section.
 
 ## Accessing your Apache server from a web browser
 
@@ -97,11 +97,11 @@ Open a web browser and either copy/paste, or type out your elastic IP in the add
 
 ## Registering a domain name
 
-You should have received an email indicating you have access to [My.Custom.Domain](https://mycustomdomain.senecapolytechnic.ca/). You will be using this to create an A record and map it to the elastic IP of your instance from Lab 3. If you do not have access please **contact your professor** so you can proceed.
+In the web browser, go to [My.Custom.Domain](https://mycustomdomain.senecapolytechnic.ca/) and log in with your Seneca credentials. You will be using this to create an A record and map it to the elastic IP of your instance from Lab 3. If you do not have access please **contact your professor** so you can proceed.
 
 ### Creating an A record
 
-Login to [My.Custom.Domain](https://mycustomdomain.senecapolytechnic.ca/). You should see a screen similar to the one below.
+Once you have logged in to [My.Custom.Domain](https://mycustomdomain.senecapolytechnic.ca/). You should see a screen similar to the one below.
 
 ![My.Custom.Domain login](/img/my-custom-domain-login.png)
 
@@ -237,6 +237,6 @@ Take screenshots showing the following:
 1. How do you find the current status of the apache2 service?
 1. What is an Elastic IP?
 1. What is the difference between HTTP and HTTPS?
-2. 1. What port did you have to allow inbound in the **Wordpress Website SG** security group?
+1. What port did you have to allow inbound in the **Wordpress Website SG** security group?
 1. What service (command) did you use to generate your TLS/SSL certificate?
 1. What is certbot?
