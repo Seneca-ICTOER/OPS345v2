@@ -78,10 +78,10 @@ Click open address beside your Public IPv4 address. You should see the default A
 
 ## Implementing an elastic IP in AWS
 
-When you are configuring network resources such as (routers, network printers or servers) you want them to have a static IP, which doesn't change. Currently our AWS instance pulls a new IP from Amazon's DHCP server every time it boots up. Fortunately, you can configure a static IP through what AWS calls an **Elastic IP**. These cost money when they're not in use, and will be the biggest expense item from our free $50 credits this semester (since your instance will be offline unless you are working on things for this course). To obtain an Elastic IP in EC2, click on **Elastic IPs** under **Network & Security**:
+When you are configuring network resources such as (routers, network printers or servers) you want them to have a static IP, which doesn't change. Currently our AWS instance pulls a new IP from Amazon's DHCP server every time it boots up. Fortunately, you can configure a static IP through what AWS calls an **Elastic IP**. These cost money when they're not in use, and will be the first expense item from our free $50 credits this semester that will continue to accrue cost even when your instance is turned off (since your instance will be offline unless you are working on things for this course). To obtain an Elastic IP in EC2, click on **Elastic IPs** under **Network & Security**:
 ![Accessing the Elastic IP settings](/img/elastic-ip.png)
 
-Then click **Allocate Elastic IP address** in the top right corner. On the bottom of the new screen, leave the rest of the defaults and click **Allocate** (screenshot below).
+Then click **Allocate Elastic IP address** in the top right corner. Leave all settings as their defaults and click **Allocate** at the bottom of the screen (screenshot below).
 ![Allocating an elastic IP](/img/elastic-ip2.png)
 
 Now you've reserved your Elastic IP. It is yours for as long as you want (which will be the entire semester). However, you need to associate it with the instance you want to access it through (in this case, www). To do that check the box beside your Elastic IP, then click the **Actions** drop down and click **Associate Elastic IP address**.
@@ -97,7 +97,9 @@ Open a web browser and either copy/paste, or type out your elastic IP in the add
 
 ## Registering a domain name
 
-In the web browser, go to [My.Custom.Domain](https://mycustomdomain.senecapolytechnic.ca/) and log in with your Seneca credentials. You will be using this to create an A record and map it to the elastic IP of your instance from Lab 3. If you do not have access please **contact your professor** so you can proceed.
+Of course, we don't want people accessing our website to need to use its IP address. We want to them to be able to use an easy to read and remember URL. For this we are going to use DNS service supplied by Seneca.
+
+In the web browser, go to [My.Custom.Domain](https://mycustomdomain.senecapolytechnic.ca/) and log in with your Seneca credentials. You will be using this to create an A record and map it to the elastic IP of your www instance. If you do not have access please **contact your professor** so you can proceed.
 
 ### Creating an A record
 
@@ -121,7 +123,7 @@ Click **Create**.
 
 ### Testing Your DNS configuration
 
-1. Launch the AWS Learner Lab and login. Make sure your www instance is running.
+1. Go to "Instances" in EC2 and make sure your www instance is running.
 1. Next, login to your first instance and issue the following commands. Note the output of each. **Substitute your username in the provided commands**.
 
 ```bash
@@ -138,15 +140,20 @@ dig www.yourusername.mystudentproject.ca
 
 ![Google Admin ToolBox](/img/google-admin-toolbox.png)
 
-4. Provided all of the above displayed the correct output, open a web browser and type **www.yourusername.mystudentproject.ca** (replace your username) in the URL bar of a web browser. This could be on your PC, or any device. You should see your website from Lab 3! If you don't, double check and make sure you see **http://** and not **https://**.
+4. Provided all of the above displayed the correct output, open a web browser and type **www.yourusername.mystudentproject.ca** (replace your username) in the URL bar of a web browser. This could be on your PC, or any device. You should see your website! If you don't, double check and make sure you see **http://** and not **https://**.
 
 Make sure you see the correct output from the previous commands indicating your DNS is working before proceeding to the next step.
 
 > Note: You can now login via SSH (from the command line) using your FQDN! 
 >
-> Use the command **ssh ubuntu@www.username.mystudentproject.ca**
+> Use the command:
+> ```bash
+> ssh -i ops345.pem ubuntu@www.username.mystudentproject.ca
+> ```
 
 ## Preparing your system to generate and install an SSL certificate
+
+Now our website can be accessed by an easily human-readable URL. However we still have a problem. Our connection is not as secure as it could be because we are still using HTTP instead of HTTPS. Let's fix that now.
 
 Login to your **www** instance. You are going to install Certbot, which will automate configuring HTTPS using Let's Encrypt.
 
@@ -170,10 +177,10 @@ sudo apt -y install certbot python3-certbot-apache
 
 ### Configuring an Apache Virtual Host
 
-Create the and edit a file for your virtual host configuration. You can use either vi or nano. Replace wwwusernamemystudentprojectca with your domain name, with the www and top level domain, but without the **dots(.)**. This will allow Certbot to find the correct VirtualHost block and update it.
+Create and edit a file for your virtual host configuration. You can use either vim or nano. Replace wwwusernamemystudentprojectca with your domain name, with the www and top level domain, but without the **dots(.)**. This will allow Certbot to find the correct VirtualHost block and update it.
 
 ```bash
-sudo nano /etc/apache2/sites-available/wwwusernamemystudentprojectca.conf
+sudo vim /etc/apache2/sites-available/wwwusernamemystudentprojectca.conf
 ```
 
 Enter the following text (again, replacing the username with yours).
@@ -182,7 +189,7 @@ Enter the following text (again, replacing the username with yours).
 ServerName www.jasoncarman.mystudentproject.ca
 ```
 
-Save your file and exit (**ctrl + x**).
+Save your file and exit.
 
 ### Testing and Reloading the Apache configuration
 
@@ -201,6 +208,7 @@ Now you can reload apache2 using systemctl.
 ```bash
 sudo systemctl reload apache2
 ```
+If you are met with no message, you are good to go.
 
 ## Generating an SSL certificate using Let's Encrypt and Certbot
 
@@ -216,7 +224,9 @@ At the email address prompt, enter your Seneca Polytechnic issued email.
 Accept the terms of service. Answer as you wish for sharing your email, then enter your domain name. See the following example.
 ![Generating your certificate](/img/certbotregister.png)
 
+**VERY IMPORTANT**
 Update your **Wordpress Website SG** security group rules to allow incoming HTTPS traffic from the anywhere IP: 0.0.0.0/0
+AWS will not allow connections to your newly secured web server without this!
 
 ## Testing your configuration
 
@@ -228,8 +238,9 @@ Open a web browser try to access your Apache test page using HTTPS. It should wo
 
 Take screenshots showing the following:
 
-- Your Elastic IP
+- Your Elastic IP in EC2
 - Accessing your Apache2 Ubuntu Default Page through a web browser using **https** and showing your fully qualified domain name (FQDN).
+  - Be sure to show that it is using HTTPS. Depending on your browser, this can usually be done by clicking the button to the left of the URL and looking for a "Connection is secure" message or something along those lines.
 
 ## Exploration Questions
 
