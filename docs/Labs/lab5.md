@@ -17,6 +17,16 @@ This week's lab will cover the following:
 - Exploring Amazon Elastic Cloud Compute (EC2).
 - Adding an instance in AWS.
 - Creating SSH key pairs &amp; paired key encryption.
+- Creating a Virtual Private Cloud (VPC).
+- Creating and Modifying Virtual Private Cloud (VPC) Security Groups.
+- VPC components:
+  - Subnets
+  - Gateways
+    - NAT gateways
+    - Internet gateways
+    - Egress-only internet gateways
+    - Carrier gateways
+  - Route tables
 
 ## Investigating the AWS Learner Lab
 
@@ -66,7 +76,7 @@ This will allow incoming SSH connections from anywhere. We will use this in the 
 
 ## Exploring Amazon Elastic Cloud Compute (EC2)
 
-EC2 is where you will end up spending the most amount of time configuring things in this course. From here you can do things like launch instances, manage networking services and much more. To access EC2, click on **Services** (top left corner beside the AWS icon), and navigate to **Compute > EC2**. You may wish to add this to your favourites for easy access by hovering over and clicking the star. Your initial screen should look something like the following. w3schools has some [additional information](https://www.w3schools.com/aws/aws_cloudessentials_ec2intro.php)
+EC2 is where you will end up spending a lot of time configuring things in this course. From here you can do things like launch instances, manage networking services and much more. To access EC2, click on **Services** (top left corner beside the AWS icon), and navigate to **Compute > EC2**. You may wish to add this to your favourites for easy access by hovering over and clicking the star. Your initial screen should look something like the following. w3schools has some [additional information](https://www.w3schools.com/aws/aws_cloudessentials_ec2intro.php)
 
 ![AWS EC2](/img/awsec2.png)
 
@@ -84,7 +94,7 @@ Under **Key pair (login)** click Create new key pair. Give it the name "ops345",
 
 Create a new directory in your home directory on your Ubuntu host system called "AWS" and place the key in there.
 
-**Important: Do not lose your key pair or you will be unable to connect to your instance using SSH.**
+**Important: Do not lose your key pair or you will be unable to connect to your instances using SSH.**
 
 Under **Network Settings** click **Select existing security group**. Click the dropdown and check the default. Click Launch instance. Once it has finished completing (you should see a success message), click on the **instance ID** in the **Success message**. This will take you to **Instances** in **EC2**.
 
@@ -96,7 +106,7 @@ Note there are a few ways to connect to your instance from here:
 - EC2 Instance Connect: Allows you to connect to your instance from within your web browser.
 - SSH client: Allows you to connect to your instance using the SSH key pair (which you generated when you created the instance).
 
-Please use the SSH client for the remainder of this course. The EC2 Instance Connect browser method is prone to locking up and causing other issues. You have been warned!
+**Please use the SSH client for the remainder of this course. The EC2 Instance Connect browser method is prone to locking up and causing other issues. You have been warned!**
 
 ### Connecting via An SSH Client
 
@@ -116,33 +126,25 @@ sudo chmod 400 ops345.pem
 ```bash
 ubuntu@ip-172-31-91-76:~$
 ```
-- To quit, type **quit**, **exit** or **ctrl+d**.
+- To quit, type **quit** or **exit**.
 
 Congratulations! You have created your first AWS instance.
 
-This instance, however, is of little use to us because it is simply part of the default network configuration that comes with the AWS learner lab. Next we will create our own network configuration and launch another instance that we can use moving forward.
+This instance, however, is of little use to us because it is part of the default network configuration that comes with the AWS learner lab. Next we will create our own network configuration and launch another instance that we can use moving forward.
 
 ## Amazon Web Services (AWS) Networking
-
-## Overview
-
-- Creating a Virtual Private Cloud (VPC).
-- Creating and Modifying Virtual Private Cloud (VPC) Security Groups.
-- VPC components:
-  - Subnets
-  - Gateways
-    - NAT gateways
-    - Internet gateways
-    - Egress-only internet gateways
-    - Carrier gateways
-  - Route tables
-
 
 Next, you will create all the networking infrastructure required to host a web application. You will be creating the server and database and configuring the application in future labs.
 
 ### Virtual Private Cloud
 
-Start your session in the Learner Lab by clicking on the **Start Lab** button. Once the red dot has turned green, click on it to enter the Learner Lab and access the AWS Console interface. You are going to create a new Virtual Private Cloud (VPC). Resources you created last week in Lab 1 will be inaccessible in this VPC. Navigate to VPC (which you may have added to your favourites last week). On the VPC dashboard, click **Create VPC**. See the following screenshot for reference.
+First, you are going to create a new Virtual Private Cloud (VPC). This will be the virtual network environment in which you will be operating for the remainder of this course.
+
+It is extremely important that you create everything in the next section of this lab correctly as all the other labs will rely on it.
+
+Note that the instance you created in the first part of this lab will be inaccessible in this VPC (we'll be creating another one to use). 
+
+Navigate to VPC (which you may have added to your favourites). On the VPC dashboard, click **Create VPC**. See the following screenshot for reference.
 
 ![Create VPC](/img/createvpc.png)
 
@@ -183,7 +185,7 @@ You are going to create 4 subnets in your VPC. Two private subnets, and two publ
 
 ![Create Subnets](/img/createsubnet.png)
 
-1. Click **Add new subnet** and repeat the process for the following **three** subnets:
+1. Click **Add new subnet** at the bottom of the page and repeat the process for the following **three** subnets:
 
 Create one private IPv4 subnets in this VPC:
 
@@ -266,22 +268,21 @@ You are going to create **Route tables** in your **VPC** to allow traffic from w
 
 ![VPC Route Tables](/img/vpc-route-tables.png)
 
-2. Click on your **Route table ID**.
-   Find your default route table and add the name: **VPC-local Route Table**
+2. You should see the route table associated with the default VPC we won't be using.
+   Add the name: **Default VPC Route Table** (So we know it belongs to the old default VPC we won't be using).
 
-3. Go back to the main **Route Tables** screen.
-4. Click **Create route table** (top right corner).
+3. Next, click **Create route table** (top right corner).
 
 ![Create Route Table](/img/create-route-table.png)
 Create a second route table:
 
-5. Name: **Wordpress Website Route Table**
-6. VPC: **Wordpress VPC**
+4. Name: **Wordpress Website Route Table**
+5. VPC: **Wordpress VPC**
 
 ![WordPress Route Table](/img/wordpress-route-table.png)
 
-7. Click **Create route table** (bottom right corner).
-8. Click **Edit routes** and add the following routes. The first route may already exist.
+6. Click **Create route table** (bottom right corner).
+7. Click **Edit routes** and add the following routes. The first route should already exist but double check to be sure.
 
 - Route Entry 1:
   - Destination: **10.0.0.0/16**
@@ -290,18 +291,20 @@ Create a second route table:
   - Destination: **0.0.0.0/0**
   - Target: **Internet Gateway – Wordpress Gateway**
 
-9. View the following screenshot to confirm your settings are correct. If they are, click **Save changes**.
+8. View the following screenshot to confirm your settings are correct. If they are, click **Save changes**.
 
 ![Edit Routes](/img/edit-routes.png)
 
 ### Security Groups
 
-**Security Group** settings are located in the left side navigation under **Security** > **Security Groups**. Click on **Security Groups**. Note: You can access **Security groups** through **EC2** as well (as you did in lab 5). The menu they are under is different.
+Now we are going to create some security groups and define their allowed to traffic so we can control what is and is not allowed into our virtual network.
+
+**Security Group** settings are located in the left side navigation under **Security** > **Security Groups**. Click on **Security Groups**. Note: You can also access **Security groups** through **EC2** (as you did in lab 5). The menu they are under is different.
 
 Click on **Create security group** and create a security group with the following settings
 
 1. Security group name: **Wordpress Website SG**
-1. Description: **Allows HTTP traffic inbound**
+1. Description: **Allows HTTP and SSH traffic inbound**
 1. VPC: **Wordpress VPC**
 1. Inbound Rules:
 1. Allow HTTP
@@ -318,7 +321,7 @@ Verify your inbound rules with the following screenshot.
 
 ![Wordpress Website Inbound Rules](/img/inbound-rules.png)
 
-Click **Create security group** (bottom right).
+Return to the main Security Group page and click **Create security group** again.
 
 Repeat the above steps to create another security group with the following settings:
 
@@ -339,7 +342,6 @@ Verify your inbound rules with the following screenshot.
 
 1. Click on **Subnets** under **Virtual private cloud** (left side).
 2. Check the box beside **Public Subnet 1**
-   Edit both public subnets’ route table associations to: **Wordpress Website Route Table**
 3. Click **Actions** > **Edit route table association**
 4. Select **Wordpress Website Route Table** in the **Route table ID** dropdown menu. See the following screenshot.
 
@@ -356,11 +358,11 @@ Create a new instance in AWS (like you did in [Lab 1](lab1.md)), with the follow
 1. **Name:** www
 1. **OS:** Ubuntu
 1. **Amazon Machine Image (AMI):** Make sure Ubuntu Server 24.04 is selected
-1. Use your existing key pair (from Lab 1). If you lost your key, then generate a new one. Don't lose this one.
+1. Use your existing key pair that you created earlier.
 1. **Network Settings:** Click **edit**
   - **VPC:** Select the **Wordpress VPC** you created.
-  - **Security Group**: Select the **Wordpress Website Security Group** you created.
   - **Subnet**: Select **Public Subnet 1**
+  - **Security Group**: Select the **Wordpress Website Security Group** you created.
 
 Verify your settings are correct and click **Launch Instance**.
 
@@ -374,10 +376,10 @@ Once the instance has created, confirm you can connect to it using:
 Take screenshots showing the following: 
 
 - 4 new subnets (Public Subnet 1, Public Subnet 2, Private Subnet 1 & Private Subnet 2)
-- Route Table
-- Internet Gateway
-- Security Group with correct rules
-- Access to **www** from EC2 Instance Connect or the command line
+- Your Wordpress VPC Route Table
+- Your Wordpress VPC Internet Gateway
+- Your Wordpress Website and Wordpress Database Security Groups with correct rules
+- Access to **www** via SSH in a terminal in Ubuntu
 
 When you shut off your learner lab, all resources (such as instances) are shut off. You do not need to shut down your instance. It will be automatically started again the next time you start your learner lab. **Shut down** your learner lab by navigating to the Learner Lab home page and click **End Lab**.
 
