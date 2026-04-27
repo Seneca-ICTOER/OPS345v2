@@ -18,7 +18,7 @@ This week's lab will cover the following:
 
 ## Investigation 1: Wordpress Source Code Modification
 
-Before we get into Elastic Beanstalk, we are going to set up a basic Wordpress configuration and store it in a zip file. Then we will use the AWS Simple Storage Service (s3) to create a bucket and store our Wordpress configuration in it. This will allow us to easily launch Wordpress inside the Elastic Beanstalk once the environment is set up. 
+Before we get into Elastic Beanstalk, we are going to set up a basic Wordpress configuration and store it in a zip file. Then we will use the AWS Simple Storage Service (S3) to create a bucket and store our Wordpress configuration in it. This will allow us to easily launch Wordpress inside the Elastic Beanstalk once the environment is set up. 
 
 ### Download and Unzip - Local Computer
 
@@ -31,7 +31,7 @@ Before we get into Elastic Beanstalk, we are going to set up a basic Wordpress c
 
 1. In the local _wordpress_ folder, find a file called: **wp-config-sample.php**
 1. Duplicate this file, and call it: **wp-config.php**
-1. Open **wp-config.php** in a text editor. You will want something that supports syntax highlighting, such as Visual Studio Code.
+1. Open **wp-config.php** in a text editor. Using a tool that supports syntax highlighting, such as Visual Studio Code, will make this easier.
 
 #### Adding Database Connector Info as Environment Variables
 
@@ -108,7 +108,7 @@ Once your bucket has created, click on your **bucket's name** (ie: **candice-wor
 - Click **Add files**
 - Select your wordpress-modded zip file
 
-> Make note of the Destination location: ie: **s3://candice-wordpress**. You will need this for your next lab.
+> Make note of the Destination location: ie: **s3://candice-wordpress**. You will need this in the next part of this lab.
 
 - Click **Upload**
 
@@ -122,7 +122,7 @@ Normally, when you add that database connector info, it is saved in a file calle
 
 We _could_ add the DB connector info to _wp-config.php_ manually before we upload the source code, but there's a much better way.
 
-We use **environment variables** to allow us to put all the info in the Elastic Beanstalk application wizard directly. That way, every time the application restarts and reloads from the source code zip, it'll then read our saved connector information from AWS itself. Read below for details and steps.
+We use **environment variables** to allow us to put all the info in the Elastic Beanstalk application wizard directly. That way, every time the application restarts and reloads from the source code zip, it'll then read our saved connector information from AWS itself.
 
 **Note:** All other information, like the Wordpress website name, users, theme settings, blog posts, etc., are saved in the actual database you created in RDS. This database does not get reset when the Elastic Beanstalk application restarts, so your actual blog data will remain intact.
 
@@ -190,6 +190,7 @@ Issue the following command to display the databases.
 ```bash
 show databases;
 ```
+Make sure you see the "wordpress" database your created in step 19.
 
 Disconnect from the database.
 
@@ -306,7 +307,7 @@ Before beginning this section, you will need two things:
    1. LOGGED_IN_SALT: **(use gathered info from salt page)**
    1. NONCE_SALT: **(use gathered info from salt page)**
 
-Hint: None of these values should have single quotes in them. (i.e. ')
+Note: None of these values should have single quotes in them. (i.e. ')
 
 ![Image: Adding database connector information, auth keys and salts to your Elastic Beanstalk application as static Environment Variables.](/img/a2_beanstalk-environment-variables-example.png)
 _Figure 2: Adding database connector information, auth keys and salts to your Elastic Beanstalk application as static **Environment Variables**._
