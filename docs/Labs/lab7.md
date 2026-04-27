@@ -280,6 +280,7 @@ Take screenshots showing the following:
 - Your blog post
   - Be sure to include the full URL in the screenshot
 - The default apache web page (running in the container you built in ECS) accessed in a browser
+   - Be sure to include the full URL in the screenshot
 
 ## Exploration Questions
 
