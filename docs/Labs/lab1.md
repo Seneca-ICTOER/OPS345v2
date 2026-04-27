@@ -66,20 +66,37 @@ When your Ubuntu installation has completed and you have booted into Ubuntu for 
 2. Skip “Ubuntu Pro”
 3. Select “No, don’t share system data”, click “Next”
 4. Click “Finish”
-5. Add root password (“sudo passwd”, enter password and DON’T FORGET IT)
-6. Update system (“sudo apt update && sudo apt upgrade”)
-7. Stop and disable apparmor (“sudo systemctl stop apparmor”, “sudo systemctl disable apparmor”)
+5. Add a root password (AND DON'T FORGET IT)
+```bash
+sudo passwd
+```
+6. Update your system
+```bash
+sudo apt update && sudo apt upgrade
+```
+7. Stop and disable apparmor
+```bash
+sudo systemctl stop apparmor
+sudo systemctl disable apparmor
+```
 8. Reboot your system. Note, you may have to fully power off your system (not restart it) to ensure the lab machine recognizes your external install of ubuntu.
-9. Install vim (sudo apt install vim)
-10. Install KVM (“sudo apt install qemu-system libvirt-daemon-system virtinst virt-manager")
+9. Install vim
+```bash
+sudo apt install vim
+```
+10. Install KVM
+```bash
+sudo apt install qemu-system libvirt-daemon-system virtinst virt-manager
+```
 11. Restart system 
 
- **Note** Ubuntu may require full power off on power cycles instead of rebooting before it will show up in the boot menu on the lab computers 
+ **Note:** Ubuntu may require full power off on power cycles instead of rebooting before it will show up in the boot menu on the lab computers.
 
 ## Investigation 2: Installing Virtual Machines
 
 Before we begin installing our VMs, we will need the images of the Operating Systems we will be using.
-Download the following:
+
+Download the following to your Ubuntu host system:
 
 [Linux Debian](https://www.debian.org/)
 
@@ -135,10 +152,10 @@ Once you have all 3 ISO images, you can begin installing your VMs.
 ### Post-installation tasks for deb-router-1 
 
 1. Login using the credentials you set up and run “sudo passwd”. Use the same password as you have been for the super user password.
-2. Check to make sure you can login as root using the “su” command. If successful, run “exit”
-3. Update the system: “sudo apt update”, “sudo apt upgrade”
-4. Stop and disable Apparmor: “sudo systemctl stop apparmor”, “sudo systemctl disable apparmor”
-5. Install vim (sudo apt install vim)
+2. Check to make sure you can login as root using the “su” command. If successful, run “exit”.
+3. Update the system.
+4. Stop and disable Apparmor.
+5. Install vim.
 6. Reboot the VM.  
 
 Once it successfully reboots, you can power it off. 
@@ -181,9 +198,9 @@ Mint will reboot.
 3. Open a terminal window.
 4. Run “sudo passwd”. Use the same password as you have been for the super user password.
 5. Check to make sure you can login as root using the “su” command. If successful, run “exit”
-6. Update the system: “sudo apt update”, “sudo apt upgrade”
-7. Stop and disable Apparmor: “sudo systemctl stop apparmor”, “sudo systemctl disable apparmor”
-8. Install vim (sudo apt install vim)
+6. Update the system.
+7. Stop and disable Apparmor.
+8. Install vim
 9. Reboot the VM. Once it successfully reboots, you can power it off. 
 
 ### Creating MS Windows Client VM
