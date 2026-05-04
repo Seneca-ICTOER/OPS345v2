@@ -1,272 +1,418 @@
 ---
 id: lab2
-title: Lab 2 - Amazon Web Services (AWS) Networking
+title: Lab 2 - Logically Addressing the Network, NAT, and FRR
 sidebar_position: 2
-description: Create a VPC & Security Group
+description: Assigning IP addresses to all NICs, Setting up NAT on deb-router-1, and setting up routing with FRR OSPF
 ---
 
-# Lab 2 - Amazon Web Services (AWS) Networking
+# Lab 2 - Logically Addressing the Network, NAT, and FRR
 
 ## Overview
 
 This week's lab will cover the following:
 
-- Creating a Virtual Private Cloud (VPC).
-- Creating and Modifying Virtual Private Cloud (VPC) Security Groups.
-- VPC components:
-  - Subnets
-  - Gateways
-    - NAT gateways
-    - Internet gateways
-    - Egress-only internet gateways
-    - Carrier gateways
-  - Route tables
+- Logically addressing all the devices on our network
+- Configuring NAT on our gateway to the Internet
+- Manually routing so all devices can:
+  - Ping their local subnet
+  - Ping other subnets
+  - Ping the Internet
 
 
-In this lab, you will create all the networking infrastructure required to host a web application. You will be creating the server, database and configuring the application in future labs.
+## Lab 2 Notes
 
-### Virtual Private Cloud
+We will be using a basic IP subnetting scheme in this lab to keep things as simple as possible. However, it is still a good idea to keep a chart handy of all IP addresses you are using matched up with which NICs they are assigned to. This will make it easier for you to test your connections moving forward.
 
-Start your session in the Learner Lab by clicking on the **Start Lab** button. Once the red dot has turned green, click on it to enter the Learner Lab and access the AWS Console interface. You are going to create a new Virtual Private Cloud (VPC). Resources you created last week in Lab 1 will be inaccessible in this VPC. Navigate to VPC (which you may have added to your favourites last week). On the VPC dashboard, click **Create VPC**. See the following screenshot for reference.
+We are going to focus on a suite of tools called Free Range Routing (FRR) to set up the Open Shortest Path First (OSPF) routing on our network. This is not the only way to set up routing. In fact, there are many different methods that can be used to accomplish what we will do in this lab. We will be using FRR because it is clean and straightforward for the most part. You will also likely be using FRR next semester. But always remember that the "best" method to accomplishing something in Linux is often "in the eye of the eye admin".
 
-![Create VPC](/img/createvpc.png)
+Finally, you will likely notice that we mostly ignore hostnames/DNS in this lab and focus on IP addresses. This will change in lab 3 when we install and configure an internal DNS server for our network. Keep in mind that this means it is very important you stick to the IP address scheme we lay out in this lab as any deviations will likely cause problems in lab 3.
 
-Input the following settings:
+## Investigation 1: Logically Addressing the Network
 
-1. Select **VPC only**
-1. Name tag: **Wordpress VPC**
-1. IPv4 CIDR: **10.0.0.0/16**
-1. Leave all other settings on default
+Begin by turning on all your VMs. Run "ip address show" on deb-router-1, deb-router-2, and mint-client. Run "ipconfig" on win-client. Notice that right now, only deb-router-1 has a usable IP address.
 
-Confirm the settings match the following screenshot.
+We are now going to assign IP addresses manually to our VMs using the following addressing scheme: 
 
-![VPC Settings](/img/vpcsettings.png)
+- The “backbone” network will use 192.168.100.0/24 
+- The “cn1” network will use 192.168.125.0/24 
+- The “cn2” network will use 192.168.150.0/24 
+- We are going to leave the “default” network as it is because it is going to act as our path to the internet and it is already configured to act as such.  
 
-Click **Create VPC** at the bottom right.
+It is very important that we address all the NICs correctly in this next section. Again, it is recommended that you make note of the IP addresses and the MAC addresses that they are attached to in case we need to refer to them later. 
 
-Once created, click the **Actions** drop down in the top right corner and select **Edit VPC Settings**. Make sure the following boxes are **Checked**:
+We will begin by addressing the NICs on deb-router-1. 
 
-1. Enable DNS resolution: **Checked**
-1. Enable DNS hostnames: **Checked**
+Run “ip address show” in deb-router-1 and note the names of the NICs (ex enp7s0) and the MAC address associated with it. Use that MAC address to compare to the NIC info in the VM details screen to know which NICs are connected to which networks. The NIC that is already attached to the “default” NAT network will already have an IP address so we do not need to change it. It will likely be labelled “enp1s0” 
 
-Click **Save**
+The next NIC (likely labelled enp7s0) should be the one that is connected to the “backbone” network. To address this interface, make the following entry in your /etc/network/interfaces file (note: do not remove any pre-existing configurations from this file and use the correct interface labels per your own system if they are diffferent from these instructions): 
+```bash
+# interface attached to “backbone” network 
+auto enp7s0 
+iface enp7s0 inet static 
+	address 192.168.100.11/24 
+```
 
-### Subnets
+While we are in the interfaces file we will also address the next NIC, the one that is attached to the “cn1” network: 
+```bash
+# interface attached to the “cn1” network 
+auto enp8s0 
+iface enp8s0 inet static 
+  address 192.168.125.11/24 
+```
 
-You are going to create 4 subnets in your VPC. Two private subnets, and two public subnets. One of each type (private and public) will be in a different availability zone. This will provide redundancy, ensuring better uptime for servers and applications you create in your VPC.
+Reboot your deb-router-1 VM. Log back into the VM and run the “ip address show” command. 
 
-1. Click on **Subnets** (located on the left side under **Virtual private cloud**).
-1. Click **Create subnet** (top right corner).
-1. Select **Wordpress VPC** from the VPC ID dropdown.
-1. Create a subnet with the following information:
+You should see 4 NICs in total:  
 
-- Subnet Name: **Private Subnet 1**
-- Availability Zone: **us-east-1a**
-- IPv4 VPC CIDR block: **10.0.0.0/16**
-- IPv4 subnet CIDR block: **10.0.1.0/24**
-- Your screen should look as follows:
+- the loopback with 127.0.0.1 
+- enp1s0 has a 192.168.x.x address received by DHCP 
+- enp7s0 has 192.168.100.11 
+- enp8s0 has 192.168.125.11 
 
-![Create Subnets](/img/createsubnet.png)
+Next, we will address deb-router-2 
 
-1. Click **Add new subnet** and repeat the process for the following **three** subnets:
+Use the instructions you were provided to configure deb-router-1's NICs to configure deb-router-2's NICs with the following addresses: 
 
-Create one private IPv4 subnets in this VPC:
+- enp7s0 has 192.168.100.12/24 (attached to the “backbone” network) 
+- enp8s0 has 192.168.150.11/24 (attached to the “cn2” network) 
 
-1. **Private Subnet 2** - **10.0.2.0/24** - **us-east-1b**
+When you have successfully made these configurations, try pinging between deb-router-1 and deb-router-2 using the 192.168.100.0/24 IP addresses we have assigned so far to ensure connectivity between the two routers. 
 
-Create two public IPv4 subnets in this VPC:
+Try to ping 192.168.150.11 from deb-router-1. Try to ping 192.168.125.11 from deb-router-2. 
+Why do you think these pings failed? 
+Don’t worry, we will fix this shortly. 
 
-1. **Public Subnet 1** - **10.0.11.0/24** - **us-east-1a**
-1. **Public Subnet 2** - **10.0.12.0/24** - **us-east-1b**
+Next we will address our mint-client VM. Log into your mint-client VM and make sure your deb-router-1 VM is also powered on. 
 
-Once you have confirmed your settings are correct, scroll down and click **Create Subnet** in the bottom right.
+- Click on the Linux Mint logo in the very bottom left of the desktop 
+- Type “advanced network configuration” and press “Enter” 
+- Double-click on “Wired connection 1” 
+- Click on “IPv4 settings" 
+- Change “method “to “Manual” 
+- Click “Add” and enter the following: 
+  - Address: 192.168.125.12 
+  - Netmask: 255.255.255.0 
+  - Gateway: 192.168.125.11 
+  - Leave the DNS servers blank for now 
 
-Check the box beside **Public Subnet 1**. Click on the **Actions** dropdown (top right) and select **Edit subnet settings**. See the following screenshot.
+- Click “Save” and reboot your mint-client 
 
-![Edit subnet settings](/img/editsubnet.png)
+When mint-client reboots, open a terminal and run “ip address show” to confirm that your single interface is addressed with 192.168.125.12. Then, run “ping 192.168.125.11" to ensure your mint-client can connect to your deb-router 1. 
 
-Make sure the following are **Checked**:
+Try pinging 192.168.100.11 from your mint-client. Why did this succeed? 
 
-1. Enable auto-assign public IPv4 address: **Checked**
-1. Enable resource name DNS A record on launch: **Checked**
+Try pinging 192.168.100.12 from your mint-client. Why did this fail? 
 
-1. Click **Save**.
-1. Repeat the process for **Public Subnet 2**
+Next we will address our win-client VM. Log into your win-client VM and make sure your deb-router-2 VM is also powered on. 
 
-### Adding an Internet Gateway
+- In Windows, click on the Windows icon at the bottom of the screen, type “network”, and click on “View network connections” 
+- Right-click on the “Ethernet” device and click on “Properties” 
+- Double-click on “Internet Protocol Version 4 (TCP/IPv4)” 
+- Click “Use the following IP address and put in the following configuration: 
+  - IP address: 192.168.150.12 
+  - Subnet Mask: 255.255.255.0 
+  - Default Gateway: 192.168.150.11 
+  - Leave the DNS fields empty for now 
 
-Your VPC requires a **Gateway** to access outside resources. There are four types of **gateways**
+- Click “OK” 
 
-#### Internet Gateway
+Open the command line and run “ipconfig” to confirm your NIC is addressed correctly. Then ping 192.168.150.11 to ensure your win-client can connect with your deb-router-2. 
 
-An internet gateway is a horizontally scaled, redundant, and highly available VPC component that allows communication between your VPC and the internet. It supports IPv4 and IPv6 traffic. It does not cause availability risks or bandwidth constraints on your network traffic.
+Try pinging 192.168.100.12. Why was it successful? 
 
-An internet gateway enables resources in your public subnets (such as EC2 instances) to connect to the internet if the resource has a public IPv4 address or an IPv6 address. Similarly, resources on the internet can initiate a connection to resources in your subnet using the public IPv4 address or IPv6 address. For example, an internet gateway enables you to connect to an EC2 instance in AWS using your local computer.
+Try pinging 192.168.100.11. Why did it fail? 
 
-#### Egress-only Internet Gateway
+We have now successfully addressed all of the NICs on our network. At this point we have a basic level of connectivity between our VMs in that we have the following capability: 
 
-An egress-only internet gateway is a horizontally scaled, redundant, and highly available VPC component that allows outbound communication over IPv6 from instances in your VPC to the internet, and prevents the internet from initiating an IPv6 connection with your instances.
+- deb-router-1 and deb-router-2 can connect to each other 
+- mint-client and deb-router 1 can connect to each other 
+- win-client and deb-router-2 can connect to each other 
 
-An egress-only internet gateway is for use with IPv6 traffic only. To enable outbound-only internet communication over IPv4, use a NAT gateway instead.
+However, mint-client and win-client cannot connect to each other and no VMs other than deb-router-1 can connect to the internet. Next, we will rectify these problems to allow full connectivity on our network. 
 
-#### Carrier Gateway
+## Investigation 2: Enabling Internet Connectivity for mint-client
 
-A carrier gateway is a VPC component that allows connectivity between AWS and your on-premises network using AWS Direct Connect or AWS Site-to-Site VPN. It is specifically designed for use with AWS Outposts, enabling communication between your Outposts and the internet, or between your Outposts and other AWS services. The carrier gateway supports both IPv4 and IPv6 traffic and provides a highly available and redundant connection.
+Our mint-client VM is actually already pset up to access the Internet via deb-router-1 because it is already directly connected to it. It doesn't need any additional information to know that data that is dentined for the Internet must be sent to deb-router-1 because it already sends **ALL** of its data to deb-router-1. However, deb-router-1 is not yet configured to allow data from our network to travel through it and out onto the Internet. To get this working we have to make two very important configurations.
 
-A carrier gateway is used when you need to connect your Outposts to the internet or to other AWS services, ensuring that your on-premises applications can communicate seamlessly with AWS resources.
+First, we are going to turn on IP forwarding which is pretty much what it sounds like. It allows an OS (like Debian) to accept incoming network packets on an interface, determine their destination, and pass them on to another interface just like a router does. 
 
-#### NAT Gateway
+**NOTE – IT IS VERY IMPORTANT THAT THIS STEP IS NOT MISSED. IT MUST BE DONE BEFORE FRR IS INSTALLED LATER IN THIS LAB. FAILURE TO DO SO WILL RESULT IN YOU HAVING TO REINSTALL YOUR DEB-ROUTER-1 VM. YOU HAVE BEEN WARNED!** 
 
-A NAT gateway is a Network Address Translation (NAT) service. You can use a NAT gateway so that instances in a private subnet can connect to services outside your VPC but external services cannot initiate a connection with those instances.
+To begin, make sure that deb-router-1 and mint-client are both turned on and can ping one another using the 192.168.125.0/24 network. Also, confirm that deb-router-1 has internet connectivity by pinging google.com. Once those have been done successfully, we will enable IP forwarding on deb-router-1. 
 
-When you create a NAT gateway, you specify one of the following connectivity types:
+Log into deb-router-1 and run:
+```bash
+sudo sysctl net.ipv4.ip_forward
+```
 
-- Public – (Default) Instances in private subnets can connect to the internet through a public NAT gateway, but cannot receive unsolicited inbound connections from the internet. You create a public NAT gateway in a public subnet and must associate an elastic IP address with the NAT gateway at creation. You route traffic from the NAT gateway to the internet gateway for the VPC. Alternatively, you can use a public NAT gateway to connect to other VPCs or your on-premises network. In this case, you route traffic from the NAT gateway through a transit gateway or a virtual private gateway.
+The resulting output should show that the parameter you input is set to 0, meaning IP forwarding is currently turned off. We are going to make a change to the system to enable this. 
 
-- Private – Instances in private subnets can connect to other VPCs or your on-premises network through a private NAT gateway. You can route traffic from the NAT gateway through a transit gateway or a virtual private gateway. You cannot associate an elastic IP address with a private NAT gateway. You can attach an internet gateway to a VPC with a private NAT gateway, but if you route traffic from the private NAT gateway to the internet gateway, the internet gateway drops the traffic.
+Create/open the file “/etc/sysctl.d/ipforward.conf” and enter the following inside: 
+```bash
+# allow IP forwarding 
+net.ipv4.ip_forward=1 
+```
 
-A NAT gateway is for use with IPv4 traffic only. To enable outbound-only internet communication over IPv6, use an egress-only internet gateway instead.
+Reboot your deb-router-1 VM. Log back in and run the sysctl command again:
+```bash
+sudo sysctl net.ipv4.ip_forward
+```
+ The output should now show the parameter is set to 1, meaning IP forwarding has now been turned on.   
 
-You are going to create an **Internet Gateway**.
+**NOTE – AGAIN, IT IS VERY IMPORTANT THAT THIS STEP IS NOT MISSED. IT MUST BE COMPLETED SUCCESSFULLY BEFORE FRR IS INSTALLED LATER IN THIS LAB. IF YOU ARE NOT GETTING A "1" HERE, CHECK WITH YOUR TEACHER BEFORE MOVING FORWARD.** 
 
-1. Click on **Internet Gateways** (located on the left side under **Virtual private cloud**).
-1. Click **Create internet gateway** (located in the top left corner)
+Next, we are going to allow deb-router-1 to act as a NAT device between our internal network and the outside world (although keep in mind that because this is a virtual network, we still technically have another layer of NAT already running in the form of our Host Ubuntu system). 
 
-Create a new Internet Gateway with the following:
+First, install iptables onto deb-router-1:
+```bash
+sudo apt install iptables” 
+```
 
-1. Name: **Wordpress Gateway**
-1. Click **Create internet gateway**
-1. Once created, click on the **Actions** dropdown and select **Attach to VPC**.
-1. In the **Available VPCs** input field, select your **Wordpress VPC**.
-1. Click **Attach internet gateway** to attach it to your Wordpress VPC.
-1. Once completed, your **Wordpress Gateway** should display the following:
+Next, add the following special iptables rule: 
+```bash
+sudo iptables -t nat -A POSTROUTING -o enp1s0 -j MASQUERADE 
+```
 
-![Wordpress Gateway](/img/wordpressgateway.png)
+Then, make your iptables persistent just like we did in OPS245: 
+```bash
+sudo iptables-save -f /etc/iptables.rules
+```
 
-### Route Tables
+Create a script file at “/etc/network/if-pre-up.d/iptables”.
 
-You are going to create **Route tables** in your **VPC** to allow traffic from within your VPC to be routed externally through the **Internet Gateway** you created. In the search box at the top, type VPC.
+Enter the following into the “iptables” script file:
+```bash
+#!/bin/bash 
+ 
+/sbin/iptables-restore /etc/iptables.rules 
+```
 
-1. Click on **Route Tables** (located on the left side under **Virtual private cloud**. See screenshot for clarity).
+Save the file and run:
+```bash
+sudo chmod u+x /etc/network/if-pre-up.d/iptables
+```
 
-![VPC Route Tables](/img/vpc-route-tables.png)
+This will ensure the system can run the script at startup.
 
-2. Click on your **Route table ID**.
-   Find your default route table and add the name: **VPC-local Route Table**
+Reboot your system and run:
+```bash
+sudo iptables –L POSTROUTING –t nat
+```
 
-3. Go back to the main **Route Tables** screen.
-4. Click **Create route table** (top right corner).
+If you saved your iptables correctly you should see the MASQUERADE rule that allows from anywhere to anywhere. 
 
-![Create Route Table](/img/create-route-table.png)
-Create a second route table:
+What we have just done is turned deb-router-1 into a NAT device. Other devices that know to look to deb-router-1 to exit the internal virtual network will now be able to do so. Let’s test this out. Turn on mint-client if it is not already.  
 
-5. Name: **Wordpress Website Route Table**
-6. VPC: **Wordpress VPC**
+On mint-client, open a terminal and run the following commands: 
+```bash
+ping google.com 
+ping 8.8.8.8 
+```
 
-![WordPress Route Table](/img/wordpress-route-table.png)
+Why did the first ping fail? Why did the second succeed? 
 
-7. Click **Create route table** (bottom right corner).
-8. Click **Edit routes** and add the following routes. The first route may already exist.
+Recall that when we configured mint-client, we left the DNS server field empty. The mint-client does not know where to look to get answers to DNS queries. It can contact the Internet through deb-router-1 but it can only do so with the use of IP addresses. In Lab 3 we will be setting up a permanent solution to this but for now we will use a temporary one. 
 
-- Route Entry 1:
-  - Destination: **10.0.0.0/16**
-  - Target: **local**
-- Route Entry 2:
-  - Destination: **0.0.0.0/0**
-  - Target: **Internet Gateway – Wordpress Gateway**
+Go back to the Wired connection 1 configuration window in mint-client 
 
-9. View the following screenshot to confirm your settings are correct. If they are, click **Save changes**.
+In the “DNS servers” field enter “8.8.8.8”. 8.8.8.8 is  the IP address of one of Google’s free DNS resolvers. 
 
-![Edit Routes](/img/edit-routes.png)
+Reboot your mint-client 
 
-### Security Groups
+Open a terminal and try pinging google.com again. The ping should now succeed because mint-client has access to the Internet through deb-router-1 and it knows to send its DNS queries to 8.8.8.8 (google). 
 
-**Security Group** settings are located in the left side navigation under **Security** > **Security Groups**. Click on **Security Groups**. Note: You can access **Security groups** through **EC2** as well (as you did in lab 5). The menu they are under is different.
+## Investigation 3: Enabling Internal and External Connectivy for the Entire Network using FRR
 
-Click on **Create security group** and create a security group with the following settings
+Power on your deb-router-2 and win-client VMs and try to ping 8.8.8.8 from them. What happened? 
 
-1. Security group name: **Wordpress Website SG**
-1. Description: **Allows HTTP traffic inbound**
-1. VPC: **Wordpress VPC**
-1. Inbound Rules:
-1. Allow HTTP
-  - Type: **HTTP**
-  - Source: **Anywhere – IPv4 (0.0.0.0/0)**
+Right now, neither of those VMs knows how to send data out of the network because they have no way of knowing that deb-router-1 is the way out. The mint-client VM knows because it is directly connected to deb-router-1 and we set its default gateway to deb-router-1's IP address. When it tries to send data out of the network, it knows to send it to deb-router-1 (because deb-router-1 is literally the only thing it **can** send data to). The next steps will be to set up deb-router-1 and deb-router-2 with a service called FRR/OSPF. When properly configured, this will allow all devices on the network to access the Internet via deb-router-1 and it will also allow all devices on our network to connect to one another as well. 
 
-6. Allow SSH
-  - Type: **SSH**
-  - Source: **Anywhere – IPv4 (0.0.0.0/0)**
+Start by confirming that IP forwarding is still enabled on deb-router-1:
+```bash
+sudo sysctl net.ipv4.ip_forward 
+```
 
-> Warning: Do **not** modify the **outbound** rules.
+The result should show “net.ipv4.ip_forward=1”. **FINAL WARNING - If it shows 0, make sure you go back and rectify this before continuing past this point.** 
 
-Verify your inbound rules with the following screenshot.
+Next we will install FRR (Free Range Routing) and its OSPF (Open Shortest Path First) service on deb-router-1. 
 
-![Wordpress Website Inbound Rules](/img/inbound-rules.png)
+On deb-router-1: 
 
-Click **Create security group** (bottom right).
+- Update your system: 
+```bash
+sudo apt update && sudo apt upgrade 
+```
 
-Repeat the above steps to create another security group with the following settings:
+- Install FRR:
+```bash
+sudo apt install frr frr-pythontools 
+```
 
-1. Name: **Wordpress Database SG**
-1. Description: **Allows MySQL traffic locally**
-1. VPC: **Wordpress VPC**
-1. Inbound Rule:
-  - Type: **MYSQL/Aurora**
-  - Source: **Custom** (Select _Wordpress Website SG_ in the search field)
+Once installed, we will enable the necessary daemon: 
 
-> Warning: Do **not** modify the **outbound** rules.
+- Open the “/etc/frr/daemons” file and set “ospfd=yes”. Save your changes.  
+- Restart the frr service:  
+```bash
+sudo systemctl restart frr  
+```
 
-Verify your inbound rules with the following screenshot.
+- Reboot deb-router-1  
+- Log back in and check to make sure that IP forwarding is still turned on and that the frr service is running:  
+```bash
+sudo systctl net.ipv4.ip_forward
+```
+The output should still be “net.ipv4.ip_forward=1”.
 
-![Wordpress Database Inbound Rules](/img/wordpress-database-sg.png)
+```bash
+sudo systemctl status frr 
+```
 
-### Editing Public Subnet route table associations
+The output should show enabled and active (you can ignore any errors below the initial output for now).  
 
-1. Click on **Subnets** under **Virtual private cloud** (left side).
-2. Check the box beside **Public Subnet 1**
-   Edit both public subnets’ route table associations to: **Wordpress Website Route Table**
-3. Click **Actions** > **Edit route table association**
-4. Select **Wordpress Website Route Table** in the **Route table ID** dropdown menu. See the following screenshot.
+We also need to install FRR/OPSF on deb-router-2 to properly route our whole network but we have a problem. We used the “apt install” command on deb-router-1 to install FRR and its dependencies. But this won’t work on deb-router-2 because right now it has no way to exit the local network and access the Internet. So how can we solve this problem? 
 
-   ![Route table association](/img/route-table-association.png)
+Not to worry, we have several options available to us. We are going to use a combination of tools that we have learned about in OPS145 and OPS245. 
 
-5. Click save.
+First, power on and log into deb-router-2 and make sure that deb-router-1 and deb-router-2 can ping one another. Then set up IP forwarding on deb-router-2 just like we did with deb-router-1. 
 
-Repeat the steps for **Public Subnet 2**
+On deb-router-2, enable IP forwarding by creating/opening the file “/etc/sysctl.d/ipforward.conf” and enter the following inside: 
+```bash
+#allow IP forwarding 
+net.ipv4.ip_forward=1 
+```
 
-## Creating a new instance (www)
+Reboot your deb-router-2 VM. Log back in and run “sudo sysctl net.ipv4.ip_forward". The output should show the parameter is set to 1, meaning IP forwarding has now been turned on. **NOTE – LIKE DEB-ROUTER-1, THIS MUST BE DONE BEFORE FRR IS INSTALLED** 
 
-Create a new instance in AWS (like you did in [Lab 1](lab1.md)), with the following configuration:
+Next we will download the necessary packages and store them as local files on deb-router-1 so we can manually send them over to deb-router-2. 
 
-1. **Name:** www
-1. **OS:** Ubuntu
-1. **Amazon Machine Image (AMI):** Make sure Ubuntu Server 24.04 is selected
-1. Use your existing key pair (from Lab 1). If you lost your key, then generate a new one. Don't lose this one.
-1. **Network Settings:** Click **edit**
-  - **VPC:** Select the **Wordpress VPC** you created.
-  - **Security Group**: Select the **Wordpress Website Security Group** you created.
-  - **Subnet**: Select **Public Subnet 1**
+On deb-router-1:  
+- Download and store the necessary FRR packages and all of its dependencies.  
+```bash
+sudo apt-get download frr frr-pythontools libcares2 liblua5.3-0 libunwind8 libyang3 
+```
 
-Verify your settings are correct and click **Launch Instance**.
+- List all the files in your current directory. You should see 6 .deb files 
+- Now use scp to copy these files over to deb-router-2 (change “hheim” to your user name):
+```bash
+scp *.deb hheim@192.168.100.12: 
+```
 
-Once the instance has created, confirm you can connect to it using:
-- EC2 Instance Connect
-- Via SSH
+On deb-router-2: 
+- List the files in your current directory to make sure the files were copied correctly 
+- If they are all there, install them:
+```bash
+sudo dpkg –i *.deb 
+```
+
+If any errors occur, go back and double check that all files were downloaded and transferred over to deb-router-2 correctly.  
+
+Next we can configure FRR/OSPF on deb-router-2: 
+- Open the “/etc/frr/daemons” file and set “ospfd=yes”. Save your changes.  
+- Restart the frr service:  
+```bash
+sudo systemctl restart frr  
+```
+
+- Reboot deb-router-2  
+- Log back in and check to make sure that IP forwarding is still turned on and that the FRR service is running:  
+```bash
+sudo systctl net.ipv4.ip_forward 
+```
+Output should be "net.ipv4.ip_forward=1".
+
+```bash
+sudo systemctl status frr 
+```
+
+Output should show enabled and active (you can ignore any errors below the initial output for now).
+
+Now we are going to configure deb-router-1 and deb-router-2 with OSPF routing entries so that they both know about all subnets connected in the local network as well as how to get to the internet through deb-router-1. 
+
+On deb-router-1 run the following commands: 
+```bash
+sudo vtysh 
+configure terminal 
+router ospf 
+network 192.168.100.0/24 area 0 
+network 192.168.125.0/24 area 0 
+default-information originate always 
+exit 
+exit 
+write memory 
+```
+
+On deb-router-2 run the following commands: 
+```bash
+sudo vtysh 
+configure terminal 
+router ospf 
+network 192.168.100.0/24 area 0 
+network 192.168.150.0/24 area 0 
+exit 
+exit 
+write memory 
+```
+
+What we have just done is populated our routers with entries for the networks that they are directly attached to and which they will advertise to neighboring routers. Run the following on both routers to check that they can see each other as routers and that they are sharing their local networks with one another (note, these commands are run after running the "sudo vtysh" command, not on the VM's main terminal): 
+```bash
+show ip ospf neighbor 
+show ip route ospf 
+```
+
+The results of these commands provide some important information. The first command shows us the other OSPF router(s) that are connected to this system. Right now there is only one entry for deb-router-1 and deb-router-2 because they are each only connected to one another. The second command shows us which networks are directly connected to the router and which networks are connected to other routers.  
+
+Of particular note is the “0.0.0.0” entry you should see on deb-router-2. The “default-information originate always” command we entered into deb-router-1's OSPF routing entries specified that any traffic with a destination that is not inside our local network is to be sent to deb-router-1. Combined with the NAT setup we added to deb-router-1 earlier, our internal devices can now find the Internet whether they are directly connected to deb-router-1 or not.  
+
+Furthermore (and just as importantly) they can now all find each other. Let’s test this out.  
+
+Power on mint-client and win-client if they aren’t already. 
+
+On win-client, ping mint-client:
+```bash
+ping 192.168.125.12 
+```
+
+This should succeed. 
+
+On mint-client, ping win-client: 
+```bash
+ping 192.168.150.12 
+```
+
+This will still fail, but not because of our network setup. 
+
+- Go into win-client
+- click the windows icon
+- type “firewall” and click on “Windows Defender Firewall”
+- click on “Turn Windows Defender Firewall on or off” on the left hand side
+- click both “Turn off Windows Defender Firewall” buttons here and then click “OK”  
+
+Now, go back to mint-client and try the ping one more time. 
+```bash
+ping 192.168.150.12 
+```
+
+This time, the ping should succeed. 
+
+At this point, all the devices in our network can ping one another by their IP address. Our deb-router-1 and mint-client VMs can ping sites on the Internet by IP address and by FQDNs. And while our deb-router-2 and win-client VMs can ping sites on the Internet by IP address, they cannot ping them by FQDN.  
+
+This problem could be easily fixed by adding the same DNS server to their network configurations that we added to mint-client (8.8.8.8). We are not going to do this, however. Instead, in the next lab, we are going to set up deb-router-1 as a local DNS server that will be able to handle queries regarding the local network as well as queries to external endpoints (the Internet). 
 
 ## Lab 2 Sign-Off
 
 Take screenshots showing the following: 
 
-- 4 new subnets (Public Subnet 1, Public Subnet 2, Private Subnet 1 & Private Subnet 2)
-- Route Table
-- Internet Gateway
-- Access to **www** from EC2 Instance Connect or the command line
+- The output of the "ip address show" command on:
+  - deb-router-1
+  - deb-router-2
+  - mint-client
+- The output of the "ipconfig" command on win-client
+- The output of the "show ip ospf neighbor" command in the FRR terminal in deb-router-1 and deb-router-2
+- The output of the "show ip route ospf" command in the FRR terminal in deb-router-1 and deb-router-2
+- A successful ping from mint-client to win-client
 
 The following Exploration Questions are for furthering your knowledge only, and may appear on quizzes or tests at any time later in this course.
 
 ## Exploration Questions
 
-1. What is a VPC?
-1. What are the steps to create a VPC?
-1. What are subnets and route tables?
-1. What is an Internet Gateway?
+1. 
