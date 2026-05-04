@@ -437,7 +437,7 @@ Next, in your win-client:
 - Navigate to the file browser. On the left hand side you should see “Network”.
 - Right-click on “Network” and click on “Map network drive...”
 - Select “Drive H:” and enter the following for “Folder:”
-  - "\\mint-client.cnet1.ops345.org\Share"
+  - \\\mint-client.cnet1.ops345.org\Share"
 - Click “Finish”. 
 - Enter the credentials you set up for Samba Server (your username and password) and click “OK”.
 
@@ -479,7 +479,7 @@ Take screenshots showing the following:
 - A successful ping from win-client to mint-client using mint-client's FQDN
 - A successful ping from deb-router-1 to deb-router-2 using deb-router-2's FQDN
 - A successful ping from deb-router-2 to deb-router-1 using deb-router-1's FQDN
-- The test.txt file in the "\\mint-client.cnet1.ops345.org\Share" on win-client
+- The test.txt file in the \\\mint-client.cnet1.ops345.org\Share" on win-client
 
 ## Exploration Questions
 
