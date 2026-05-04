@@ -340,7 +340,7 @@ Next, we will adjust the networks that deb-router-2 is attached to:
 - Click on “Network” and then change “Network Source” to the “cn2” isolated network we created. Click “Finish”
 - Click on the NIC that is currently attached to the “default” NAT network. Click “Remove” to remove that NIC from deb-router-2. This will disconnect the deb-router-2 VM from your Ubuntu Host system. 
 
-Your deb-router-2 VM should now have 2 NICs: one attached to the “backbone” isolated network and one attached to the “cn2” isolated network. 
+Your deb-router-2 VM should now have 2 NICs: one attached to the “backbone” isolated network and one attached to the “cn2” isolated network. Make note of their MAC addresses for easier identification later.
 
 Next, we will adjust the networks that mint-client is attached to:
 
@@ -350,7 +350,7 @@ Next, we will adjust the networks that mint-client is attached to:
 - Click on “Network” and then change “Network Source” to the “cn1” isolated network we created. Click “Finish”
 - Click on the NIC that is currently attached to the “default” NAT network. Click “Remove” to remove that NIC from mint-client. This will disconnect the mint-client VM from your Ubuntu Host system.  
 
-Your mint-client VM should now have 1 NIC that is attached to the “cn1” isolated network. 
+Your mint-client VM should now have 1 NIC that is attached to the “cn1” isolated network. Make note of their MAC addresses for easier identification later.
 
 Finally, we will adjust the networks that win-client is attached to:
 
@@ -360,23 +360,23 @@ Finally, we will adjust the networks that win-client is attached to:
 - Click on “Network” and then change “Network Source” to the “cn2” isolated network we created. Click “Finish”
 - Click on the NIC that is currently attached to the “default” NAT network. Click “Remove” to remove that NIC from win-client. This will disconnect the win-client VM from your Ubuntu Host system. 
 
-Your win-client VM should now have 1 NIC that is attached to the “cn2” isolated network. 
+Your win-client VM should now have 1 NIC that is attached to the “cn2” isolated network. Make note of their MAC addresses for easier identification later.
 
 At this point your VMs should be connected as follows: 
 
-deb-router-1 connected to: 
+#### deb-router-1 connected to: 
 - “default” NAT network
 - “backbone” isolated network
 - “cn1” isolated network 
 
-deb-router-2 connected to: 
+#### deb-router-2 connected to: 
 - “backbone” isolated network
 - “cn2” isolated network 
 
-mint-client connected to: 
+#### mint-client connected to: 
 - “cn1” isolated network 
 
-win-client connected to: 
+#### win-client connected to: 
 - “cn2” isolated network 
 
 Boot up all 4 VMs and try to ping google.com from their command lines. Only your deb-router-1 should be successful. If any other VM can ping google, go back and double check your configuration and the steps you used to get here. 
