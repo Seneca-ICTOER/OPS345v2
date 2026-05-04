@@ -23,9 +23,9 @@ This week's lab will cover the following:
 
 We will be using a basic IP subnetting scheme in this lab to keep things as simple as possible. However, it is still a good idea to keep a chart handy of all IP addresses you are using matched up with which NICs they are assigned to. This will make it easier for you to test your connections moving forward.
 
-We are going to focus on a suite of tools called Free Range Routing (FRR) to set up the Open Shortest Path First (OSPF) routing on our network. This is not the only way to set up routing. In fact, there are many different methods that can be used to accomplish what we will do in this lab. We will be using FRR because it is clean and straightforward for the most part. You will also likely be using FRR next semester. But always remember that the "best" method to accomplishing something in Linux is often "in the eye of the eye admin".
+We are going to focus on a suite of tools called Free Range Routing (FRR) to set up the Open Shortest Path First (OSPF) routing on our network. This is not the only way to set up routing. In fact, there are many different methods that can be used to accomplish what we will do in this lab. We will be using FRR because it is clean and straightforward for the most part. You will also likely be using FRR next semester. But always remember that the "best" method to accomplishing something in Linux is often "in the eye of the admin".
 
-Finally, you will likely notice that we mostly ignore hostnames/DNS in this lab and focus on IP addresses. This will change in lab 3 when we install and configure an internal DNS server for our network. Keep in mind that this means it is very important you stick to the IP address scheme we lay out in this lab as any deviations will likely cause problems in lab 3.
+Finally, you will likely notice that we mostly ignore hostnames/DNS in this lab and focus on IP addresses. This will change in lab 3 when we install and configure an internal DNS server for our network. This means it is very important you stick to the IP address scheme we lay out in this lab as any deviations will likely cause problems in lab 3.
 
 ## Investigation 1: Logically Addressing the Network
 
@@ -60,7 +60,7 @@ iface enp8s0 inet static
   address 192.168.125.11/24 
 ```
 
-Reboot your deb-router-1 VM. Log back into the VM and run the “ip address show” command. 
+Save your changes to the file and reboot your deb-router-1 VM. Log back into the VM and run the “ip address show” command. 
 
 You should see 4 NICs in total:  
 
@@ -80,7 +80,7 @@ When you have successfully made these configurations, try pinging between deb-ro
 
 Try to ping 192.168.150.11 from deb-router-1. Try to ping 192.168.125.11 from deb-router-2. 
 Why do you think these pings failed? 
-Don’t worry, we will fix this shortly. 
+Don’t worry, we will fix this later. 
 
 Next we will address our mint-client VM. Log into your mint-client VM and make sure your deb-router-1 VM is also powered on. 
 
@@ -97,7 +97,7 @@ Next we will address our mint-client VM. Log into your mint-client VM and make s
 
 - Click “Save” and reboot your mint-client 
 
-When mint-client reboots, open a terminal and run “ip address show” to confirm that your single interface is addressed with 192.168.125.12. Then, run “ping 192.168.125.11" to ensure your mint-client can connect to your deb-router 1. 
+When mint-client reboots, open a terminal and run “ip address show” to confirm that your single interface is addressed with 192.168.125.12. Then, run “ping 192.168.125.11" to ensure your mint-client can connect to your deb-router-1. 
 
 Try pinging 192.168.100.11 from your mint-client. Why did this succeed? 
 
@@ -132,7 +132,7 @@ However, mint-client and win-client cannot connect to each other and no VMs othe
 
 ## Investigation 2: Enabling Internet Connectivity for mint-client
 
-Our mint-client VM is actually already pset up to access the Internet via deb-router-1 because it is already directly connected to it. It doesn't need any additional information to know that data that is dentined for the Internet must be sent to deb-router-1 because it already sends **ALL** of its data to deb-router-1. However, deb-router-1 is not yet configured to allow data from our network to travel through it and out onto the Internet. To get this working we have to make two very important configurations.
+Our mint-client VM is actually already set up to access the Internet via deb-router-1 because it is already directly connected to it. It doesn't need any additional information to know that data that is destined for the Internet must be sent to deb-router-1 because it already sends **ALL** of its data to deb-router-1, regardless of the destination. However, deb-router-1 is not yet configured to allow data from our network to travel through it and out onto the Internet. To get this working we have to make two very important configurations.
 
 First, we are going to turn on IP forwarding which is pretty much what it sounds like. It allows an OS (like Debian) to accept incoming network packets on an interface, determine their destination, and pass them on to another interface just like a router does. 
 
@@ -165,7 +165,7 @@ Next, we are going to allow deb-router-1 to act as a NAT device between our inte
 
 First, install iptables onto deb-router-1:
 ```bash
-sudo apt install iptables” 
+sudo apt install iptables 
 ```
 
 Next, add the following special iptables rule: 
@@ -225,7 +225,7 @@ Open a terminal and try pinging google.com again. The ping should now succeed be
 
 Power on your deb-router-2 and win-client VMs and try to ping 8.8.8.8 from them. What happened? 
 
-Right now, neither of those VMs knows how to send data out of the network because they have no way of knowing that deb-router-1 is the way out. The mint-client VM knows because it is directly connected to deb-router-1 and we set its default gateway to deb-router-1's IP address. When it tries to send data out of the network, it knows to send it to deb-router-1 (because deb-router-1 is literally the only thing it **can** send data to). The next steps will be to set up deb-router-1 and deb-router-2 with a service called FRR/OSPF. When properly configured, this will allow all devices on the network to access the Internet via deb-router-1 and it will also allow all devices on our network to connect to one another as well. 
+Right now, neither of those VMs knows how to send data out of the network because they have no way of knowing that deb-router-1 is the way out. The mint-client VM knows because it is directly connected to deb-router-1 and we set its default gateway to deb-router-1's IP address. When it tries to send data out of the network, it knows to send it to deb-router-1 (because deb-router-1 is literally the only thing it **can** send data to). The next steps will set up deb-router-1 and deb-router-2 with a service called FRR/OSPF. When properly configured, this will allow all devices on the network to access the Internet via deb-router-1 and it will also allow all devices on our network to connect to one another as well. 
 
 Start by confirming that IP forwarding is still enabled on deb-router-1:
 ```bash
@@ -250,14 +250,14 @@ sudo apt install frr frr-pythontools
 
 Once installed, we will enable the necessary daemon: 
 
-- Open the “/etc/frr/daemons” file and set “ospfd=yes”. Save your changes.  
-- Restart the frr service:  
+- Open the “/etc/frr/daemons” file and change "ospfd=no" to “ospfd=yes”.
+- Save your changes and restart the FRR service:  
 ```bash
 sudo systemctl restart frr  
 ```
 
 - Reboot deb-router-1  
-- Log back in and check to make sure that IP forwarding is still turned on and that the frr service is running:  
+- Log back in and check to make sure that IP forwarding is still turned on and that the FRR service is running:  
 ```bash
 sudo systctl net.ipv4.ip_forward
 ```
@@ -271,7 +271,7 @@ The output should show enabled and active (you can ignore any errors below the i
 
 We also need to install FRR/OPSF on deb-router-2 to properly route our whole network but we have a problem. We used the “apt install” command on deb-router-1 to install FRR and its dependencies. But this won’t work on deb-router-2 because right now it has no way to exit the local network and access the Internet. So how can we solve this problem? 
 
-Not to worry, we have several options available to us. We are going to use a combination of tools that we have learned about in OPS145 and OPS245. 
+While we have several options available to us, we are going to use a combination of tools that we learned about in OPS145 and OPS245 as a fun little refresher. 
 
 First, power on and log into deb-router-2 and make sure that deb-router-1 and deb-router-2 can ping one another. Then set up IP forwarding on deb-router-2 just like we did with deb-router-1. 
 
@@ -281,7 +281,7 @@ On deb-router-2, enable IP forwarding by creating/opening the file “/etc/sysct
 net.ipv4.ip_forward=1 
 ```
 
-Reboot your deb-router-2 VM. Log back in and run “sudo sysctl net.ipv4.ip_forward". The output should show the parameter is set to 1, meaning IP forwarding has now been turned on. **NOTE – LIKE DEB-ROUTER-1, THIS MUST BE DONE BEFORE FRR IS INSTALLED** 
+Save your changes and reboot your deb-router-2 VM. Log back in and run “sudo sysctl net.ipv4.ip_forward". The output should show the parameter is set to 1, meaning IP forwarding has now been turned on. **NOTE – LIKE DEB-ROUTER-1, THIS MUST BE DONE BEFORE FRR IS INSTALLED.** 
 
 Next we will download the necessary packages and store them as local files on deb-router-1 so we can manually send them over to deb-router-2. 
 
@@ -307,8 +307,8 @@ sudo dpkg –i *.deb
 If any errors occur, go back and double check that all files were downloaded and transferred over to deb-router-2 correctly.  
 
 Next we can configure FRR/OSPF on deb-router-2: 
-- Open the “/etc/frr/daemons” file and set “ospfd=yes”. Save your changes.  
-- Restart the frr service:  
+- Open the “/etc/frr/daemons” file and change "ospfd=no" to “ospfd=yes”.
+- Save your changes and restart the FRR service:  
 ```bash
 sudo systemctl restart frr  
 ```
@@ -326,7 +326,7 @@ sudo systemctl status frr
 
 Output should show enabled and active (you can ignore any errors below the initial output for now).
 
-Now we are going to configure deb-router-1 and deb-router-2 with OSPF routing entries so that they both know about all subnets connected in the local network as well as how to get to the internet through deb-router-1. 
+Now we are going to configure FRR in deb-router-1 and deb-router-2 with OSPF routing entries so that they both know about all subnets connected in the local network as well as how to get to the internet through deb-router-1. 
 
 On deb-router-1 run the following commands: 
 ```bash
