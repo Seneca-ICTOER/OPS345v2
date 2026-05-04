@@ -13,7 +13,7 @@ This week's lab will cover the following:
 
 - Logically addressing all the devices on our network
 - Configuring NAT on our gateway to the Internet
-- Manually routing so all devices can:
+- Configuring FRR/OSPF so all devices can:
   - Ping their local subnet
   - Ping other subnets
   - Ping the Internet
