@@ -252,7 +252,7 @@ In this next section, we are going to change all this because we want to turn ou
 
 Essentially, we are going to turn our network environment into this:
 
-##!!DIAGRAM GOES HERE!!
+![OPS345 Starting Network Diagram](/img/OPS345Network.png)
 
 The goal is to have our Debian VMs acting as routers that our client VMs will rely on to send traffic to where it needs to go, whether that destination is on the same subnet, a different subnet, or on the Internet. 
 
