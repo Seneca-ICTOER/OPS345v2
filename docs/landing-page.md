@@ -40,11 +40,11 @@ While the second half of the class will take place primarily in the AWS learning
 
 ## Using your own laptop
 
-Some of you may have completed OPS245 using your own laptop. Generally speaking, if you were able to complete OPS245 that way without any trouble, you should be able to do so in OPS345 as well. However, it is not recommended that you use the same Debian host system that you used in OPS245. You will need a fresh install of Ubuntu to properly complete this course with as few hiccups as possible. 
+Some of you may have completed OPS245 using your own laptop. Generally speaking, if you were able to complete OPS245 that way without any trouble, you should be able to do so in OPS345 as well. However, do not use the same Debian host system that you used in OPS245. You will need a fresh install of Ubuntu to properly complete this course. 
 
-You can technically also use your laptop the same way as the lab machines are used - by plugging an external hard drive into them and booting to that drive via your BIOS. However, keep in mind that different laptop manufacturers treat their default BIOS settings differently and you may need to do some tinkering to get this working. But be warned that messing with the BIOS can be dangerous and if you care about the default Windows OS that came with your laptop, you may want to be exra cautious, lest you accidentally break it.
+You can technically also use your laptop the same way as the lab machines are used - by plugging an external hard drive into them and booting to that drive via your BIOS. However, keep in mind that different laptop manufacturers treat their default BIOS settings differently and you may need to do some tinkering to get this working. But be warned that messing with the BIOS can be dangerous and if you care about the default Windows OS that came with your laptop, you will want to be extra cautious, lest you accidentally break it.
 
-Ultimately this course has been designed and tested to work with the setup we have in the labs - by plugging an external hard drive into the lab machine, installing the Ubuntu host OS onto that hard drive, and booting to it through the lab machine BIOS menu. Using any other method is at the student's discretion and the teacher will not be able to help you with your own laptop.
+Ultimately this course has been designed and tested to work with the setup we have in the labs - by plugging an external hard drive into the lab machine, installing the Ubuntu host OS onto that hard drive, and booting to it through the lab machine BIOS menu. Using any other method is at the student's discretion. The teacher will not be able to help you with your own laptop.
 
 YOU HAVE BEEN WARNED!
 
