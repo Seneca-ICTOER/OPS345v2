@@ -32,7 +32,7 @@ Before you begin this lab, power on all your VM and double check that the config
 - Ping www.google.com and/or www.ign.com from all VMs
 - Use Samba to share files between your mint-client and your win-client
 
-If all that is correct you can proceed with Lab 4. Otherwise, please double check your configurations of lab 4. 
+If all that is correct you can proceed with Lab 4. Otherwise, please double check your configurations from lab 3. 
 
 ## Investigation 1: Installing Docker
 
@@ -43,10 +43,9 @@ Open a terminal on mint-client and run:
 sudo apt install docker.io
 sudo usermod -aG docker hheim
 ```
-**Replace “hheim” with your username** 
+**-- Replace “hheim” with your own username --** 
 
 Reboot your mint-client.  
-
 
 Next we will install it on our win-client VM. 
 
@@ -65,7 +64,7 @@ When it comes back up go to the following website:
 
 [Windows Docker Installer](https://docs.docker.com/desktop/setup/install/windows-install/)
 
-**Note** if this is your first time opening the Edge web browser you will have to click a few buttons to get going. Just say “No” to everything. 
+**Note** - if this is your first time opening the Edge web browser you will have to click a few buttons to get going. Just say “No” to everything. 
 
 - Click on the “Docker Desktop for Windows – x86_64” button to download Docker Desktop.
 - Once the download finishes, go into your Downloads directory and double click the installer to get it started.
@@ -99,7 +98,7 @@ docker container ls –a
 ```
 These commands list all the containers that exist on your system. The “-a” options ensures that containers that are not currently running are shown. If you run these commands without the “-a” right now, nothing will appear because no containers are currently running.  
 
-Also, note the container IDs. They are different even though the same “hello-world” image was used. There is a difference between a container and the image it runs. When we ran the “docker run” commands, docker created a container that had everything needed to run the “hello-world” image. A new container is created when each time you “run” an image. 
+Also, note the container IDs. They are different even though the same “hello-world” image was used. There is a difference between a container and the image it runs. When we ran the “docker run” commands, docker created a container that had everything needed to run the “hello-world” image. A new container is created each time you “run” an image. 
 
 Run this command one more time: 
 ```bash
@@ -145,7 +144,7 @@ Run the following:
 docker ps -a 
 docker ps 
 ```
-Notice that the first command lists both your “hello-world" and  “mybusyboxloop” containers while the second only lists your “mybusyboxloop” container because it is still running. 
+Notice that the first command lists both your “hello-world" and  “mybusyboxloop” containers while the second only lists your “mybusyboxloop” container because it is still running. Also, note that the status of "mybusyboxloop" is set to "Up".
 
 Let’s stop that container: 
 ```bash
@@ -192,7 +191,7 @@ Now open both those files in VSCode (File >> Open File).
 
 You should get a pop-up when you open the “Dockerfile” asking to install “Container Tools”. Click “Install”. 
 
-Enter the following in “ping.sh”: 
+Once it installs, enter the following in “ping.sh”: 
 ```bash
 #!/bin/sh 
 
@@ -209,7 +208,7 @@ if [ -z "$TARGET" ]; then
   exit 1 
 fi 
 
-# try 4 pings with 2 ssecond timeout per packet, provide result to user
+# try 4 pings with a 2 second timeout per packet, then provide result to user
 
 if ping -c 4 -W 2 "$TARGET" >/dev/null 2>&1; then 
   echo "Ping to \"$TARGET\" was successful." 
@@ -245,7 +244,7 @@ CMD ["/usr/local/bin/ping.sh"]
 ```
 Save your file. 
 
-Now make sure you are in you “Pingtest” directory and run the following: 
+Now make sure you are in the “Pingtest” directory and run the following: 
 ```bash
 docker build –t ping-test . 
 ```
@@ -255,9 +254,9 @@ Now run the image:
 ```bash
 docker run --name ping-test --rm –it ping-test 
 ```
-(be careful with the command above, especially the dashes) 
+(be careful with the command above, make sure you are using the correct amount of dashes) 
 
-Don’t immediately put in an IP to test. First, open a second terminal window and run the command to get a full listing of all your containers. Notice that your “ping-test” container is listed as “Up” in the output.  
+Don’t immediately put in an IP or FQDN to test. First, open a second terminal window and run the command to get a full listing of all your containers. Notice that your “ping-test” container is listed as “Up” in the output.  
 
 Go back to your other window and enter an IP or FQDN for your container to try to ping win-client.  
 
@@ -265,7 +264,7 @@ Whatever the result, go back to your second terminal window and run container li
 
 Let’s break down our “docker run” command: 
 
-- Command begins with “docker run” to run a specified image in a container.
+- The command begins with “docker run” to run a specified image in a container.
 - We use the “--name” flag and “ping-test” to name our container the same name as the image we are using (the one we just built).
 - The “--rm” flag removes the container once we are done with it.
 - The “-it” flag allows the user to input data into the script in the container as it is running.
@@ -277,7 +276,7 @@ Run the command one more time without the “--rm” flag:
 ```bash
 docker run --name ping-test –it ping-test 
 ```
-The container should run as expected. But now check your list of containers in the other terminal window: 
+The container should run as expected. Now check your list of containers in the other terminal window: 
 ```bash
 docker ps –a 
 ```
@@ -300,10 +299,12 @@ Remove the two randomly named ping-test containers:
 docker rm randomcontainername1
 docker rm randomcontainername2 
 ```
+**-- replace the "randomcontainernames" with your acual container names --**
+
 Now check your container images: 
-
+```bash
 docker image ls -a 
-
+```
 Our ping-test image is still there. This allows us to use it whenever we want. Keep this in mind. The containers themselves are disposable. It is the images that we generally need. But even if we were to delete those, we could always rebuild them with the files we created. Let’s do that now with our ping-test image. 
 
 First, delete the last ping-test container: 
@@ -334,7 +335,7 @@ You should see the image is back. You will also notice a few “untagged” imag
 
 Now run the image just like we did the first time but without deleting it afterward: 
 ```bash
-docker run --name ping-test  -it ping-test 
+docker run --name ping-test -it ping-test 
 ```
 After it has run, check to see that the new container is on our list: 
 ```bash
@@ -441,7 +442,7 @@ docker start my-apache-app
 ```
 Now, once more, try accessing the webpage in your win-client. The web page should appear successfully once again. 
 
-Before moving forward, stop your “my-apache-app" container.
+Before moving forward, stop your “my-apache-app" container once more.
 
 ## Investigation 4: Using Containers Across Operating Systems 
 
@@ -633,7 +634,7 @@ Stop the pong container:
 ```bash
 docker stop pong 
 ```
-And remove the new clickit container that we just created as it wasn’t created properly (we could just create a new one with a different name but to keep things organized we will delete the old one and start again): 
+We will also remove the new clickit container that we just created as it wasn’t created properly (we could just create a new one with a different name but to keep things organized we will delete the old one and start again): 
 ```bash
 docker rm clickit-game 
 ```
