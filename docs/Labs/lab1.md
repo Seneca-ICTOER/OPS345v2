@@ -149,7 +149,7 @@ Once you have all 3 ISO images, you can begin installing your VMs.
 31. Device for boot loader installation: “/dev/vda”
 32. Click “Continue” to reboot 
 
-### Post-installation tasks for deb-router-1 
+### Post-installation tasks for Debian router 
 
 1. Login using the credentials you set up and run “sudo passwd”. Use the same password as you have been for the super user password.
 2. Check to make sure you can login as root using the “su” command. If successful, run “exit”.
@@ -191,7 +191,7 @@ Create another Debian VM using the exact same installation steps and post-instal
 
 Mint will reboot.  
 
-### Post-installation tasks for mint-client 
+### Post-installation tasks for Mint client 
 
 1. Log in.
 2. Hit the blue “x” button to exit the Welcome window.
@@ -233,7 +233,7 @@ Mint will reboot.
 24. Windows will then continue to download/install and eventually you will be in
 25. Reboot windows 
 
-### MS Windows Client Post-Installation Tasks 
+### Post-Installation Tasks for MS Windows client 
 
 1. Click the Windows icon at the bottom of the screen and then type “Computer Name” and press “Enter”.
 2. Change the computer name to “win-client” and reboot the system.
