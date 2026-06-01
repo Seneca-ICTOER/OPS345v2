@@ -60,6 +60,7 @@ show ip route ospf
   - Your teacher may ask you to show them your configurations in class. If it is discovered that you used AI to complete anything in this assignment, a mark of 0 will be assigned for Assignment 1.
 
 ## Rubric
+Assignment 1 is worth 20% of your Final Grade.
 Your submission will be graded according to the following criteria:
 
 | Criteria                                      | Mark   |
