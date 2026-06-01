@@ -119,9 +119,9 @@ Once you have all 3 ISO images, you can begin installing your VMs.
 1. In KVM, select “Create a new virtual machine”
 2. Select “Local install media”, click “Forward”
 3. Browse and select your Debian ISO image file, unckeck “Automatically detect from installation media” and manually select “Debian 13”. Click “Forward”
-4. Leave default Memory and CPUS (should be 2048*CHECK* and 2). Click “Forward”
+4. Leave default Memory and CPUS (should be 2048 and 2). Click “Forward”
 5. Change disk image size to 15.0GB. Click “Forward”
-6. Change Name to “deb-router-1". Network selection should be “default: NAT”. Check “Customize configuration before install”. Click “Finish”deb-router-1
+6. Change Name to “deb-router-1". Network selection should be “default: NAT”. Check “Customize configuration before install”. Click “Finish”.
 7. Under “CPUs”, make sure “Copy host CPU configuration (host-passthrough) is checked, then click “Begin Installation”
 8. Select “Graphical install”
 9. Select a language: “English”
@@ -364,19 +364,19 @@ Your win-client VM should now have 1 NIC that is attached to the “cn2” isola
 
 At this point your VMs should be connected as follows: 
 
-#### deb-router-1 connected to: 
+**deb-router-1 connected to:**
 - “default” NAT network
 - “backbone” isolated network
 - “cn1” isolated network 
 
-#### deb-router-2 connected to: 
+**deb-router-2 connected to:**
 - “backbone” isolated network
 - “cn2” isolated network 
 
-#### mint-client connected to: 
+**mint-client connected to:**
 - “cn1” isolated network 
 
-#### win-client connected to: 
+**win-client connected to:** 
 - “cn2” isolated network 
 
 Boot up all 4 VMs and try to ping google.com from their command lines. Only your deb-router-1 should be successful. If any other VM can ping google, go back and double check your configuration and the steps you used to get here. 
