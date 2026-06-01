@@ -229,8 +229,8 @@ Mint will reboot.
 20. On the sign in screen, click on “Sign-in options” and click “Domain join instead”
 21. Enter your full name and click “Next”. Enter the same password you have been using and click “Next”
 22. Enter 3 security questions and answers
-23. Click “No”, “No”, “Required Only”, “No”, “No” for the next 5 screens.
-24. Windows will then continue to download/install and eventually you will be in
+23. Click “No”, “No”, “Required Only”, “No”, “No” for the next 5 screens
+24. Windows will then continue to download/install for a while (so get comfy or go grab a coffee or something) and *eventually* you will be in
 25. Reboot windows 
 
 ### Post-Installation Tasks for MS Windows client 
