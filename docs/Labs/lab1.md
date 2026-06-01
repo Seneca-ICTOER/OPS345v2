@@ -272,7 +272,7 @@ This ensured that all VMs had access to one another and the Internet via the hos
 
 But we don't want our host system to act as a router for all of our VMs. We don't really want our host system to do anything other than host the VMs and act as a pathway for deb-router-1 to get to the Internet. We want to set everything else up manually. For that, we are going to rely on a new mode in KVM - "isolated" mode.
 
-We are going to set up these "isolated" network segments so that they are NOT connected to tthe Ubuntu host. They will strictly be used by our VMs to talk to one another. 
+We are going to set up these "isolated" network segments so that they are NOT connected to the Ubuntu host. They will strictly be used by our VMs to talk to one another. 
 
 Before we get started with that, ensure that everything is currently set up with the default network settings in KVM. The easiest way to do this is to:
 - Start up all 4 of your VMs (deb-router-1, deb-router-2, mint-client, and win-client)
