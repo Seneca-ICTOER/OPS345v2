@@ -310,7 +310,7 @@ Normally, this would be enough to ensure that deb-router-1 will use itself for D
 
 Run the following command: 
 ```bash
-chattr +i /etc/resolv.conf 
+sudo chattr +i /etc/resolv.conf 
 ```
 
 This will render the “/etc/resolv.conf” file immutable so that no one on the system (not even root) can change it. 
