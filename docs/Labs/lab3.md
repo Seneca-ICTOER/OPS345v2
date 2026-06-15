@@ -107,7 +107,7 @@ options {
 
 Double check your work and save your changes.
 
-The file you just modified establishes several important configurations for our DNS server. First, it is dictating which interfaces to listen for DNS queries on (the interfaces attached to deb-router-1). It is also specifying which networks it will allow DNS queries from (our 3 subnets; important because you don't want any unknowns making query requests). It is also specifying which networks are allowed to ask the server about queries not local to our network. And then we have two IP addresses that will act as DNS servers that our DNS server will query for FQDNs it does not know (1.1.1.1 and 8.8.8.8 ). This last part will allow us to point all of our local devices to deb-router-1 for DNS queries for destinations external to our network (the Internet).
+The file you just modified establishes several important configurations for our DNS server. First, it is dictating which interfaces to listen for DNS queries on (the interfaces attached to deb-router-1). It is also specifying which networks it will allow DNS queries from (our 3 subnets - important because you don't want any unknowns making query requests). It is also specifying which networks are allowed to ask the server about queries not local to our network. And then we have two IP addresses that will act as DNS servers that our DNS server will query for FQDNs it does not know (1.1.1.1 and 8.8.8.8 ). This last part will allow us to point all of our local devices to deb-router-1 for DNS queries for destinations external to our network (the Internet).
 
 ## Investigation 2: Creating and Configuring Lookup Zones
 
