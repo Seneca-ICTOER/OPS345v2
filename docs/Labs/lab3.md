@@ -318,10 +318,14 @@ This will render the “/etc/resolv.conf” file immutable so that no one on the
 Once that is done, restart deb-router-1 and run: 
 ```bash
 nslookup 
-server 
+>server 
 ```
 The result should be deb-router-1's IP address (192.168.100.11) 
 
+Exit out of nslookup:
+```bash
+>exit
+```
 Now run:  
 ```bash
 dig google.com 
@@ -373,7 +377,7 @@ This would be a good time to make sure all your VMs are updated.
 
 ## Investigation 4: Configuring and Testing Samba Server
 
-Samba Server is a tool that allows for the trasnferring of files easily between Linux and Windows operating systems. While it is not the only method to accomplish this, it is one that is very easy to use once set up correctly. We will be using Samba Server in Lab 4 when we look at containers. 
+Samba Server is a tool that allows for the transferring of files easily between Linux and Windows operating systems. While it is not the only method to accomplish this, it is one that is very easy to use once set up correctly. We will be using Samba Server in Lab 4 when we look at containers. 
 
 Before we begin, make sure that your mint-client has internet access and is updated. 
 
