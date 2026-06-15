@@ -25,8 +25,8 @@ While lab 1 is not difficult, it is very important as you will be creating an en
 
 ## Getting Started
 
-The first thing we are going to do in Lab 1 is get our host system set up. We will be using Ubuntu 24.04.4 for our host system.
-You can find the ISO file download here --> [Ubuntu 24.04.4](https://releases.ubuntu.com/24.04/)
+The first thing we are going to do in Lab 1 is get our host system set up. We will be using Ubuntu 26.04 for our host system.
+You can find the ISO file download here --> [Ubuntu 26.04](https://ubuntu.com/download/desktop)
 
 You will have to create a bootable USB flash drive just like you did in Lab 1 back in OPS245. The difference here is that you will be using Ubuntu instead of Debian.
 If you need a refresher on how to create a bootable USB flash drive, see the [OPS245 Lab 1 page](https://seneca-ictoer.github.io/OPS245/A-Labs/lab1).
@@ -35,62 +35,70 @@ If you have another tool other than Rufus you prefer, feel free to use it but on
 
 ## Investigation 1: Installing the Ubuntu Host System
 
-Once you have successfully launched the installer, use the following instructions to install Ubuntu 24.04.4 to your external SSD:
+Once you have successfully launched the installer, use the following instructions to install Ubuntu 26.04 to your external SSD:
 
 1. Select “English”, click “Next”
 2. Click “Next” on Accessibility screen
 3. Select “English (US) on Keyboard layout screen, click “Next”
-4. Use wired connection
-5. Update Installer
-6. Click on “Install Ubuntu 24.04.4 LTS” icon, and use the same options as before.
-7. Interactive installation
-8. Default selection for applications
-9. Install third-party software for graphics and Wifi, but don’t download and install support for additional media formats (important if done on a personal laptop)
-10. Select “Erase disk and install Ubuntu”, click “Next”
-11. VERY IMPORTANT: select your external hard drive, NOT THE INTERNAL ONE!
-12. Erase disk and install Ubuntu
-13. Create your account
-14. Provide your full name
-15. Use your Seneca username for username (the string before the @ sign in your myseneca email address, ex hheim@myseneca.ca --> hheim)
-16. Use “ubuntuhost” for hostname
-17. Create a password and DO NOT FORGET IT
-18. Ensure “Require my password to log in” is checked
-19. Select Toronto
-20. Click Install, “restart now” when finished 
+4. Select "wired connection"
+5. Select "Install Ubuntu"
+6.  Select Interactive installation
+7. Select "Default selection" for apps
+8. Install third-party software for graphics and Wifi, but don’t download and install support for additional media formats
+9. Select “Erase disk and install Ubuntu”, click “Next”
+10. VERY IMPORTANT: select your external hard drive, NOT THE INTERNAL ONE! (it will likely be labelled as "sda" followed by your hard drive manufacturer but double check with your teacher if you are not sure)
+11. Select "No encryption"
+12. Create your account
+  - Provide your full name
+  - Use “ubuntuhost” for your computer's name (hostname)
+  - Use your Seneca username for username (the string before the @ sign in your myseneca email address, ex hheim@myseneca.ca --> hheim)
+  - Create a password and DO NOT FORGET IT
+  - Ensure “Require my password to log in” is checked
+13. Click next. Select Toronto and click next.
+14. Double check tha tyou are installing Ubuntu on the correct hard drive and click Install.
+15. Click “Restart now” when finished. 
+16. Upon restart you should see a "remove the installation medium, then press ENTER" message. Remove your install USB and press enter.
+17. Hit F12 on your keyboard to get back to the boot menu and select your external hard drive to boot into Ubuntu.
 
-**Note** Ubuntu may require full power off on power cycles instead of rebooting 
+**Note** This part can be finicky. Your external hard drive may not show up in the boot menu after the restart. If this occurs, the lab machine may require a full power off before your new install will show up in the boot menu. If you get to the boot menu and you don't see your external drive, hold the power button on the lab machine until everything is fully powered off. You will have to hold the power button for quite a while. Then turn the lab machine back on and hit F12 to get to the boot menu. You should see your external hard drive now.
 
-When your Ubuntu installation has completed and you have booted into Ubuntu for the first time, perform the following post installation tasks: 
+- on welcome screen, do not turn on location services, do not share anything on the "help improve ubuntu" screen, customize to your liking on the next screen, click finish 
+
+When your Ubuntu installation has completed and you have booted up and logged into Ubuntu for the first time, perform the following post-installation tasks: 
 
 1. On “Welcome to Ubuntu” screen, click “next”
-2. Skip “Ubuntu Pro”
-3. Select “No, don’t share system data”, click “Next”
-4. Click “Finish”
-5. Add a root password (AND DON'T FORGET IT)
+2. Do not turn on "Location services"
+3. Do not share anything on the "Help improve ubuntu" screen
+4. Customize Ubuntu's appearance to your liking on the following screen
+6. Click “Finish”
+7. Open the terminal and add a root password (AND DON'T FORGET IT)
 ```bash
 sudo passwd
 ```
-6. Update your system
+8. Update your system
 ```bash
 sudo apt update && sudo apt upgrade
 ```
-7. Stop and disable apparmor
+9. Stop and disable apparmor
 ```bash
 sudo systemctl stop apparmor
 sudo systemctl disable apparmor
 ```
-8. Reboot your system. Note, you may have to fully power off your system (not restart it) to ensure the lab machine recognizes your external install of ubuntu.
-9. Install vim
+10. Reboot your system. Note, you may have to fully power off your system (not restart it) to ensure the lab machine recognizes your external install of ubuntu.
+11. Install vim
 ```bash
 sudo apt install vim
 ```
-10. Install KVM
+12. Install KVM
 ```bash
 sudo apt install qemu-system libvirt-daemon-system virtinst virt-manager
 ```
-11. Restart system 
+13. Fully power off the system
+```bash
+sudo poweroff
+```
 
- **Note:** Ubuntu may require full power off on power cycles instead of rebooting before it will show up in the boot menu on the lab computers.
+14. Boot up and log back into Ubuntu.
 
 ## Investigation 2: Installing Virtual Machines
 
