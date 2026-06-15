@@ -62,8 +62,6 @@ Once you have successfully launched the installer, use the following instruction
 
 **Note** *This part can be finicky. Your external hard drive may not show up in the boot menu after the restart. If this occurs, the lab machine may require a full power off before your new install will show up in the boot menu. If you get to the boot menu and you don't see your external drive, hold the power button on the lab machine until everything is fully powered off. You will have to hold the power button for quite a while. Then turn the lab machine back on and hit F12 to get to the boot menu. You should see your external hard drive now.*
 
-- on welcome screen, do not turn on location services, do not share anything on the "help improve ubuntu" screen, customize to your liking on the next screen, click finish 
-
 When your Ubuntu installation has completed and you have booted up and logged into Ubuntu for the first time, perform the following post-installation tasks: 
 
 1. On “Welcome to Ubuntu” screen, click “next”
