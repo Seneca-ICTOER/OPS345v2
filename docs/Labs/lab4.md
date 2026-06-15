@@ -5,7 +5,7 @@ sidebar_position: 4
 description: Working with containers using Docker in Linux and Windows
 ---
 
-# Lab 4 - DNS & SSL
+# Lab 4 - Containers
 
 ## Overview
 
