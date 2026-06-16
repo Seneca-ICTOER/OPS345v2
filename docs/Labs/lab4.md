@@ -49,16 +49,15 @@ Reboot your mint-client.
 
 Next we will install it on our win-client VM. Boot up your win-client and log in.
 
-The first thing we are going to do is 
-- Click the windows icon and type “powershell”
-- Right-click on “Windows PowerShell” and click “Run as administrator”
-- Click “Yes” in the “User Account Control” window 
+The first thing we are going to do is instal WSL (Windows Subsystem for Linux). This is a very powerful tool that allows you to run a virtualized instance of Linux inside Windows. It has many uses but in our case, it is used by Docker to run containers. We will be using an older (and stable) version of WSL as newer versions are known to cause issues.
 
-Type in and run: 
-```bash
-wsl --install 
-```
-This will install the Windows Subsystem for Linux which will allow us to run shared containers. Reboot your win-client system to finish installing WSL. 
+Open your web browser and go to:
+[WSL Releases](https://github.com/microsoft/WSL/releases)
+
+- Scroll down to and click on "2.6.3"
+- Now click on the "wsl.2.6.3.0.x64.msi" file. This will download the file to your win-client.
+- When the file has finished downloading, double click on it to install WSL.
+- When the installation is complete, reboot win-client.
 
 When it comes back up go to the following website: 
 
@@ -71,7 +70,7 @@ When it comes back up go to the following website:
   - The install process may be laggy and slow (because we didn’t give Windows as much RAM/CPU as it wants) but be patient and don’t cancel the install in progress.
 - Make sure the “Use WSL 2 instead of Hyper-V” button is checked and click “OK”
 - When the installation is complete, click the “Close and restart” button and let Windows reboot.
-- When Windows reboots, log in and wait for the Docker service agreement to pop up (this may take a minute or so). Click “Accept”
+- When Windows reboots, log in and wait for the Docker service agreement to pop up (this may take a few minutes). Click “Accept”
 - A Docker Desktop window should then appear. Click “Skip” and wait for the Docker Engine to start up (this may take a few minutes)
 - Once it finishes, you can minimize the Docker Desktop window and your win-client VM for now. 
 
@@ -168,7 +167,9 @@ Next, we are going to try building our own containers but before we do that, let
 
 Continue working in your mint-client VM. 
 
-Go to [VSCode Installer](code.visualstudio.com/download) and click the “.deb Debian, Ubuntu” button. 
+Go to: 
+[VSCode Installer](code.visualstudio.com/download) 
+and click the “.deb Debian, Ubuntu” button. 
 
 The VSCode installer will download. 
 
