@@ -47,9 +47,9 @@ sudo usermod -aG docker hheim
 
 Reboot your mint-client.  
 
-Next we will install it on our win-client VM. 
+Next we will install it on our win-client VM. Boot up your win-client and log in.
 
-- Boot up your win-client and log in.
+The first thing we are going to do is 
 - Click the windows icon and type “powershell”
 - Right-click on “Windows PowerShell” and click “Run as administrator”
 - Click “Yes” in the “User Account Control” window 
