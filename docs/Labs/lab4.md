@@ -296,11 +296,11 @@ docker ps –a
 Notice that our “ping-test” image has been used 3 times in 3 different containers. We have our “ping-test” container but we also have 2 randomly named containers because we didn’t specify names for them. This is because we used “docker run” and not “docker start”. We were creating new containers each time instead of starting a pre-existing one.  
 
 Remove the two randomly named ping-test containers: 
+**(replace the "randomcontainernames" with your acual container names)**
 ```bash
 docker rm randomcontainername1
 docker rm randomcontainername2 
 ```
-**-- replace the "randomcontainernames" with your acual container names --**
 
 Now check your container images: 
 ```bash
@@ -332,7 +332,7 @@ Confirm the image was rebuilt:
 ```bash
 docker image ls -a 
 ```
-You should see the image is back. You will also notice a few “untagged” images. These are “intermediate layer” images. They are basically different functions used to make the main image work. In this case they are each attached to a line in the “Dockerfile” (WORKDIR, COPY, RUN etc). These “untagged” images are kind of like hidden files. They don’t show up without the -a option. 
+You should see the image is back. You will also notice a few “untagged” images. These are “intermediate layer” images. They are basically different functions used to make the main image work. In this case they are each attached to a line in the “Dockerfile” (WORKDIR, COPY, RUN etc). These “untagged” images are like hidden files. They don’t show up without the -a option. 
 
 Now run the image just like we did the first time but without deleting it afterward: 
 ```bash
