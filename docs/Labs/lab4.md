@@ -49,7 +49,7 @@ Reboot your mint-client.
 
 Next we will install it on our win-client VM. Boot up your win-client and log in.
 
-The first thing we are going to do is instal WSL (Windows Subsystem for Linux). This is a very powerful tool that allows you to run a virtualized instance of Linux inside Windows. It has many uses but in our case, it is used by Docker to run containers. We will be using an older (and stable) version of WSL as newer versions are known to cause issues.
+The first thing we are going to do is install WSL (Windows Subsystem for Linux). This is a very powerful tool that allows you to run a virtualized instance of Linux inside Windows. It has many uses but in our case, it is used by Docker to run containers. We will be using an older (and stable) version of WSL as newer versions are known to cause issues.
 
 Open your web browser and go to:
 [WSL Releases](https://github.com/microsoft/WSL/releases)
@@ -116,6 +116,7 @@ docker image ls
 This will show you we only have one image right now – the “hello-world:latest” image. 
 
 We won’t be needing 3 different hello world containers so lets remove two of them. To do so, run the following for two of your hello-world containers: 
+**(Replace “containerid” with your actual container id or “containername” with your actual container name)**
 ```bash
 docker rm containerid 
 ```
@@ -123,7 +124,6 @@ or
 ```bash
 docker rm containername 
 ```
-Replace “containerid” with your actual container id or “containername” with your actual container name.
 
 The examples we just used were examples of containers that ran and then stopped. Because the point of the container was to output text, it’s not something that we need to manually start and stop. Let’s try an example of something we can control. 
 
@@ -168,7 +168,7 @@ Next, we are going to try building our own containers but before we do that, let
 Continue working in your mint-client VM. 
 
 Go to: 
-[VSCode Installer](code.visualstudio.com/download) 
+[VSCode Installer](https://code.visualstudio.com/download) 
 and click the “.deb Debian, Ubuntu” button. 
 
 The VSCode installer will download. 
