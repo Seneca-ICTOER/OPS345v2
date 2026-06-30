@@ -55,14 +55,14 @@ Once you have successfully launched the installer, use the following instruction
   - Create a password and DO NOT FORGET IT
   - Ensure “Require my password to log in” is checked
 13. Click next. Select Toronto and click next.
-14. Double check tha tyou are installing Ubuntu on the correct hard drive and click Install.
-15. Click “Restart now” when finished. 
-16. Upon restart you should see a "remove the installation medium, then press ENTER" message. Remove your install USB and press enter.
-17. Hit F12 on your keyboard to get back to the boot menu and select your external hard drive to boot into Ubuntu.
+14. Double check that you are installing Ubuntu on the correct hard drive and click Install.
+15. A screen will pop up with two options: "Continue testing" and "Restart now". Select "Continue testing".
+16. Click the power button in the top right and "Poweroff" the system. 
+17. You should see a "remove the installation medium, then press ENTER" message. Remove your install USB and press enter.
+18. Once your system fully powers off, wait 10-15 seconds and then power it back on.
+19. Hit F12 to get to the boot menu once again and this time select your external hard drive to boot into Ubuntu.
 
-**Note** *This part can be finicky. Your external hard drive may not show up in the boot menu after the restart. If this occurs, the lab machine may require a full power off before your new install will show up in the boot menu. If you get to the boot menu and you don't see your external drive, hold the power button on the lab machine until everything is fully powered off. You will have to hold the power button for quite a while. Then turn the lab machine back on and hit F12 to get to the boot menu. You should see your external hard drive now.*
-
-When your Ubuntu installation has completed and you have booted up and logged into Ubuntu for the first time, perform the following post-installation tasks: 
+When you have booted up and logged into Ubuntu for the first time, perform the following post-installation tasks: 
 
 1. On “Welcome to Ubuntu” screen, click “next”
 2. Do not turn on "Location services"
@@ -150,7 +150,12 @@ Once you have all 3 ISO images, you can begin installing your VMs.
 26. Select default archive mirror: deb.debian.org
 27. Leave HTTP proxy blank
 28. Participate in the package usage survey? **No**
-29. Choose software to install: uncheck “Debian Desktop Environment” and “GNOME”. Check “SSH server”. Leave “standard system utilities’ checked. Click “Continue”.
+29. Choose software to install:
+  - uncheck “Debian Desktop Environment”
+  - uncheck “GNOME”
+  - Check “SSH server”
+  - Leave “standard system utilities’ checked
+  - Click “Continue”
 30. Install the GRUB boot loader to your primary drive? **Yes**
 31. Device for boot loader installation: “/dev/vda”
 32. Click “Continue” to reboot 
