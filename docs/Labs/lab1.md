@@ -277,13 +277,13 @@ This will require us dive a little deeper into KVM and its network configuration
 
 ### Creating and Modifying KVM Networks
 
-KVM can be used to create several different types of networking schemes. In OPS245, you used the default mode for creating a virtual network - "NAT" mode.
+KVM can be used to create several different types of networking schemes. For most of OPS245, you used the default mode for creating a virtual network - "NAT" mode. This ensured that all VMs had access to one another and the Internet via the host system (the OS on which KVM was installed). Basically, the host system acted as a router and NAT device for all the VMs inside it. 
 
-This ensured that all VMs had access to one another and the Internet via the host system (the OS on which KVM was installed). Basically, the host system acted as a router and NAT device for all the VMs inside it. 
+Recall that in OPS245, eventually you switched your VMs over to a private virtual network. You manually configured their IP addresses to allow them to connect with one another but you lost access to the Internet because the host system was no longer acting as a router/gateway which allowed access outside of the local network. The network was still technically capable of having all your VMs connect to the host but it was not longer acting as a router/gateway. 
 
-But we don't want our host system to act as a router for all of our VMs. We don't really want our host system to do anything other than host the VMs and act as a pathway for deb-router-1 to get to the Internet. We want to set everything else up manually. For that, we are going to rely on a new mode in KVM - "isolated" mode.
+In this class, we also don't want our host system to act as a router/gateway for all of our VMs. We don't really want our host system to do anything other than host the VMs and act as a pathway for deb-router-1 to get to the Internet. We want to set everything else up manually. For that, we are going to go a step further and rely on a new mode in KVM - "isolated" mode.
 
-We are going to set up these "isolated" network segments so that they are NOT connected to the Ubuntu host. They will strictly be used by our VMs to talk to one another. 
+We are going to set up these "isolated" network segments so that they are NOT connected to the Ubuntu host at all. They will strictly be used by our VMs to talk to one another. 
 
 Before we get started with that, ensure that everything is currently set up with the default network settings in KVM. The easiest way to do this is to:
 - Start up all 4 of your VMs (deb-router-1, deb-router-2, mint-client, and win-client)
