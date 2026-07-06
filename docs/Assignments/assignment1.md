@@ -35,7 +35,10 @@ Tasks that must be completed:
 You will create a submission document that will be uploaded to the Assignment 1 submission page on blackboard by the due date. Late submissions will receive a penalty of 20% per day.
 
 The document must include the following screenshots as well as your distro write up at the very end:
-- The IP address for all NICs on deb-router-1, deb-router-3, and your new client VM
+- The IP address for all NICs on deb-router-1, deb-router-3, and your new client VM. The easiest way to show this is with the output of:
+``` bash
+ip address show
+```
 - The output for the following two commands in the FRR console on both deb-router-1 and deb-router-3:
 ```bash
 show ip ospf neighbor
@@ -52,7 +55,7 @@ show ip route ospf
 
 ## Assignment 1 Tips
 
-- Don't forget about the IP forward configuration on deb-router-3
+- Don't forget about the IP forward configuration on deb-router-3 (this must be done before FRR/OSPF is installed)
 - You can get FRR/OSPF installed on deb-router-3 before your disconnect it from the host system or you can use the method we used near the end of Lab 2 to get it installed on deb-router-2 if you forget to do so before you disconnected it from the host system.
 - Marks will be deducted if deb-router-3 and your new client VM are not disconnected from the host system
 - There are several small configurations needed to get everything working. It is recommended you keep a running list of what you have completed and what you did to complete it while you work on this assignment in case you need to go back and fix something. That said, sometimes the fastest way to deal with something not working the way it should is to simply delete the VM and install it fresh.
