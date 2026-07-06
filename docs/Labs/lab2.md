@@ -25,7 +25,7 @@ We will be using a basic IP subnetting scheme in this lab to keep things as simp
 
 We are going to focus on a suite of tools called Free Range Routing (FRR) to set up the Open Shortest Path First (OSPF) routing on our network. This is not the only way to set up routing. In fact, there are many different methods that can be used to accomplish what we will do in this lab. We will be using FRR because it is clean and straightforward for the most part. You will also likely be using FRR next semester. But always remember that the "best" method to accomplishing something in Linux is often "in the eye of the admin".
 
-Finally, you will likely notice that we mostly ignore hostnames/DNS in this lab and focus on IP addresses. This will change in lab 3 when we install and configure an internal DNS server for our network. This means it is very important you stick to the IP address scheme we lay out in this lab as any deviations will likely cause problems in lab 3.
+Finally, you will likely notice that we mostly ignore hostnames/DNS in this lab and focus on IP addresses. This will change in lab 3 when we install and configure an internal DNS server for our network. This means it is very important you stick to the IP address scheme we lay out in this lab as any deviations will cause problems in lab 3.
 
 ## Investigation 1: Logically Addressing the Network
 
@@ -76,7 +76,7 @@ Use the instructions you were provided to configure deb-router-1's NICs to confi
 - enp7s0 has 192.168.100.12/24 (attached to the “backbone” network) 
 - enp8s0 has 192.168.150.11/24 (attached to the “cn2” network) 
 
-When you have successfully made these configurations, try pinging between deb-router-1 and deb-router-2 using the 192.168.100.0/24 IP addresses we have assigned so far to ensure connectivity between the two routers. 
+When you have successfully made these configurations, reboot deb-router-2 and then try pinging between deb-router-1 and deb-router-2 using the 192.168.100.0/24 IP addresses we have assigned so far to ensure connectivity between the two routers. 
 
 Try to ping 192.168.150.11 from deb-router-1. Try to ping 192.168.125.11 from deb-router-2. 
 Why do you think these pings failed? 
@@ -128,7 +128,7 @@ We have now successfully addressed all of the NICs on our network. At this point
 - mint-client and deb-router 1 can connect to each other 
 - win-client and deb-router-2 can connect to each other 
 
-However, mint-client and win-client cannot connect to each other and no VMs other than deb-router-1 can connect to the internet. Next, we will rectify these problems to allow full connectivity on our network. 
+However, our client VMs cannot connect to each other, they cannot connect to the routers that are not directly connected to them, and no VMs other than deb-router-1 can connect to the internet. Next, we will rectify these problems to allow full connectivity on our network. 
 
 ## Investigation 2: Enabling Internet Connectivity for mint-client
 
