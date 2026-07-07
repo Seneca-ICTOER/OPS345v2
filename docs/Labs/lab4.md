@@ -83,20 +83,20 @@ Now that we have Docker installed, we can take a look at a few simple examples o
 
 In mint-client, open a terminal (you will want to maximize the window for easier reading) and run: 
 ```bash
-docker run hello-world 
+sudo docker run hello-world 
 ```
 Notice the output. When you first ran this command, Docker looked for a container called “hello-world” locally but did not find one. So, it automatically went online and pulled the container from a known location. Once it had the container, it ran it successfully, giving you the “Hello from Docker!” message. 
 
 Try running it again: 
 ```bash
-docker run hello-world 
+sudo docker run hello-world 
 ```
 This time, the output should start with the “Hello from Docker!” message. Docker did not need to pull the container from the Internet as it has now stored it on your mint-client VM. It can simply run it from that local location. This image will be stored there until it is removed. 
 
 Now try running the following two commands (they effectively do the same thing): 
 ```bash
-docker ps –a 
-docker container ls –a 
+sudo docker ps –a 
+sudo docker container ls –a 
 ```
 These commands list all the containers that exist on your system. The “-a” options ensures that containers that are not currently running are shown. If you run these commands without the “-a” right now, nothing will appear because no containers are currently running.  
 
@@ -104,63 +104,63 @@ Also, note the container IDs. They are different even though the same “hello-w
 
 Run this command one more time: 
 ```bash
-docker run hello-world 
+sudo docker run hello-world 
 ```
 And now run: 
 ```bash
-docker ps –a 
+sudo docker ps –a 
 ```
 There should now be 3 “hello-world” entries, each with their own container ID and name. 
 
 We can also list just the images we have saved on our system instead of the containers with: 
 ```bash
-docker image ls 
+sudo docker image ls 
 ```
 This will show you we only have one image right now – the “hello-world:latest” image. 
 
 We won’t be needing 3 different hello world containers so lets remove two of them. To do so, run the following for two of your hello-world containers: 
 **(Replace “containerid” with your actual container id or “containername” with your actual container name)**
 ```bash
-docker rm containerid 
+sudo docker rm containerid 
 ```
 or 
 ```bash
-docker rm containername 
+sudo docker rm containername 
 ```
 
 The examples we just used were examples of containers that ran and then stopped. Because the point of the container was to output text, it’s not something that we need to manually start and stop. Let’s try an example of something we can control. 
 
 We will pull a container called “busybox”, a simple container that allows for the running of Linux commands (quite useful when testing simple Linux functions in a non-Linux OS). We are just going to use it to see what a background running container looks like. Run the following: 
 ```bash
-docker pull busybox 
-docker image ls 
+sudo docker pull busybox 
+sudo docker image ls 
 ```
 You should now see the “busybox:latest” image has been added to your local image list. Now run: 
 ```bash
-docker run -d --name mybusyboxloop busybox sh -c “while true; do echo running; sleep 5; done” 
+sudo docker run -d --name mybusyboxloop busybox sh -c “while true; do echo running; sleep 5; done” 
 ```
 What we have just done is started a container in which a simple BASH loop will run forever until we stop it. 
 
 Run the following: 
 ```bash
-docker ps -a 
-docker ps 
+sudo docker ps -a 
+sudo docker ps 
 ```
 Notice that the first command lists both your “hello-world" and  “mybusyboxloop” containers while the second only lists your “mybusyboxloop” container because it is still running. Also, note that the status of "mybusyboxloop" is set to "Up".
 
 Let’s stop that container: 
 ```bash
-docker stop mybusyboxloop 
+sudo docker stop mybusyboxloop 
 ```
 The command may take a moment to process. Once it does, run: 
 ```bash
-docker ps –a 
+sudo docker ps –a 
 ```
 Notice the status of the “mybusyboxloop” container has changed from “Up” to “Exited”. 
 
 Now start the container up again with: 
 ```bash
-docker start mybusyboxloop 
+sudo docker start mybusyboxloop 
 ```
 Now run the command to list all of your containers and you will see it has changed back to “Up”. Finally, stop it again before moving to the next section. 
 
@@ -250,13 +250,13 @@ Save your file.
 
 Now make sure you are in the “Pingtest” directory and run the following: 
 ```bash
-docker build –t ping-test . 
+sudo docker build –t ping-test . 
 ```
 This will build your docker image using the instructions in the docker file you just created.   
 
 Now run the image: 
 ```bash
-docker run --name ping-test --rm –it ping-test 
+sudo docker run --name ping-test --rm –it ping-test 
 ```
 (be careful with the command above, make sure you are using the correct amount of dashes) 
 
@@ -278,94 +278,94 @@ So because of the “--rm’ flag, our container is automatically deleted once i
 
 Run the command one more time without the “--rm” flag: 
 ```bash
-docker run --name ping-test –it ping-test 
+sudo docker run --name ping-test –it ping-test 
 ```
 The container should run as expected. Now check your list of containers in the other terminal window: 
 ```bash
-docker ps –a 
+sudo docker ps –a 
 ```
 Without the “--rm” flag, the container is still there. Try running the image again, without specifying a name or the “-it” flag: 
 ```bash
-docker run ping-test 
+sudo docker run ping-test 
 ```
 Notice the output. The container didn’t allow us to enter anything so the “$TARGET” variable in our script remained empty and the script exited without trying to ping anything. This is because we didn’t add the “-it” flag to our “docker run” command. Try adding in that flag: 
 ```bash
-docker run -it ping-test 
+sudo docker run -it ping-test 
 ```
 The container should run correctly now but take a look at your containers list: 
 ```bash
-docker ps –a 
+sudo docker ps –a 
 ```
 Notice that our “ping-test” image has been used 3 times in 3 different containers. We have our “ping-test” container but we also have 2 randomly named containers because we didn’t specify names for them. This is because we used “docker run” and not “docker start”. We were creating new containers each time instead of starting a pre-existing one.  
 
 Remove the two randomly named ping-test containers: 
 **(replace the "randomcontainernames" with your acual container names)**
 ```bash
-docker rm randomcontainername1
-docker rm randomcontainername2 
+sudo docker rm randomcontainername1
+sudo docker rm randomcontainername2 
 ```
 
 Now check your container images: 
 ```bash
-docker image ls -a 
+sudo docker image ls -a 
 ```
 Our ping-test image is still there. This allows us to use it whenever we want. Keep this in mind. The containers themselves are disposable. It is the images that we generally need. But even if we were to delete those, we could always rebuild them with the files we created. Let’s do that now with our ping-test image. 
 
 First, delete the last ping-test container: 
 ```bash
-docker rm ping-test 
+sudo docker rm ping-test 
 ```
 Confirm the container was removed: 
 ```bash
-docker ps –a 
+sudo docker ps –a 
 ```
 Now delete the ping-test image: 
 ```bash
-docker rmi ping-test:latest 
+sudo docker rmi ping-test:latest 
 ```
 Confirm the image was removed: 
 ```bash
-docker image ls -a  
+sudo docker image ls -a  
 ```
 Now that it is gone, let’s rebuild that image. Make sure you are in the Pingtest directory and run: 
 ```bash
-docker build –t ping-test . 
+sudo docker build –t ping-test . 
 ```
 Confirm the image was rebuilt: 
 ```bash
-docker image ls -a 
+sudo docker image ls -a 
 ```
 You should see the image is back. You will also notice a few “untagged” images. These are “intermediate layer” images. They are basically different functions used to make the main image work. In this case they are each attached to a line in the “Dockerfile” (WORKDIR, COPY, RUN etc). These “untagged” images are like hidden files. They don’t show up without the -a option. 
 
 Now run the image just like we did the first time but without deleting it afterward: 
 ```bash
-docker run --name ping-test -it ping-test 
+sudo docker run --name ping-test -it ping-test 
 ```
 After it has run, check to see that the new container is on our list: 
 ```bash
-docker ps -a 
+sudo docker ps -a 
 ```
 You should see the ping-test container which is using the new ping-test image. 
 
 This time, we will use the existing ping-test container instead of creating a brand new one: 
 ```bash
-docker start ping-test 
+sudo docker start ping-test 
 ```
 What happened? Why did we not get asked to input an IP or FQDN for our container to test? 
 
 Our container started successfully. You can see this when you look at the running containers: 
 ```bash
-docker ps –a 
+sudo docker ps –a 
 ```
 You will see that the ping-test container is “Up”. It will remain “Up” forever because it is awaiting input and we have no way of providing that. We need a flag in our “docker start” command to allow that. 
 
 Let’s stop the currently running ping-test container: 
 ```bash
-docker stop ping-test 
+sudo docker stop ping-test 
 ```
 This time we will start it with the correct flag: 
 ```bash
-docker start -i ping-test  
+sudo docker start -i ping-test  
 ```
 You should now be able to input the required information for the script inside the container to run properly and the container will stop when it has finished.  
 
@@ -404,15 +404,15 @@ EXPOSE 80
 ```
 Save the file and return to your terminal window. Make sure you are in the "Apache" directory and run the following: 
 ```bash
-docker build -t my-apache-app . 
+sudo docker build -t my-apache-app . 
 ```
 This will create your “my-apache-app" image. Check to see that it has been added to your local images list: 
 ```bash
-docker image ls 
+sudo docker image ls 
 ```
 Now run the image: 
 ```bash
-docker run --name my-apache-app -d -p 80:80 my-apache-app 
+sudo docker run --name my-apache-app -d -p 80:80 my-apache-app 
 ```
 Note that we are providing a few new options here: 
 - The “-d” option allows us to run this container in the background
@@ -420,7 +420,7 @@ Note that we are providing a few new options here:
 
 Now check to see that your container is running with: 
 ```bash
-docker ps –a 
+sudo docker ps –a 
 ```
 It should be “Up”. 
 
@@ -438,11 +438,11 @@ You should see the webserver that is being hosted inside a container on your min
 
 Back in your mint-client, stop your my-apache-app container: 
 ```bash
-docker stop my-apache-app 
+sudo docker stop my-apache-app 
 ```
 On your win-client, open a new web browser tab and try to go to the webserver again. It should fail because you stopped the container (you may need to refresh the webpage). However, we did not delete the container. It is still there ready for use. All we have to do is start it up again. Do that now: 
 ```bash
-docker start my-apache-app 
+sudo docker start my-apache-app 
 ```
 Now, once more, try accessing the webpage in your win-client. The web page should appear successfully once again. 
 
@@ -456,7 +456,7 @@ First, let’s pull a pre-existing container and see how it runs on our mint-cli
 
 On your mint-client run: 
 ```bash
-docker run –d --name pong –p 8080:80 danielou1/ping-pong-game:latest 
+sudo docker run –d --name pong –p 8080:80 danielou1/ping-pong-game:latest 
 ```
 Then, open your web browser and put the following into the address bar: 
 
@@ -466,19 +466,19 @@ You should be able to play a little pong. I dare all of you to score even a sing
 
 Now, let’s try that on our win-client.  Log into your win-client and open Docker Desktop. Wait for the application and the Docker Engine to start up. Once it is running, open Powershell as an Administrator and input the following command to make sure Docker is running correctly: 
 ```bash
-docker ps –a 
+sudo docker ps –a 
 ```
 You won’t get any containers as you haven’t started any yet but you should get the same column headers you got when running this command on mint-client (CONTAINER ID, IMAGE, COMMAND etc.) 
 
 Now try running the same command we just ran on mint-client: 
 ```bash
-docker run –d --name pong –p 8080:80 danielou1/ping-pong-game:latest 
+sudo docker run –d --name pong –p 8080:80 danielou1/ping-pong-game:latest 
 ```
 The command will probably take a bit longer to process than it did on mint-client so be patient. Once it finishes, open your web browser and try accessing the game just like you did on mint-client. Again, try not to get too distracted by the absolute intensity that is Pong. 
 
 We can run the same commands in Powershell that we did in mint-client to check the status of our containers: 
 ```bash
-docker ps –a 
+sudo docker ps –a 
 ```
 But before we stop our pong container, let’s quickly take a look at the Docker Desktop application.  
 
@@ -490,7 +490,7 @@ Docker Desktop is a useful tool that can be used on most platforms (including ou
 
 Go back into your Powershell terminal and stop your pong container: 
 ```bash
-docker stop pong 
+sudo docker stop pong 
 ```
 Confirm in both Powershell and Docker Dekstop that the pong container has “Exited”. 
 
@@ -621,30 +621,30 @@ Save your file.
 
 Enter your “Clickit” directory and run the following command:
 ```bash
-docker build –t clickit-game . 
+sudo docker build –t clickit-game . 
 ```
 
 Confirm your “clickit” image has been built: 
 ```bash
-docker image ls 
+sudo docker image ls 
 ```
 And then run your new image: 
 ```bash
-docker run –d --name clickit-game  –p 8080:80 clickit-game 
+sudo docker run –d --name clickit-game  –p 8080:80 clickit-game 
 ```
 You should be met with an error saying a container network driver failed to set up. This is because our old pong container is still running and using the port we want to use. We will have to stop the pong container before we can properly set up a container for our clickit game. 
 
 Stop the pong container: 
 ```bash
-docker stop pong 
+sudo docker stop pong 
 ```
 We will also remove the new clickit container that we just created as it wasn’t created properly (we could just create a new one with a different name but to keep things organized we will delete the old one and start again): 
 ```bash
-docker rm clickit-game 
+sudo docker rm clickit-game 
 ```
 Now try running the clickit image one more time: 
 ```bash
-docker run –d --name clickit-game  –p 8080:80 clickit-game 
+sudo docker run –d --name clickit-game  –p 8080:80 clickit-game 
 ```
 Go back into your web browser and put the following into the address bar: 
 
@@ -654,11 +654,11 @@ When you hit enter, you may see the old pong game load up again because it is st
 
 Close your browser and go back to your terminal and list your containers with: 
 ```bash
-docker ps –a 
+sudo docker ps –a 
 ```
 You should see that your clickit container is still running. Stop it: 
 ```bash
-docker stop clickit-game 
+sudo docker stop clickit-game 
 ```
 We are now going to prepare our clickit container and send it over to our win-client to demonstrate that the container has everything the game needs to run, even on a totally different operating system. 
 
@@ -666,7 +666,7 @@ Start up your win-client VM if it isn’t already on and start up Docker Desktop
 
 On your mint-client VM, navigate to your “sambadir” directory and run: 
 ```bash
-docker save –o clickit-game.tar clickit-game 
+sudo docker save –o clickit-game.tar clickit-game 
 ```
 Check to make sure that the “clickit-game.tar” file is now located in your “sambadir” directory. 
 
