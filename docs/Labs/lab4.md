@@ -51,7 +51,11 @@ Next we will install it on our win-client VM. Boot up your win-client and log in
 
 The first thing we are going to do is install WSL (Windows Subsystem for Linux). This is a very powerful tool that allows you to run a virtualized instance of Linux inside Windows. It has many uses but in our case, it is used by Docker to run containers. We will be using an older (and stable) version of WSL as newer versions are known to cause issues.
 
-Open your web browser and go to:
+Open your web browser.
+
+**Note** - if this is your first time opening the Edge web browser you will have to click a few buttons to get going. Just say “No” to everything. 
+
+Go to:
 [WSL Releases](https://github.com/microsoft/WSL/releases)
 
 - Scroll down to and click on "2.6.3"
@@ -62,8 +66,6 @@ Open your web browser and go to:
 When it comes back up go to the following website: 
 
 [Windows Docker Installer](https://docs.docker.com/desktop/setup/install/windows-install/)
-
-**Note** - if this is your first time opening the Edge web browser you will have to click a few buttons to get going. Just say “No” to everything. 
 
 - Click on the “Docker Desktop for Windows – x86_64” button to download Docker Desktop.
 - Once the download finishes, go into your Downloads directory and double click the installer to get it started.
