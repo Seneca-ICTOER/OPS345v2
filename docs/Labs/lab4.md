@@ -75,7 +75,7 @@ When it comes back up go to the following website:
 - When Windows reboots, log in and wait for the Docker service agreement to pop up (this may take a few minutes). Click “Accept”
 	- You may also see a WSL settings window pop up. You can close this.
 - A Docker Desktop window should then appear. Click “Skip” and wait for the Docker Engine to start up (this may take a few minutes)
-- Once it finishes (you will see "Engine running" in green text in the bottom-left of the window, you can minimize the Docker Desktop window and your win-client VM for now. 
+- Once it finishes (you will see "Engine running" in green text in the bottom-left of the window), you can shut down the win-client VM for now. 
 
 ## Investigation 2: Pulling, Starting, and Stopping Containers 
 
@@ -180,7 +180,7 @@ Click the installer once it has finished and then click “Install Package”. V
 
 VSCode is a powerful and useful tool for all sorts of coding, scripting, and configuring. We are going to use it to create two containers. The first will combine some simple BASH script with a Docker instruction file to do a quick IP connection test. 
 
-You can close the default “Walkthrough” tab that starts up. 
+You can click the "X" and close the "Welcome to VS Code" window and then close the default “Walkthrough” tab that starts up. 
 
 To begin, click “View >> Terminal”. This will open a terminal within VSCode. 
 
@@ -203,7 +203,7 @@ echo "---------------------------------------"
 echo " Simple Ping Tool (inside a container) " 
 echo "---------------------------------------" 
 
-read –p “Enter IP or FQDN to ping: “ TARGET 
+read –p "Enter IP or FQDN to ping: " TARGET 
 
 # test to see if variable is empty 
 
@@ -466,19 +466,19 @@ You should be able to play a little pong. I dare all of you to score even a sing
 
 Now, let’s try that on our win-client.  Log into your win-client and open Docker Desktop. Wait for the application and the Docker Engine to start up. Once it is running, open Powershell as an Administrator and input the following command to make sure Docker is running correctly: 
 ```bash
-sudo docker ps –a 
+docker ps –a 
 ```
 You won’t get any containers as you haven’t started any yet but you should get the same column headers you got when running this command on mint-client (CONTAINER ID, IMAGE, COMMAND etc.) 
 
 Now try running the same command we just ran on mint-client: 
 ```bash
-sudo docker run –d --name pong –p 8080:80 danielou1/ping-pong-game:latest 
+docker run –d --name pong –p 8080:80 danielou1/ping-pong-game:latest 
 ```
 The command will probably take a bit longer to process than it did on mint-client so be patient. Once it finishes, open your web browser and try accessing the game just like you did on mint-client. Again, try not to get too distracted by the absolute intensity that is Pong. 
 
 We can run the same commands in Powershell that we did in mint-client to check the status of our containers: 
 ```bash
-sudo docker ps –a 
+docker ps –a 
 ```
 But before we stop our pong container, let’s quickly take a look at the Docker Desktop application.  
 
@@ -490,7 +490,7 @@ Docker Desktop is a useful tool that can be used on most platforms (including ou
 
 Go back into your Powershell terminal and stop your pong container: 
 ```bash
-sudo docker stop pong 
+docker stop pong 
 ```
 Confirm in both Powershell and Docker Dekstop that the pong container has “Exited”. 
 
@@ -670,6 +670,10 @@ sudo docker save –o clickit-game.tar clickit-game
 ```
 Check to make sure that the “clickit-game.tar” file is now located in your “sambadir” directory. 
 
+Ensure that the "clickit-game.tar" has full permission for the user:
+```bash
+sudo chmod 770 clickit-game.tar
+```
 Switch over to your win-client VM. In win-client, create a directory called “Clickit” in the root of your C:\ drive. Then copy the “clickit-game.tar” file from the share directory into the “Clickit” directory. 
 
 Run Powershell as an administrator and navigate to your “Clickit” directory. Then run: 
@@ -684,7 +688,7 @@ Your clickit-game image should now appear, letting you know the image is now sto
 
 Finally, run the image: 
 ```bash
-docker run –d --name clickit-game  –p 8080:80 clickit-game 
+docker run –d --name clickit-game –p 8080:80 clickit-game 
 ```
 Open your web browser and go to http://localhost:8080 and you should be able to play Clickit on your win-client. (Again, if you see Pong when you first go to the website, refresh it and Clickit should appear). 
 
