@@ -73,8 +73,9 @@ When it comes back up go to the following website:
 - Make sure the “Use WSL 2 instead of Hyper-V” button is checked and click “OK”
 - When the installation is complete, click the “Close and restart” button and let Windows reboot.
 - When Windows reboots, log in and wait for the Docker service agreement to pop up (this may take a few minutes). Click “Accept”
+	- You may also see a WSL settings window pop up. You can close this.
 - A Docker Desktop window should then appear. Click “Skip” and wait for the Docker Engine to start up (this may take a few minutes)
-- Once it finishes, you can minimize the Docker Desktop window and your win-client VM for now. 
+- Once it finishes (you will see "Engine running" in green text in the bottom-left of the window, you can minimize the Docker Desktop window and your win-client VM for now. 
 
 ## Investigation 2: Pulling, Starting, and Stopping Containers 
 
