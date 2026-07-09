@@ -82,6 +82,7 @@ Submit screenshots showing:
 - Your CNAME record
 
 ## Rubric
+Assignment 2 is worth 10% of your Final Grade. Your submission will be graded according to the following criteria:
 
 | Task                                          | Mark   |
 | :-------------------------------------------- | :----- |
