@@ -15,13 +15,13 @@ Tasks that must be completed:
 1. Install a third router using the same Debian OS that you used for deb-router-1 and deb-router-2. This router will be called "deb-router-3".
 2. You will also install a new client VM with a distro of your choosing. You cannot use Ubuntu, Mint, or Debian. It is recommended you choose something lightweight so you don't have to allocate too many resources to it. You will name it "name-client", replacing *name* with the actual name of the distro.
 3. You will connect deb-router-3 to your existing network, per the network diagram above.
-  - The network between deb-router-3 and deb-router-1 will be named "backbone2" and you will use 192.168.175.0/24 to address the devices on it.
+  - The network between deb-router-3 and deb-router-1 will be named "backbone2" and you will use 192.168.200.0/24 to address the devices on it.
     - deb-router-1 will have 192.168.200.11/24 and deb-router-3 will have 192.168.200.12/24 
-  - The network between deb-router-3 and your new client VM will be named "cn3" and you will use 192.168.200.0/24 to address the devices on it.
+  - The network between deb-router-3 and your new client VM will be named "cn3" and you will use 192.168.175.0/24 to address the devices on it.
     - deb-router-3 will have 192.168.175.11/24 and your new client VM will have 192.168.175.12/24
   - deb-router-3 and your new client VM must **NOT be connected to the host system**
 4. FRR/OSPF will be installed and configured correctly on deb-router-3 to allow full interconnectivity between your new client VM, deb-router-3, all the other VMs on your network, and the Internet. You will also have to update the entries for FRR/OSPF on deb-router-1 and deb-router-2. 
-5. All of the necessary DNS configurations will be added to deb-router-1 to allow for the following mappings:
+5. All of the necessary DNS configurations will be added to deb-router-1 to allow for your new devices to send queries to deb-router-1 and institute the following mappings:
   - 192.168.200.11 > deb-router-1.ops345.org
   - 192.168.200.12 > deb-router-3.ops345.org
   - 192.168.175.11 > deb-router-3.cnet3.ops345.org
