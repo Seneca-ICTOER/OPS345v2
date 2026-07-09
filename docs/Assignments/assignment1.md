@@ -16,30 +16,29 @@ Tasks that must be completed:
 2. You will also install a new client VM with a distro of your choosing. You cannot use Ubuntu, Mint, or Debian. It is recommended you choose something lightweight so you don't have to allocate too many resources to it. You will name it "name-client", replacing *name* with the actual name of the distro.
 3. You will connect deb-router-3 to your existing network, per the network diagram above.
   - The network between deb-router-3 and deb-router-1 will be named "backbone2" and you will use 192.168.175.0/24 to address the devices on it.
-    - deb-router-1 will have 192.168.175.11/24 and deb-router-3 will have 192.168.175.12/24 
+    - deb-router-1 will have 192.168.200.11/24 and deb-router-3 will have 192.168.200.12/24 
   - The network between deb-router-3 and your new client VM will be named "cn3" and you will use 192.168.200.0/24 to address the devices on it.
-    - deb-router-3 will have 192.168.200.11/24 and your new client VM will have 192.168.200.12/24
+    - deb-router-3 will have 192.168.175.11/24 and your new client VM will have 192.168.175.12/24
   - deb-router-3 and your new client VM must **NOT be connected to the host system**
-4. FRR/OSPF will be installed and configured correctly on deb-router-3 to allow full interconnectivity between your new client VM, deb-router-3, all the other VMs on your network, and the Internet. You will also have to update the entries for FRR/OSPF on deb-router-1. 
+4. FRR/OSPF will be installed and configured correctly on deb-router-3 to allow full interconnectivity between your new client VM, deb-router-3, all the other VMs on your network, and the Internet. You will also have to update the entries for FRR/OSPF on deb-router-1 and deb-router-2. 
 5. All of the necessary DNS configurations will be added to deb-router-1 to allow for the following mappings:
-  - 192.168.175.11 > deb-router-1.ops345.org
-  - 192.168.175.12 > deb-router-3.ops345.org
-  - 192.168.200.11 > deb-router-3.cnet3.ops345.org
-  - 192.168.200.12 > *name-client*.cnet3.ops345.org
+  - 192.168.200.11 > deb-router-1.ops345.org
+  - 192.168.200.12 > deb-router-3.ops345.org
+  - 192.168.175.11 > deb-router-3.cnet3.ops345.org
+  - 192.168.175.12 > *name-client*.cnet3.ops345.org
     - Replace "name" with the name of the distro you chose to use as noted in step 2.
 6. Change deb-router-3 and your new client VM's configurations so that they both look to deb-router-1 for all DNS queries
-7. Provide a one page write up on your chosen distro explaining what it is, who created it, why they created it, and what it is best used for.
  
 ## Submission
 
-You will create a submission document that will be uploaded to the Assignment 1 submission page on blackboard by the due date. Late submissions will receive a penalty of 20% per day.
+You will create a submission document that will be uploaded to the Assignment 1 submission page on blackboard by the due date. Late submissions will receive a penalty of 25% per day.
 
-The document must include the following screenshots as well as your distro write up at the very end:
+The document must include the following screenshots:
 - The IP address for all NICs on deb-router-1, deb-router-3, and your new client VM. The easiest way to show this is with the output of:
 ``` bash
 ip address show
 ```
-- The output for the following two commands in the FRR console on both deb-router-1 and deb-router-3:
+- The output for the following two commands in the FRR console on deb-router-1 deb-router-2, and deb-router-3:
 ```bash
 show ip ospf neighbor
 show ip route ospf
@@ -51,6 +50,7 @@ show ip route ospf
 - A successful ping from mint-client to your new client VM using a FQDN
 - A successful ping from your new client VM to google.com
 
+**All screenshots must show your username in the terminal of the VM you are showing. Failure to do so will result in lost marks.**
 **Please ensure your submission document is clean and easy to read. All screenshots should include a label explaining what it is showing.**
 
 ## Assignment 1 Tips
@@ -68,9 +68,8 @@ Your submission will be graded according to the following criteria:
 
 | Criteria                                      | Mark   |
 | :-------------------------------------------- | :----- |
-| Correct IP configurations                     | 4      |
-| Correct FRR/OPSF configuration                | 5      |
+| Correct IP configurations                     | 3      |
+| Correct FRR/OPSF configuration                | 6      |
 | Correct DNS configuration                     | 6      |
-| Successful Pings                              | 3      |
-| Distro Write Up                               | 2      |
+| Successful Pings                              | 5      |
 | **Total**                                     | **20** |
