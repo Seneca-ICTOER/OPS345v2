@@ -42,7 +42,7 @@ It is a good idea to take well organized notes during the labs and assignments. 
 
 The first half of this course will be run primarily in a set of VMs run inside an Ubuntu operating system. This Ubuntu system will be installed on a hard drive that you will be plugging into the lab computers to do your work (very similarly to how you did your labs in OPS245). Do not use the Debian host system you used in OPS245. A fresh install of Ubuntu is required.
 
-While the second half of the class will take place primarily in the AWS learning lab console (which is accessed in a web browser), it is recommended that you access that console through the Ubuntu system you use in the first half. This will prevent possible security issues such as lost SSH keys and make it easier for you to make changes to configuration files that you will be modfying in later labs.
+The second half of the class will take place primarily in the AWS learning lab console which is accessed in a web browser and via an SSH connection in your Ubuntu terminal. Use your Ubuntu system for everything you do in the second half. This will prevent possible security issues (such as lost SSH keys) and make it easier for you to make changes to configuration files that you will be modfying in later labs.
 
 **Do not try to complete any of this course in MS Windows. It will cause you unnecessary headaches.**
 
