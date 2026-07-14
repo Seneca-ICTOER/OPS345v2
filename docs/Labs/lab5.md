@@ -366,13 +366,15 @@ Once the instance has created, confirm you can connect to it using:
 
 ## Lab 5 Sign-Off
 
-Take screenshots showing the following: 
+Take screenshots showing the following and organize them nicely into a single document:
 
 - 4 new subnets (Public Subnet 1, Public Subnet 2, Private Subnet 1 & Private Subnet 2)
 - Your Wordpress VPC Route Table
 - Your Wordpress VPC Internet Gateway
 - Your Wordpress Website and Wordpress Database Security Groups with correct rules
 - Access to **www** via SSH in a terminal in Ubuntu
+
+Make sure you label your screenshots!
 
 When you shut off your learner lab, all resources (such as instances) are shut off. You do not need to shut down your instance. It will be automatically started again the next time you start your learner lab. **Shut down** your learner lab by navigating to the Learner Lab home page and click **End Lab**.
 
