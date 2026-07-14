@@ -396,13 +396,11 @@ Boot up all 4 VMs and try to ping google.com from their command lines. Only your
 
 ## Lab 1 Sign-Off
 
-Take screenshots showing the following:
+Take screenshots showing the following and organize them nicely into a single document:
 - The "details" screen of deb-router-1 showing its NICs and which networks they are attached to
 - The "details" screen of deb-router-2 showing its NICs and which networks they are attached to
 - The "details" screen of mint-client showing its NICs and which networks they are attached to
 - The "details" screen of win-client showing its NICs and which networks they are attached to
 - deb-router-1 successfully pinging google.com
 
-## Exploration Questions
-
-1. 
+Make sure you label your screenshots!
