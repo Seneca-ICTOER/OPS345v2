@@ -352,10 +352,12 @@ Add a blog post detailing the following:
 
 ## Lab 8 Sign-Off (Show Instructor)
 
-Take screenshots showing the following:
+Take screenshots showing the following and organize them nicely into a single document:
 
 - Your S3 bucket with your wordpress zip file in it
 - Your blog post (including the URL in the browser)
+
+Make sure you label your screenshots!
 
 Shutting down your database:
 - Naviage to **Aurora and RDS** > **Databases**.
