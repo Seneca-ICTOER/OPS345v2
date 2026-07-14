@@ -477,7 +477,7 @@ You now have an easy way to share files between mint-client and win-client.
 
 ## Lab 3 Sign-Off
 
-Take screenshots showing the following:
+Take screenshots showing the following and organize them nicely into a single document:
 
 - A successful ping from mint-client to win-client using win-client's FQDN
 - A successful ping from win-client to mint-client using mint-client's FQDN
@@ -485,6 +485,4 @@ Take screenshots showing the following:
 - A successful ping from deb-router-2 to deb-router-1 using deb-router-1's FQDN
 - The test.txt file in the \\\mint-client.cnet1.ops345.org\Share" on win-client
 
-## Exploration Questions
-
-1. 
+Make sure you label your screenshots!
