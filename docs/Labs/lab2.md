@@ -400,7 +400,7 @@ This problem could be easily fixed by adding the same DNS server to their networ
 
 ## Lab 2 Sign-Off
 
-Take screenshots showing the following: 
+Take screenshots showing the following and organize them nicely into a single document: 
 
 - The output of the "ip address show" command on:
   - deb-router-1
@@ -411,8 +411,4 @@ Take screenshots showing the following:
 - The output of the "show ip route ospf" command in the FRR terminal in deb-router-1 and deb-router-2
 - A successful ping from mint-client to win-client
 
-The following Exploration Questions are for furthering your knowledge only, and may appear on quizzes or tests at any time later in this course.
-
-## Exploration Questions
-
-1. 
+Make sure you label your screenshots!
