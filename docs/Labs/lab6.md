@@ -236,11 +236,13 @@ Open a web browser try to access your Apache test page using HTTPS. It should wo
 
 ## Lab 6 Sign-Off
 
-Take screenshots showing the following:
+Take screenshots showing the following and organize them nicely into a single document:
 
 - Your Elastic IP in EC2
 - Accessing your Apache2 Ubuntu Default Page through a web browser using **https** and showing your fully qualified domain name (FQDN).
   - Be sure to show that it is using HTTPS. Depending on your browser, this can usually be done by clicking the button to the left of the URL and looking for a "Connection is secure" message or something along those lines.
+
+Make sure you label your screenshots!
 
 ## Exploration Questions
 
