@@ -20,6 +20,7 @@ Tasks that must be completed:
   - The network between deb-router-3 and your new client VM will be named "cn3" and you will use 192.168.175.0/24 to address the devices on it.
     - deb-router-3 will have 192.168.175.11/24 and your new client VM will have 192.168.175.12/24
   - deb-router-3 and your new client VM must **NOT be connected to the host system**
+    - Your new client VM will only be connected to deb-router-3 and deb-router-3 will only be connected to your new client VM and deb-router-1.
 4. FRR/OSPF will be installed and configured correctly on deb-router-3 to allow full interconnectivity between your new client VM, deb-router-3, all the other VMs on your network, and the Internet. You will also have to update the entries for FRR/OSPF on deb-router-1 and deb-router-2. 
 5. All of the necessary DNS configurations will be added to deb-router-1 to allow for your new devices to send queries to deb-router-1 and institute the following mappings:
   - 192.168.200.11 > deb-router-1.ops345.org
