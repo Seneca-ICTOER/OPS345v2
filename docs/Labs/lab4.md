@@ -696,12 +696,12 @@ You have now successfully transferred your Clickit game over to Windows! Don’t
 
 ## Lab 4 Sign-Off
 
-Take screenshots showing the following: 
+Take screenshots showing the following and organize them nicely into a single document:
 
 - a listing of all containers on your mint-client
 - a listing of all container images on your mint-client
 - the clickit game successfully running in your mint-client
 - the clickit game successfully running in your win-client
 
-## Exploration Questions
+Make sure you label your screenshots!
 
