@@ -39,7 +39,7 @@ The document must include the following screenshots:
 ``` bash
 ip address show
 ```
-- The output for the following two commands in the FRR console on deb-router-1 deb-router-2, and deb-router-3:
+- The output for the following two commands in the FRR console on deb-router-1 and deb-router-3:
 ```bash
 show ip ospf neighbor
 show ip route ospf
@@ -47,7 +47,7 @@ show ip route ospf
 - The DNS configuration for deb-router-3 and your new client VM (showing that they are looking to deb-router-1 for all DNS queries)
 - A successful ping from deb-router-3 to deb-router-2 using an IP address
 - A successful ping from deb-router-2 to deb-router-3 using a FQDN
-- A successful ping from your new client VM to win-client using an IP address
+- A successful ping from your new client VM to mint-client using an IP address
 - A successful ping from mint-client to your new client VM using a FQDN
 - A successful ping from your new client VM to google.com
 
