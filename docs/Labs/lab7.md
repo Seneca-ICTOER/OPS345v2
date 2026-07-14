@@ -274,13 +274,15 @@ In this lab you have created a container in Amazon ECS with the default Apache i
 
 ## Lab 7 Sign-Off
 
-Take screenshots showing the following: 
+Take screenshots showing the following and organize them nicely into a single document:
 
 - A successful connection to the database from your www instance.
 - Your blog post
   - Be sure to include the full URL in the screenshot
 - The default apache web page (running in the container you built in ECS) accessed in a browser
    - Be sure to include the full URL in the screenshot
+
+Make sure you label your screenshots!
 
 ## Exploration Questions
 
