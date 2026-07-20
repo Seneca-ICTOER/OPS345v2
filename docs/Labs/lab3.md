@@ -20,11 +20,11 @@ This week's lab will cover the following:
 
 The goal of this lab is to turn deb-router-1 into a DNS server that will provide answers for DNS queries regarding our local network as well as the Internet. Once it is properly configured we will configure all of our VMs to look to deb-router-1 for all DNS information. We will also be setting up Samba server at the end of this lab as this will provide a service that will be useful to us in Lab 4. 
 
-As was mentioned at the end of Lab 3, we don’t necessarily need a local DNS server for Internet-based queries. We could use 8.8.8.8 or another publicly available DNS provided on the Internet for all of our VMs in our current network setup. But we are going to add that functionality so that you can learn how it is done because there are scenarios that require such a configuration and you won’t generally be relying on free resolvers.  
+As was mentioned at the end of Lab 2, we don’t necessarily need a local DNS server for Internet-based queries. We could use 8.8.8.8 or another publicly available DNS provided on the Internet for all of our VMs in our current network setup. But we are going to add that functionality so that you can learn how it is done because there are scenarios that require such a configuration where you won’t be relying on free resolvers.  
 
 What we can’t get from the Internet is local FQDN to IP translations and that is what we will be primarily focusing on in this lab. When we are finished, all of our VMs will be reachable by both the IP addresses that we assigned in Lab 2 as well as a Fully Qualified Domain Name that we will be establishing in this lab. 
 
-It is important to note that the FQDNs that we will be using will be established by our new DNS server - they will be created and mapped as our DNS server is configured. These names have nothing to do with the current hostnames of our VMs at this point. Even though we will be using the same hostnames in our FQDN scheme, that is a decision that we are making to keep things simple and prevent confusion. But from a technical perspective, we could use whatever names we wanted for our FQDNs, regardless of what the hostnames are. 
+It is important to note that the FQDNs that we will be using will be established by our new DNS server - they will be created and mapped as our DNS server is configured. These names have nothing to do with the current hostnames of our VMs at this point. Even though we will be using the same hostnames in our FQDN scheme, that is a decision that we are making to prevent confusion. But we could use whatever names we wanted for our FQDNs, regardless of what the hostnames are. 
 
 Finally, we are going to use a simple Domain naming scheme where our backbone will be referred to as “ops345.org” and our subnets will be referred to as subdomains “cnet1.ops345.org” and “cnet2.ops345.org”. Again, these distinctions are not predetermined by the structure of our network. We are simply choosing to use them as a way of organizing our devices/subnets. As such, our routers will have two FQDNs each (one for each interface) and both will work for any connecting/testing purposes when we are done this lab. This will be important to remember in Assignment 1... 
 
@@ -113,6 +113,8 @@ The file you just modified establishes several important configurations for our 
 
 Next we will establish our forward and reverse lookup zones and map them to their own specific configuration files which we will configure in a moment. This is done via a configuration file that points to other configuration files for detailed information on that particular zone.
 
+### Configuring the named.conf.local file
+
 Change the “/etc/bind/named.conf.local” file to contain: 
 ```bash
 //forward lookup zones
@@ -149,6 +151,8 @@ zone "150.168.192.in-addr.arpa" {
 ```
 
 Save your changes.
+
+### Configuring the forward lookup zone files
 
 Next we will create our parent zone configuration files that we mapped to in the previous step. 
 
@@ -225,6 +229,8 @@ deb-router-2 IN A 192.168.150.11
 
 Save your changes.
 
+### Configuring the reverse lookup zone files
+
 Create the “/etc/bind/db.192.168.100” reverse lookup zone config file and enter the following inside: 
 ```bash
 $TTL 3600 
@@ -286,7 +292,9 @@ Save your changes.
 
 
 
-## Investigation 3: Checking Configuration File Syntax and Testing the DNS Server
+## Investigation 3: Finalizing Configurations, and Testing the DNS Server
+
+### Checking the Syntax for DNS Configuration Files
 
 When you have completed filling out your files, run the commands below. These commands will test your DNS configuration files and let you know if there are any typos. Keep in mind that these tests are NOT perfect. You may still need to double check your configuration files if your DNS server fails to start or answer queries properly. 
 ```bash
@@ -298,6 +306,8 @@ sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/db.192.168.100
 sudo named-checkzone 125.168.192.in-addr.arpa /etc/bind/db.192.168.125 
 sudo named-checkzone 150.168.192.in-addr.arpa /etc/bind/db.192.168.150 
 ```
+
+### Setting deb-router-1 as the DNS server for the Network
  
 The last thing we need to do on deb-router-1 is to change its default nameserver to itself. Open the “/etc/resolv.conf” file and add the following: 
 ```bash
@@ -356,6 +366,8 @@ On win-client:
 
 Restart all of your VMs. 
 
+### Testing DNS Configurations
+
 When they all come back on, test that your DNS server is working for everything with the following commands: 
 
 On mint-client: 
@@ -375,9 +387,11 @@ If everything works, then CONGRATULATIONS! Your network is now fully supported b
 
 This would be a good time to make sure all your VMs are updated. 
 
-## Investigation 4: Configuring and Testing Samba Server
+## Investigation 4: Samba Server
 
 Samba Server is a tool that allows for the transferring of files easily between Linux and Windows operating systems. While it is not the only method to accomplish this, it is one that is very easy to use once set up correctly. We will be using Samba Server in Lab 4 when we look at containers. 
+
+### Installing and Configuring Samba Server
 
 Before we begin, make sure that your mint-client has internet access and is updated. 
 
@@ -435,6 +449,8 @@ Save your changes and reboot your mint-client. When it comes back up, double che
 sudo systemctl status smbd 
 sudo systemctl status nmbd 
 ```
+
+### Sharing Files with Samba Server
 
 Next, in your win-client: 
 
