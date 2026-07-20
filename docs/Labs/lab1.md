@@ -18,10 +18,16 @@ This week's lab will cover the following:
   - 1 Host machine using Windows 11
 - Using KVM to replicate physical network with a virtual one
 
-## Lab 1 Note
+## Lab 1 Notes
 
 While lab 1 is not difficult, it is very important as you will be creating an environment/network that the next 3 labs rely on. Take your time to ensure everything is done correctly. Even a small mistake in this lab may result in you being unable to proceed in labs 2, 3, or 4. If this happens, you will have to start from Lab 1. 
 **You have been warned!**
+
+If you are planning to use your own laptop for this install, please be aware of the CPU and RAM allocations for each VM. While it is technically posible to run the VMs with less RAM than what is stated in the instructions below, it is generally not advised as this may result in your VMs crashing at inopportune times. This is especially true of the Windows VM, which is very resource hungry. Also, keep in mind that you will be adding two other VMs in Assignment 1. This could stretch your host machine quite thin if it isn't beefy enough. 
+
+Even on the lab machines, you may experience some lag (especially on the Windows OS) when running all VMs at once. 
+
+On the flip side, if you are lucky enough to have a super beefy laptop, feel free to increase the CPU/RAM allocations for a smoother experience.
 
 ## Getting Started
 
