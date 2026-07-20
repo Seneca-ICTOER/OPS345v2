@@ -40,6 +40,8 @@ We are now going to assign IP addresses manually to our VMs using the following 
 
 It is very important that we address all the NICs correctly in this next section. Again, it is recommended that you make note of the IP addresses and the MAC addresses that they are attached to in case we need to refer to them later. 
 
+### Addressing deb-router-1 and deb-router-2
+
 We will begin by addressing the NICs on deb-router-1. 
 
 Run “ip address show” in deb-router-1 and note the names of the NICs (ex enp7s0) and the MAC address associated with it. Use that MAC address to compare to the NIC info in the VM details screen to know which NICs are connected to which networks. The NIC that is already attached to the “default” NAT network will already have an IP address so we do not need to change it. It will likely be labelled “enp1s0” 
@@ -82,6 +84,8 @@ Try to ping 192.168.150.11 from deb-router-1. Try to ping 192.168.125.11 from de
 Why do you think these pings failed? 
 Don’t worry, we will fix this later. 
 
+### Addressing mint-client
+
 Next we will address our mint-client VM. Log into your mint-client VM and make sure your deb-router-1 VM is also powered on. 
 
 - Click on the Linux Mint logo in the very bottom left of the desktop 
@@ -102,6 +106,8 @@ When mint-client reboots, open a terminal and run “ip address show” to confi
 Try pinging 192.168.100.11 from your mint-client. Why did this succeed? 
 
 Try pinging 192.168.100.12 from your mint-client. Why did this fail? 
+
+### Addressing win-client
 
 Next we will address our win-client VM. Log into your win-client VM and make sure your deb-router-2 VM is also powered on. 
 
@@ -134,6 +140,8 @@ However, our client VMs cannot connect to each other, they cannot connect to the
 
 Our mint-client VM is actually already set up to access the Internet via deb-router-1 because it is already directly connected to it. It doesn't need any additional information to know that data that is destined for the Internet must be sent to deb-router-1 because it already sends **ALL** of its data to deb-router-1, regardless of the destination. However, deb-router-1 is not yet configured to allow data from our network to travel through it and out onto the Internet. To get this working we have to make two very important configurations.
 
+### Configuring IP forwarding on deb-router-1
+
 First, we are going to turn on IP forwarding which is pretty much what it sounds like. It allows an OS (like Debian) to accept incoming network packets on an interface, determine their destination, and pass them on to another interface just like a router does. 
 
 **NOTE – IT IS VERY IMPORTANT THAT THIS STEP IS NOT MISSED. IT MUST BE DONE BEFORE FRR IS INSTALLED LATER IN THIS LAB. FAILURE TO DO SO WILL RESULT IN YOU HAVING TO REINSTALL YOUR DEB-ROUTER-1 VM. YOU HAVE BEEN WARNED!** 
@@ -157,9 +165,11 @@ Reboot your deb-router-1 VM. Log back in and run the sysctl command again:
 ```bash
 sudo sysctl net.ipv4.ip_forward
 ```
- The output should now show the parameter is set to 1, meaning IP forwarding has now been turned on.   
+The output should now show the parameter is set to 1, meaning IP forwarding has now been turned on.   
 
 **NOTE – AGAIN, IT IS VERY IMPORTANT THAT THIS STEP IS NOT MISSED. IT MUST BE COMPLETED SUCCESSFULLY BEFORE FRR IS INSTALLED LATER IN THIS LAB. IF YOU ARE NOT GETTING A "1" HERE, CHECK WITH YOUR TEACHER BEFORE MOVING FORWARD.** 
+
+### Configuring NAT on deb-router-1
 
 Next, we are going to allow deb-router-1 to act as a NAT device between our internal network and the outside world (although keep in mind that because this is a virtual network, we still technically have another layer of NAT already running in the form of our Host Ubuntu system). 
 
@@ -203,6 +213,8 @@ If you saved your iptables correctly you should see the MASQUERADE rule that all
 
 What we have just done is turned deb-router-1 into a NAT device. Other devices that know to look to deb-router-1 to exit the internal virtual network will now be able to do so. Let’s test this out. Turn on mint-client if it is not already.  
 
+### Testing Connectivity on mint-client
+
 On mint-client, open a terminal and run the following commands: 
 ```bash
 ping google.com 
@@ -226,6 +238,8 @@ Open a terminal and try pinging google.com again. The ping should now succeed be
 Power on your deb-router-2 and win-client VMs and try to ping 8.8.8.8 from them. What happened? 
 
 Right now, neither of those VMs knows how to send data out of the network because they have no way of knowing that deb-router-1 is the way out. The mint-client VM knows because it is directly connected to deb-router-1 and we set its default gateway to deb-router-1's IP address. When it tries to send data out of the network, it knows to send it to deb-router-1 (because deb-router-1 is literally the only thing it **can** send data to). The next steps will set up deb-router-1 and deb-router-2 with a service called FRR/OSPF. When properly configured, this will allow all devices on the network to access the Internet via deb-router-1 and it will also allow all devices on our network to connect to one another as well. 
+
+### Installing FRR/OSPF on deb-router-1
 
 Start by confirming that IP forwarding is still enabled on deb-router-1:
 ```bash
@@ -268,6 +282,8 @@ sudo systemctl status frr
 ```
 
 The output should show enabled and active (you can ignore any errors below the initial output for now).  
+
+### Installing FRR/OSPF on deb-router-2
 
 We also need to install FRR/OPSF on deb-router-2 to properly route our whole network but we have a problem. We used the “apt install” command on deb-router-1 to install FRR and its dependencies. But this won’t work on deb-router-2 because right now it has no way to exit the local network and access the Internet. So how can we solve this problem? 
 
@@ -326,6 +342,8 @@ sudo systemctl status frr
 
 Output should show enabled and active (you can ignore any errors below the initial output for now).
 
+### Configuring FRR/OSPF on deb-router-1 and deb-router-2
+
 Now we are going to configure FRR in deb-router-1 and deb-router-2 with OSPF routing entries so that they both know about all subnets connected in the local network as well as how to get to the internet through deb-router-1. 
 
 On deb-router-1 run the following commands: 
@@ -364,6 +382,8 @@ The results of these commands provide some important information. The first comm
 Of particular note is the “0.0.0.0” entry you should see on deb-router-2. The “default-information originate always” command we entered into deb-router-1's OSPF routing entries specified that any traffic with a destination that is not inside our local network is to be sent to deb-router-1. Combined with the NAT setup we added to deb-router-1 earlier, our internal devices can now find the Internet whether they are directly connected to deb-router-1 or not.  
 
 Furthermore (and just as importantly) they can now all find each other. Let’s test this out.  
+
+### Testing Connectivity Across the Network
 
 Power on mint-client and win-client if they aren’t already. 
 
