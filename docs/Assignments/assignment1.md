@@ -44,6 +44,7 @@ ip address show
 show ip ospf neighbor
 show ip route ospf
 ```
+- The contents of all DNS configuration files on deb-router-1 (named.conf.options, named.conf.local, all forward and reverse lookup zone files)  
 - The DNS configuration for deb-router-3 and your new client VM (showing that they are looking to deb-router-1 for all DNS queries)
 - A successful ping from deb-router-3 to deb-router-2 using an IP address
 - A successful ping from deb-router-2 to deb-router-3 using a FQDN
@@ -59,8 +60,9 @@ show ip route ospf
 - Don't forget about the IP forward configuration on deb-router-3 (this must be done before FRR/OSPF is installed)
 - You can get FRR/OSPF installed on deb-router-3 before your disconnect it from the host system or you can use the method we used near the end of Lab 2 to get it installed on deb-router-2 if you forget to do so before you disconnected it from the host system.
 - Marks will be deducted if deb-router-3 and your new client VM are not disconnected from the host system
-- There are several small configurations needed to get everything working. It is recommended you keep a running list of what you have completed and what you did to complete it while you work on this assignment in case you need to go back and fix something. That said, sometimes the fastest way to deal with something not working the way it should is to simply delete the VM and install it fresh.
-- Everything you need to complete this assignment was done in the labs. You just have to apply those concepts to two new VMs. No external information is needed. **DO NOT USE AI FOR THIS ASSIGNMENT**. AI will not know or understand the context in which these tasks are being completed and may give you configurations that will interfere with your end goals.
+- Per the instructions, you are ***not*** creating a new domain for the new 192.168.200.0/24 network. However, you ***are*** creating a new subdomain for the 192.168.175.0/24 network. Think critically about what this means for your new DNS configurations on deb-router-1, especially when it comes to the forward and reverse lookup zones.
+- There are several small configurations needed to get everything working. It is recommended you keep a running list of what you have completed and what you did to complete it while you work on this assignment in case you need to go back and fix something (these notes will also be useful on the midterm and final). That said, sometimes the fastest way to deal with something not working the way it should is to simply delete the VM and install it fresh.
+- Everything you need to complete this assignment was done in the labs. You just have to apply those concepts to two new VMs and update your configurations on deb-router-1. No external information is needed. **DO NOT USE AI FOR THIS ASSIGNMENT**. AI will not know or understand the context in which these tasks are being completed and may give you configurations that will interfere with your end goals.
   - Your teacher may ask you to show them your configurations in class. If it is discovered that you used AI to complete anything in this assignment, a mark of 0 will be assigned for Assignment 1.
 
 ## Rubric
