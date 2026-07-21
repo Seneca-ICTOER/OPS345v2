@@ -28,7 +28,9 @@ This week's lab will cover the following:
     - Carrier gateways
   - Route tables
 
-## Investigating the AWS Learner Lab
+## Investigation 1: Exploring the AWS Learner Lab
+
+### Getting Started
 
 You should have received an email (in your Seneca Polytechnic email) from your professor inviting you to participate in the AWS Academy Learner Lab. If you have received and accepted this invitation you may proceed with this lab. If you have not received this invitation you should contact your professor immediately. You may continue with the rest of the lab once you have received the invitation. Here is a sample email.
 
@@ -49,14 +51,16 @@ Some important things to note on this screen:
 
 **AWS with a red dot next to it**: Once your lab has started, this will turn green. You can then click on this to open the environment.
 
-## Using the AWS Console interface
+### Using the AWS Console Interface
 
 Start your session in the Learner Lab by clicking on the **Start Lab** button. Once the red dot has turned green, click on it to enter the Learner Lab. This will take you to the AWS Console (depicted below), which will be where you will do most of your work. It also mirrors a production AWS interface. Note: Your screen may not look 100% identical to the one depicted, but should be mostly the same.
 ![AWS Console](/img/awsconsole.png)
 
 If you click on **Services** in the top left corner (beside the AWS logo), you will see all the services you can configure in the AWS learner lab. Common ones we will use are EC2 and VPC. You can search for these in the search bar, or browse the categories. Recently visited services will show up under the heading **Recently visited**. If you hover over any service you will see a greyed out star to the left of the name. You can click on this to add it to your favourites for easy access.
 
-## Modifying VPC Security Groups
+## Investigation 2: Setting Up and Connecting to Your First AWS Instance (VM)
+
+### Modifying VPC Security Groups
 
 An Amazon Virtual Private Cloud (VPC) is a dedicated virtual network within AWS' public cloud. It work similar to how a traditional network does in a data center. w3schools has some [additional information](https://www.w3schools.com/aws/aws_cloudessentials_awsconnectivity.php).
 
@@ -74,13 +78,13 @@ Make sure the box beside your **Security Group** is checked. Click on **InBound 
 This will allow incoming SSH connections from anywhere. We will use this in the next part to connect to your instance. The screenshot below shows what your inbound rules should look like:
 ![AWS Inbound Rules - Lab 1](/img/awssg-inboundrules.png)
 
-## Exploring Amazon Elastic Cloud Compute (EC2)
+### Exploring Amazon Elastic Cloud Compute (EC2)
 
 EC2 is where you will end up spending a lot of time configuring things in this course. From here you can do things like launch instances, manage networking services and much more. To access EC2, click on **Services** (top left corner beside the AWS icon), and navigate to **Compute > EC2**. You may wish to add this to your favourites for easy access by hovering over and clicking the star. Your initial screen should look something like the following. w3schools has some [additional information](https://www.w3schools.com/aws/aws_cloudessentials_ec2intro.php)
 
 ![AWS EC2](/img/awsec2.png)
 
-## Creating your first instance in AWS
+### Creating Your First Instance in AWS
 
 Click on Launch instance just below the Resources pane. From the Launch an instance screen, select the following options:
 
@@ -88,7 +92,7 @@ Click on Launch instance just below the Resources pane. From the Launch an insta
 - **OS:** Ubuntu
 - **Amazon Machine Image (AMI):** Make sure Ubuntu Sever 24.04 is selected
 
-## Creating SSH key pairs & using public key cryptography
+### Creating SSH Key Pairs & Using Public Key Cryptography
 
 Under **Key pair (login)** click Create new key pair. Give it the name "ops345", accept the rest of the defaults and click "Create key pair". It will download to your default download location immediately.
 
@@ -132,7 +136,7 @@ Congratulations! You have created your first AWS instance.
 
 This instance, however, is of little use to us because it is part of the default network configuration that comes with the AWS learner lab. Next we will create our own network configuration and launch another instance that we can use moving forward.
 
-## Amazon Web Services (AWS) Networking
+## Investigation 3: Amazon Web Services (AWS) Networking
 
 Next, you will create all the networking infrastructure required to host a web application. You will be creating the server and database and configuring the application in future labs.
 
@@ -168,7 +172,7 @@ Once created, click the **Actions** drop down in the top right corner and select
 
 Click **Save**
 
-### Subnets
+### Creating Subnets in Your VPC
 
 You are going to create 4 subnets in your VPC. Two private subnets, and two public subnets. One of each type (private and public) will be in a different availability zone. This will provide redundancy, ensuring better uptime for servers and applications you create in your VPC.
 
@@ -334,7 +338,7 @@ Verify your inbound rules with the following screenshot.
 
 ![Wordpress Database Inbound Rules](/img/wordpress-database-sg.png)
 
-### Editing Public Subnet route table associations
+### Editing Public Subnet Route Table Associations
 
 1. Click on **Subnets** under **Virtual private cloud** (left side).
 2. Check the box beside **Public Subnet 1**
@@ -344,7 +348,7 @@ Verify your inbound rules with the following screenshot.
 
 Repeat the steps for **Public Subnet 2**
 
-## Creating a new instance (www)
+### Creating a new instance (www)
 
 Create a new instance in AWS (like you did in [Lab 1](lab1.md)), with the following configuration:
 
