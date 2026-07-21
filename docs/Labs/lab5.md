@@ -69,7 +69,7 @@ Click on **Services** > **Compute** > **EC2**. **Security Group** settings are l
 Your screen should look like the following:
 ![AWS Security Groups](/img/awssecuritygroups.png)
 
-Make sure the box beside your **Security Group** is checked. Click on **InBound rules** > **Edit InBound Rules** and add the following rule:
+Make sure the box beside your **default** Security Group is checked. Click on **Inbound rules** > **Edit Inbound rules** and add the following rule:
 
 - **Type:** SSH or **Port Range:** 22 (both will accomplish the same thing)
 - **The box beside the magnifying glass:** 0.0.0.0/0
@@ -91,16 +91,18 @@ Click on Launch instance just below the Resources pane. From the Launch an insta
 - **Name:** first
 - **OS:** Ubuntu
 - **Amazon Machine Image (AMI):** Make sure Ubuntu Sever 24.04 is selected
+  - ***Note*** You may get a warning message about your current settings being changed when changing the AMI to Ubuntu 24.04. You can click "Confirm changes".
 
 ### Creating SSH Key Pairs & Using Public Key Cryptography
 
-Under **Key pair (login)** click Create new key pair. Give it the name "ops345", accept the rest of the defaults and click "Create key pair". It will download to your default download location immediately.
+Under **Key pair (login)** click Create new key pair. Give it the name "ops345", accept the rest of the defaults and click "Create key pair". It will download to your "Downloads" directory immediately.
 
 Create a new directory in your home directory on your Ubuntu host system called "AWS" and place the key in there.
 
 **Important: Do not lose your key pair or you will be unable to connect to your instances using SSH.**
 
-Under **Network Settings** click **Select existing security group**. Click the dropdown and check the default. Click Launch instance. Once it has finished completing (you should see a success message), click on the **instance ID** in the **Success message**. This will take you to **Instances** in **EC2**.
+Under **Network Settings** click **Select existing security group**. Click the dropdown and check the default. 
+Leave all other settings as they are and click "Launch instance" on the right hand side. Once it has finished completing (you should see a success message), click on the **instance ID** in the **Success message**. This will take you to **Instances** in **EC2**.
 
 ### Accessing Your Instance
 Click on the **Instance ID** for your **first** instance. click **Connect**.
@@ -124,13 +126,13 @@ Note there are a few ways to connect to your instance from here:
 sudo chmod 400 ops345.pem
 ```
 - Paste the example command from the Connect to instance page, and press Enter.
-- The SSH command will ask you to confirm connecting. Type yes and press Enter.
+- The SSH command will ask you to confirm connecting. Type "yes" and press Enter.
 - If login is successful, you should see a prompt like this:
 
 ```bash
 ubuntu@ip-172-31-91-76:~$
 ```
-- To quit, type **quit** or **exit**.
+- To disconnect, type **exit**.
 
 Congratulations! You have created your first AWS instance.
 
