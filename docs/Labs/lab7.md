@@ -222,7 +222,7 @@ Next we need to create a cluster where we can run our task.
 1. On the left side navigate to **Clusters**
 1. Click the **Create cluster** button
 1. Use the default **Cluster name**.
-1. Under **Infrastructure**, choose **AWS Fargate (serverless)**
+1. Under **Infrastructure**, choose **Fargate only (serverless)**
 1. The default settings are good for all other options
 1. Click the **Create** button
 
