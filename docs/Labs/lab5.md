@@ -369,6 +369,10 @@ Once the instance has created, confirm you can connect to it using:
 - EC2 Instance Connect
 - Via SSH
 
+You will also want to update the instance:
+```bash
+sudo apt update && sudo apt upgrade
+```
 
 ## Lab 5 Sign-Off
 
