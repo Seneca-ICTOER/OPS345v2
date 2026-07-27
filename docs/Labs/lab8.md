@@ -32,6 +32,7 @@ Before we get into Elastic Beanstalk, we are going to set up a basic Wordpress c
 1. In the local _wordpress_ folder, find a file called: **wp-config-sample.php**
 1. Duplicate this file, and call it: **wp-config.php**
 1. Open **wp-config.php** in a text editor. Using a tool that supports syntax highlighting, such as Visual Studio Code, will make this easier.
+   - To install VSCode in Ubuntu, open the "App Centre", search for VSCode, and "Install". 
 
 #### Adding Database Connector Info as Environment Variables
 
