@@ -352,7 +352,7 @@ Repeat the steps for **Public Subnet 2**
 
 ### Creating a new instance (www)
 
-Create a new instance in AWS (like you did in [Lab 1](lab1.md)), with the following configuration:
+Create a new instance in AWS with the following configuration:
 
 1. **Name:** www
 1. **OS:** Ubuntu
