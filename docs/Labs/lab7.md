@@ -27,12 +27,12 @@ From the **Console Home** navigate to **Database** > **RDS**. See the following 
 
 ![Relational Database](/img/rds.png)
 
-Click **Create database** (part way down the screen). Use the following options.
+Click **Create database** (part way down the screen) and select "Full configuration". Use the following options.
 
 1. Standard create
 1. Engine type: **MariaDB**
-1. Engine Version: **MariaDB 11.4.4**
-1. Templates: **Sandbox**
+1. Engine Version: **11.4.7**
+1. Templates: **Free tier**
 1. DB instance identifier: **wordpress-db**
 1. Master username: **admin**
 1. Credentials management: **Self Managed**
@@ -161,7 +161,7 @@ Add a blog post detailing the following:
 The database you create in RDS will quickly eat through your $50 allotment if you are not careful. 
 
 **!!!!!DOUBLE CHECK THIS!!!!!**
-When you have completed this part of the lab and have taken the necessary screenshots (as listed at the end of this lab) it is a good idea to shut down and delete the database that you created. Be aware that this will break your Wordpress website and render it inaccessable. SO DO NOT DO SO UNTIL YOU HAVE TAKEN THE NECESSARY SCREENSHOTS!
+When you have completed this part of the lab and have taken the necessary screenshots (as listed at the end of this lab) it is a good idea to shut down and delete the database that you created. Be aware that this will break your Wordpress website and render it inaccessable. SO DO NOT DO SO UNTIL YOU HAVE TAKEN THE NECESSARY SCREENSHOTS FOR THIS LAB!
 
 Or you can temporarily stop the database if you need to come back to it using the steps below:
 - Navigate to **Aurora and RDS** > **Databases**.
