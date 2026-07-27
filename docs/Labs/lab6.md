@@ -34,7 +34,7 @@ Since you are using Ubuntu, you will be using **APT** to install software and up
 
 ## Updating www and installing Apache
 
-Start your **www** instance in the AWS Learner Lab, and connect to it using SSH. Once you have logged in, issue the following command to update your system.
+Start your **www** instance in the AWS Learner Lab, and connect to it using SSH. Once you have logged in, issue the following command to ensure your system is up to date.
 
 ```bash
 sudo apt update && sudo apt upgrade
