@@ -160,9 +160,9 @@ Add a blog post detailing the following:
 ### Shutting Down Your Database
 The database you create in RDS will quickly eat through your $50 allotment if you are not careful. 
 
-When you have completed this part of the lab and have taken the necessary screenshots (as listed at the end of this lab) it is a good idea to temporarily shut down the database that you created. Be aware that this will break your Wordpress website and render it inaccessable. SO DO NOT DO SO UNTIL YOU HAVE TAKEN THE NECESSARY SCREENSHOTS FOR THIS LAB!
+When you have completed this part of the lab and have taken the necessary screenshots (as listed at the end of this lab) it is a good idea to temporarily shut down the database that you created. Be aware that while the database is stopped, your Wordpress website will be inaccessible.
 
-Or you can temporarily stop the database if you need to come back to it using the steps below:
+To temporarily stop the database:
 - Navigate to **Aurora and RDS** > **Databases**.
 - Select the radio button beside **wordpress-db**
 - Click on **Actions** > **Stop temporarily**
