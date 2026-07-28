@@ -160,15 +160,16 @@ Add a blog post detailing the following:
 ### Shutting Down Your Database
 The database you create in RDS will quickly eat through your $50 allotment if you are not careful. 
 
-**!!!!!DOUBLE CHECK THIS!!!!!**
-When you have completed this part of the lab and have taken the necessary screenshots (as listed at the end of this lab) it is a good idea to shut down and delete the database that you created. Be aware that this will break your Wordpress website and render it inaccessable. SO DO NOT DO SO UNTIL YOU HAVE TAKEN THE NECESSARY SCREENSHOTS FOR THIS LAB!
+When you have completed this part of the lab and have taken the necessary screenshots (as listed at the end of this lab) it is a good idea to temporarily shut down the database that you created. Be aware that this will break your Wordpress website and render it inaccessable. SO DO NOT DO SO UNTIL YOU HAVE TAKEN THE NECESSARY SCREENSHOTS FOR THIS LAB!
 
 Or you can temporarily stop the database if you need to come back to it using the steps below:
 - Navigate to **Aurora and RDS** > **Databases**.
 - Select the radio button beside **wordpress-db**
 - Click on **Actions** > **Stop temporarily**
 
-This will shutdown your database for 7 days and pause billing. You will need to repeat this every 7 days to prevent the database from eating your allotment.
+This will shutdown your database for 7 days and pause billing. You will need to repeat this every 7 days or until you have completed Assignment 2 to prevent the database from eating your allotment.
+
+Do not delete the database as you will need it for lab 8 and Assignment 2.
 
 ## Amazon Elastic Container Service
 As we learned in lab 4, containers are lightweight, portable units that package an application and all its dependencies together, ensuring that the application runs consistently across different computing environments. We began by using local containers to get a sense of what they are and how they are used. 
