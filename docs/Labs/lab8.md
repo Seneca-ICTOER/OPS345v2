@@ -127,6 +127,8 @@ We use **environment variables** to allow us to put all the info in the Elastic 
 
 **Note:** All other information, like the Wordpress website name, users, theme settings, blog posts, etc., are saved in the actual database you created in RDS. This database does not get reset when the Elastic Beanstalk application restarts, so your actual blog data will remain intact.
 
+<!--
+
 ## Investigation 3: Creating a RDS instance
 
 Start your session in the Learner Lab by clicking on the **Start Lab** button. Once the red dot has turned green, click on it to enter the Learner Lab and access the AWS Console interface. You are going to create a new RDS instance.
@@ -174,9 +176,15 @@ Store the following connection information about your RDS instance in your lab l
 1. **Master username**
 1. **Master password**
 
-### Connecting to your database from www
+-->
 
-Login to your **www** instance, and issue the following command to connect to your database. Be sure to substitute the credentials you wrote down earlier.
+## Investigation 4: Setting up an Elastic Beanstalk environment
+
+### Creating a new database in wordpress-db
+
+Before we create the Elastic Beanstalk environment, we are going to add a new database to the existing wordpress-db. This new database will be used by the Elastic Beanstalk version of Wordpress that we will be setting up.
+
+Login to your **www** instance, and issue the following command to connect to your database. Substitute the credentials you wrote down in lab 7.
 
 ```bash
 mysql -u admin -h **endpoint** -p
@@ -191,7 +199,16 @@ Issue the following command to display the databases.
 ```bash
 show databases;
 ```
-Make sure you see the "wordpress" database your created in step 19.
+You should see the "wordpress" database your created in lab 7. Now lets add another.
+
+Issue the following commands:
+
+```bash
+create database ebwordpress;
+show databases;
+```
+
+You should see the new "ebwordpress" database listed along with the old "wordpress" database.
 
 Disconnect from the database.
 
@@ -199,7 +216,9 @@ Disconnect from the database.
 quit;
 ```
 
-## Investigation 4: Setting up an Elastic Beanstalk environment
+Now we can move on to creating our Elastic Beanstalk environment.
+
+### Creating the Elastic Beanstalk environment
 
 Navigate to **Compute** > **Elastic Beanstalk**. See the following screenshot for reference.
 
@@ -219,12 +238,11 @@ Select: **Web server environment**
 1. Environment name: **Wordpress-env**
 
 ## Platform
-1. Ensure **Managed platform** checked
 1. Platform: **PHP**
 1. Platform branch: **PHP 8.4** (or current latest)
 1. Application code: **Upload your code**
 1. Version label: **wordpress-6.7.2** (Use the version from your zip filename)
-1. Public S3 URL: **https://username-wordpress.s3.us-east-1.amazonaws.com/wordpress-6.8.1-modded.zip** (Where **username** is **your Seneca username**)
+1. Public S3 URL: **https://username-wordpress.s3.us-east-1.amazonaws.com/wordpress-6.8.1-modded.zip** (Where **username** is **your Seneca username** and the zip file is the one you uploaded)
 
 ## Presets
 1. Presets: **Single instance (free tier eligible)**
@@ -247,18 +265,19 @@ Click next
 
 #### Instance Settings
 
-1. Public IP address Activated: **Checked**
-1. **Instance** subnets: **Public Subnet 1, Public Subnet 2** (both checked)
+1. Public IP address: **Subnet Default**
+1. Instance subnets: **Public Subnet 1, Public Subnet 2** (both checked)
 
+
+#### Database
+
+1. Click **Enable database**
+1. Database subnets: **Private Subnet 1, Private Subnet 2** (both checked)
 
 #### Database settings
 
-1. **Database** subnets: **Private Subnet 1, Private Subnet 2** (both checked)
-
-Click **Enable database**
-
 1. Username: admin
-1. Password: _The password you copied and wrote down earlier_
+1. Password: Your database password
 
 Click next
 
@@ -296,7 +315,7 @@ Before beginning this section, you will need two things:
 1. Document root: **/wordpress**
 1. Click **Add environment property** and add the following **Environment properties**
    1. DB_HOST: **your RDS database URL**
-   1. DB_NAME: **wordpress**
+   1. DB_NAME: **ebwordpress** (MAKE SURE YOU USE "ebwordpress" here and not the old database "wordpress" from lab 7)
    1. DB_USER: **admin**
    1. DB_PASSWORD: **your auto-generated database password**
    1. AUTH_KEY: **(use gathered info from salt page)**
@@ -310,8 +329,8 @@ Before beginning this section, you will need two things:
 
 Note: None of these values should have single quotes in them. (i.e. ')
 
-![Image: Adding database connector information, auth keys and salts to your Elastic Beanstalk application as static Environment Variables.](/img/a2_beanstalk-environment-variables-example.png)
-_Figure 2: Adding database connector information, auth keys and salts to your Elastic Beanstalk application as static **Environment Variables**._
+![Image: Adding database connector information, auth keys and salts to your Elastic Beanstalk application as static Environment Variables.](/img/a2_beanstalk-environment-variables-example-updated.png)
+_Figure 2: Adding database connector information, auth keys and salts to your Elastic Beanstalk application as static **Environment Variables**. Note that this image is just an example. Your values other than those for DB_HOST and DB_NAME will be different._
 
 Click next.
 
@@ -329,7 +348,9 @@ If your application fails to build, double check your **wp-config.php** configur
 
 ## Investigation 5: Accessing Wordpress
 
-Open the URL presented in the Wordpress EBS instance and begin the site setup.
+When the environment successfully launches (the blue bar at the top of the screen turns green) you are ready to go.
+
+Open the URL listed under "Domain" on the Wordpress-env screen (Wordpress-env.something.us-east-1.elasticbeanstalk.com) and begin the site setup.
 
 ### Site Information
 
@@ -360,12 +381,14 @@ Take screenshots showing the following and organize them nicely into a single do
 
 Make sure you label your screenshots!
 
-Shutting down your database:
-- Naviage to **Aurora and RDS** > **Databases**.
+If you are not moving directly into Assignment 2 upon completion of this lab you will want to temporarily stop your database to avoid accruing unnecessary cost.
+
+To do this:
+- Navigate to **Aurora and RDS** > **Databases**.
 - Select the radio button beside **wordpress-db**
 - Click on **Actions** > **Stop temporarily**
 
-This will shutdown your database for 7 days and pause billing. You may need to repeat this.
+This will shutdown your database for 7 days and pause billing. You will need to repeat this every 7 days or until you have completed Assignment 2.
 
 Do not delete the database yet. You will need it to complete Assignment 2.
 
