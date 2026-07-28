@@ -178,7 +178,7 @@ Store the following connection information about your RDS instance in your lab l
 
 -->
 
-## Investigation 4: Setting up an Elastic Beanstalk environment
+## Investigation 3: Setting up an Elastic Beanstalk environment
 
 ### Creating a new database in wordpress-db
 
