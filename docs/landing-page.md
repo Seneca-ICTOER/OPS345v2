@@ -6,7 +6,7 @@ slug: /
 description: Landing Home Page for OPS345
 ---
 
-# Welcome to OPS345 - Administration of Open Source Systems (WIP)
+# Welcome to OPS345 - Administration of Open Source Systems
 
 ## Quick Links
 
