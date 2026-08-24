@@ -46,7 +46,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Candice Carman.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Hans Heim.`,
     },
     prism: {
       theme: lightCodeTheme,
