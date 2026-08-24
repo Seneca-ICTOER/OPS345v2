@@ -16,7 +16,7 @@ description: Landing Home Page for OPS345
 
 ## What This Course is About
 
-This course teaches the maintenance and administration of Linux servers in both an on-premises and cloud based environment using Amazon Web Services (AWS). Students will learn to install, configure, test and maintain services commonly used by enterprises in a cloud environment. This course is the second in a series of courses about Linux technologies.
+This course teaches the maintenance and administration of Linux servers in both an on-premises and cloud based environment using Amazon Web Services (AWS). Students will learn to install, configure, test and maintain services commonly used by enterprises in a cloud environment. This course is the second in a series of courses about Linux technologies..
 
 - OPS145 taught you to be a Linux user.
 - OPS245 taught you to be a Linux system administrator.
