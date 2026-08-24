@@ -37,7 +37,9 @@ You can find the ISO file download here --> [Ubuntu 26.04](https://ubuntu.com/do
 You will have to create a bootable USB flash drive just like you did in Lab 1 back in OPS245. The difference here is that you will be using Ubuntu instead of Debian.
 If you need a refresher on how to create a bootable USB flash drive, see the [OPS245 Lab 1 page](https://seneca-ictoer.github.io/OPS245/A-Labs/lab1).
 
-If you have another tool other than Rufus you prefer, feel free to use it but one way or another you will need to create a bootable USB flash drive with the Ubuntu installer on it. Once you have that you will install it and boot to it on an external SSD drive connected to a lab computer the same way you did with Debian in OPS245. 
+If you have another tool other than Rufus you prefer, feel free to use it but one way or another you will need to create a bootable USB flash drive with the Ubuntu installer on it. Once you have that you will install it and boot to it on an external SSD drive connected to a lab computer the same way you did with Debian in OPS245.
+
+**Please note that the installation of Ubuntu may take a long time. You will likely find yourself waiting on install screens for quite a while. Ensure you have at least an hour (if not more) to get your initial Ubuntu host system installed.**
 
 ## Investigation 1: Installing the Ubuntu Host System
 
