@@ -9,7 +9,7 @@ description: Weekly Schedule for OPS345
 
 ## Quick Links
 
-| [Weekly Schedule](./weekly-schedule.md) | [Course Outline](https://apps.senecapolytechnic.ca/ssos/findOutline.do?isLoggedIn=&subjectOrAndTitle=%5BOSL740%5D+Administration+of+Open+Source+Systems&schoolCode=0s867160) | [Assignment 1](/Assignments/assignment1.md) | [Assignment 2](/Assignments/assignment2.md) |
+| [Weekly Schedule](./weekly-schedule.md) | [Course Outline] | [Assignment 1](/Assignments/assignment1.md) | [Assignment 2](/Assignments/assignment2.md) |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------- | 
 
 ## Week 1
