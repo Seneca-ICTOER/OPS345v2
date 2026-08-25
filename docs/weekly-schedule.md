@@ -9,7 +9,7 @@ description: Weekly Schedule for OPS345
 
 ## Quick Links
 
-| [Weekly Schedule](./weekly-schedule.md) | [Course Outline] | [Assignment 1](/Assignments/assignment1.md) | [Assignment 2](/Assignments/assignment2.md) |
+| [Weekly Schedule](./weekly-schedule.md) | [Assignment 1](/Assignments/assignment1.md) | [Assignment 2](/Assignments/assignment2.md) |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------- | 
 
 ## Week 1
