@@ -42,7 +42,7 @@ description: Weekly Schedule for OPS345
 
 | Topic | References | Evaluation |
 | :----------- | :--------- | :------------------------------------------------------------------ |
-| Assignment 1 |            | [Assignment 1](Assignments/assignment1.md) Worth 15% (Due Week 8) |
+| Assignment 1 |            | [Assignment 1](Assignments/assignment1.md) Worth 20% (Due Week 8) |
 
 ## Week 7
 
@@ -80,7 +80,7 @@ description: Weekly Schedule for OPS345
 
 | Topic | References | Evaluation |
 | :---- | :--------- | :------------------------------------------------------------------- |
-|       |            | [Assignment 2](Assignments/assignment2.md) Worth 15% (Due Week 13) |
+|       |            | [Assignment 2](Assignments/assignment2.md) Worth 10% (Due Week 13) |
 
 ## Week 13
 
