@@ -8,12 +8,6 @@ description: Landing Home Page for OPS345
 
 # Welcome to OPS345 - Administration of Open Source Systems
 
-## Quick Links
-
-| [Weekly Schedule](./weekly-schedule.md) | [Course Outline](https://apps.senecapolytechnic.ca/ssos/findOutline.do?isLoggedIn=&subjectOrAndTitle=%5BOSL740%5D+Administration+of+Open+Source+Systems&schoolCode=0s867160) | [Assignment 1](/Assignments/assignment1.md) | [Assignment 2](/Assignments/assignment2.md) |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------- | 
-
-
 ## What This Course is About
 
 This course teaches the maintenance and administration of Linux servers in both an on-premises and cloud based environment using Amazon Web Services (AWS). Students will learn to install, configure, test and maintain services commonly used by enterprises in a cloud environment. This course is the second in a series of courses about Linux technologies.
