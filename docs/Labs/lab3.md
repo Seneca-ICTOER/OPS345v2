@@ -128,7 +128,7 @@ zone "cnet1.ops345.org" {
     file "/etc/bind/db.cnet1.ops345.org"; 
 }; 
 
-zone "cnet2.ops345.ca" { 
+zone "cnet2.ops345.org" { 
     type master; 
     file "/etc/bind/db.cnet2.ops345.org"; 
 }; 
