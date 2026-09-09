@@ -49,7 +49,21 @@ Reboot your mint-client.
 
 Next we will install it on our win-client VM. Boot up your win-client and log in.
 
-The first thing we are going to do is install WSL (Windows Subsystem for Linux). This is a very powerful tool that allows you to run a virtualized instance of Linux inside Windows. It has many uses but in our case, it is used by Docker to run containers. We will be using an older (and stable) version of WSL as newer versions are known to cause issues.
+The first thing we are going to do is install WSL (Windows Subsystem for Linux). This is a very powerful tool that allows you to run a virtualized instance of Linux inside Windows. It has many uses but in our case, it is used by Docker to run containers. 
+
+Open Powershell and input the following command:
+
+```bash
+wsl --install
+```
+
+WSL will download and you should be met with a message saying "The operation completed successfully".
+
+Reboot Windows.
+
+<!--
+
+We will be using an older (and stable) version of WSL as newer versions are known to cause issues.
 
 Open your web browser.
 
@@ -63,6 +77,8 @@ Go to:
 - When the file has finished downloading, double click on it to install WSL.
 - When the installation is complete, reboot win-client.
 
+-->
+
 When it comes back up go to the following website: 
 
 [Windows Docker Installer](https://docs.docker.com/desktop/setup/install/windows-install/)
@@ -70,7 +86,7 @@ When it comes back up go to the following website:
 - Click on the “Docker Desktop for Windows – x86_64” button to download Docker Desktop.
 - Once the download finishes, go into your Downloads directory and double click the installer to get it started.
   - The install process may be laggy and slow (because we didn’t give Windows as much RAM/CPU as it wants) but be patient and don’t cancel the install in progress.
-- Make sure the “Use WSL 2 instead of Hyper-V” button is checked and click “OK”
+- Make sure the “All-users installation” and “Use WSL 2 instead of Hyper-V” buttons are checked and click “OK”
 - When the installation is complete, click the “Close and restart” button and let Windows reboot.
 - When Windows reboots, log in and wait for the Docker service agreement to pop up (this may take a few minutes). Click “Accept”
 	- You may also see a WSL settings window pop up. You can close this.
@@ -704,4 +720,6 @@ Take screenshots showing the following and organize them nicely into a single do
 - the clickit game successfully running in your win-client
 
 Make sure you label your screenshots!
+
+
 
