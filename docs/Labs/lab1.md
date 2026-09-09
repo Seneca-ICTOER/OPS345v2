@@ -229,7 +229,7 @@ Mint will reboot.
 1. In KVM, select “Create a new virtual machine”
 2. Select “Local install media”, click “Forward”
 3. Browse and select your MS Windows 11 ISO image file, leave “Automatically detect from installation media” checked and KVM should automatically select “Microsoft Windows 11”. Click “Forward”
-4. Set Memory at 4096 and CPUS to 4. Click “Forward”
+4. Leave Memory and CPUs as default (should be Memory at 8192 and CPUS to 4). Click “Forward”
 5. Set disk space to 90.0GB. Click “Forward”
 6. Change name to “win-client”. Network selection should be “default: NAT”. Check “Customize configuration before install”. Click “Finish”
 7. Under “CPUs”, make sure “Copy host CPU configuration (host-passthrough) is checked, then click “Begin Installation”
