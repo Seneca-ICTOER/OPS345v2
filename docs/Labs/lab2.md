@@ -332,7 +332,7 @@ sudo systemctl restart frr
 - Reboot deb-router-2  
 - Log back in and check to make sure that IP forwarding is still turned on and that the FRR service is running:  
 ```bash
-sudo systctl net.ipv4.ip_forward 
+sudo sysctl net.ipv4.ip_forward 
 ```
 Output should be "net.ipv4.ip_forward=1".
 
